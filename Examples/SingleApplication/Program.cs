@@ -33,8 +33,6 @@ namespace SingleApplication
     {
       Console.WriteLine("Creating AppDomain PluginDomain");
       AppDomain pluginDomain = AppDomain.CreateDomain("PluginDomain");
-
-      AppDomain.CurrentDomain.AssemblyLoad += (s, e) => Console.WriteLine("{0} loaded {1}", AppDomain.CurrentDomain.FriendlyName, e.LoadedAssembly.FullName);
       pluginDomain.AssemblyLoad += (s, e) => Console.WriteLine("{0} loaded {1}", AppDomain.CurrentDomain.FriendlyName, e.LoadedAssembly.FullName);
 
       try
