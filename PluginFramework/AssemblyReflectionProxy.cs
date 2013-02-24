@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* This is shamelessly "borrowed" from CodeProject with just slight modification
+ * http://www.codeproject.com/Articles/453778/Loading-Assemblies-from-Anywhere-into-a-New-AppDom
+ * My thanks to the author!
+ */
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
