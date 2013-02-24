@@ -93,7 +93,7 @@ namespace PluginFramework
             plugin.QualifiedName = type.AssemblyQualifiedName;
             plugin.Derives = ancestors.Select(x => new QualifiedName(x.AssemblyQualifiedName)).ToArray();
             plugin.Interfaces = type.GetInterfaces().Select(x => new QualifiedName(x.AssemblyQualifiedName)).ToArray();
-            plugin.Name = args.TryGetValue("Name", out value) ? value.ToString() : string.Empty;
+            plugin.Name = args.TryGetValue("Name", out value) ? value.ToString() : type.Name;
             plugin.Version = version;
             plugin.settings = settings.ToArray();
             pluginDescriptions[i] = plugin;

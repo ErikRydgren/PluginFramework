@@ -2,10 +2,10 @@
 using System.IO;
 using System.Linq;
 using PluginFramework;
-using PluginShared;
+using PluginInterface;
 using System.Collections.Generic;
 
-namespace Test
+namespace SingleApplication
 {
   class Program
   {
@@ -22,7 +22,7 @@ namespace Test
       this.assemblyContainer = new AssemblyContainer();
       this.pluginRepository.AddPluginSource(new AssemblySourcePluginSource(this.assemblyContainer));
 
-      DirectoryInfo pluginDir = new DirectoryInfo(@"D:\Dev\PluginFramework\Plugins\bin\Debug");
+      DirectoryInfo pluginDir = new DirectoryInfo(@"..\..\..\Plugin\Bin");
       Console.WriteLine(@"Adding plugins from {0}", pluginDir.FullName);
       this.assemblyContainer.SyncWithDirectory(pluginDir, true);
 

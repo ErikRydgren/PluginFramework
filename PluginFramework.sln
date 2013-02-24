@@ -1,21 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{536342E2-6220-48E4-BEE2-6AE194016CCA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleApplication", "Examples\SingleApplication\SingleApplication.csproj", "{536342E2-6220-48E4-BEE2-6AE194016CCA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58} = {4CFA0855-55C8-40A9-94D2-9C65ABE49D58}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins", "Plugins\Plugins.csproj", "{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dependancy", "Examples\Plugin\Dependancy\Dependancy.csproj", "{338EBC4E-6B65-4120-B418-7B9C0B8826E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginDependancy", "PluginDependancy\PluginDependancy.csproj", "{338EBC4E-6B65-4120-B418-7B9C0B8826E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginInterface", "Examples\Plugin\PluginInterface\PluginInterface.csproj", "{D3C44C02-D6B2-4965-BD63-333C8356D08F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginShared", "PluginShared\PluginShared.csproj", "{D3C44C02-D6B2-4965-BD63-333C8356D08F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Examples\ClientServer\Server\Server.csproj", "{D43284EC-D2D1-4947-946E-A771DC1A06AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginServer", "PluginServer\PluginServer.csproj", "{D43284EC-D2D1-4947-946E-A771DC1A06AC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginClient", "PluginClient\PluginClient.csproj", "{6B89F397-033E-4B54-9260-552ED7F19C10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Examples\ClientServer\Client\Client.csproj", "{6B89F397-033E-4B54-9260-552ED7F19C10}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFramework", "PluginFramework\PluginFramework.csproj", "{954AE605-E4B6-4CCD-BBE1-9525C56437BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientServerCommon", "ClientServerCommon\ClientServerCommon.csproj", "{57E8F3CE-A82F-4C91-B24D-8066A4FFBBD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Examples\ClientServer\Common\Common.csproj", "{57E8F3CE-A82F-4C91-B24D-8066A4FFBBD0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestPlugin", "TestPlugin", "{97E77E42-E400-47D5-A4A2-651FF1312BB7}"
 EndProject
@@ -32,6 +33,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A5AE07
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins", "Examples\Plugin\Plugins\Plugins.csproj", "{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{7542352A-DA69-4E1F-B7A9-B728285E55C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SingleApplication", "SingleApplication", "{A26811B8-5A3A-46DB-8BF8-7505053DC7E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,16 +60,6 @@ Global
 		{536342E2-6220-48E4-BEE2-6AE194016CCA}.Release|Mixed Platforms.Build.0 = Release|x86
 		{536342E2-6220-48E4-BEE2-6AE194016CCA}.Release|x86.ActiveCfg = Release|x86
 		{536342E2-6220-48E4-BEE2-6AE194016CCA}.Release|x86.Build.0 = Release|x86
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|x86.ActiveCfg = Release|Any CPU
 		{338EBC4E-6B65-4120-B418-7B9C0B8826E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{338EBC4E-6B65-4120-B418-7B9C0B8826E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{338EBC4E-6B65-4120-B418-7B9C0B8826E3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -123,16 +120,30 @@ Global
 		{57E8F3CE-A82F-4C91-B24D-8066A4FFBBD0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{57E8F3CE-A82F-4C91-B24D-8066A4FFBBD0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{57E8F3CE-A82F-4C91-B24D-8066A4FFBBD0}.Release|x86.ActiveCfg = Release|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{338EBC4E-6B65-4120-B418-7B9C0B8826E3} = {97E77E42-E400-47D5-A4A2-651FF1312BB7}
+		{97E77E42-E400-47D5-A4A2-651FF1312BB7} = {7542352A-DA69-4E1F-B7A9-B728285E55C4}
+		{B48FC5F6-7743-45D9-A13F-3452B7A77438} = {7542352A-DA69-4E1F-B7A9-B728285E55C4}
+		{A26811B8-5A3A-46DB-8BF8-7505053DC7E0} = {7542352A-DA69-4E1F-B7A9-B728285E55C4}
 		{D3C44C02-D6B2-4965-BD63-333C8356D08F} = {97E77E42-E400-47D5-A4A2-651FF1312BB7}
+		{338EBC4E-6B65-4120-B418-7B9C0B8826E3} = {97E77E42-E400-47D5-A4A2-651FF1312BB7}
 		{4CFA0855-55C8-40A9-94D2-9C65ABE49D58} = {97E77E42-E400-47D5-A4A2-651FF1312BB7}
 		{6B89F397-033E-4B54-9260-552ED7F19C10} = {B48FC5F6-7743-45D9-A13F-3452B7A77438}
 		{57E8F3CE-A82F-4C91-B24D-8066A4FFBBD0} = {B48FC5F6-7743-45D9-A13F-3452B7A77438}
 		{D43284EC-D2D1-4947-946E-A771DC1A06AC} = {B48FC5F6-7743-45D9-A13F-3452B7A77438}
+		{536342E2-6220-48E4-BEE2-6AE194016CCA} = {A26811B8-5A3A-46DB-8BF8-7505053DC7E0}
 	EndGlobalSection
 EndGlobal
