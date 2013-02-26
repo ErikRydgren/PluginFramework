@@ -45,6 +45,11 @@ namespace PluginFramework
       return new PluginFilter(PluginFilter.FilterOp.IsNamed, name: name);
     }
 
+    public static PluginFilter Version(PluginVersion version)
+    {
+      return Plugin.MinVersion(version) & Plugin.MaxVersion(version);
+    }
+
     public static PluginFilter MinVersion(PluginVersion version)
     {
       return new PluginFilter(PluginFilter.FilterOp.MinVersion, name: string.Format("{0}.{1}", version.Major, version.Minor));
