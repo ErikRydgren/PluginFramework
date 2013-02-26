@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
+using System.Collections.Specialized;
 
 namespace PluginFramework
 {
@@ -14,7 +15,8 @@ namespace PluginFramework
   /// </summary>
   public class AssemblyContainer : MarshalByRefObject, IAssemblySource, IAssemblyRepository
   {
-    Dictionary<string, FileInfo> assemblyFiles = new Dictionary<string, FileInfo>();
+    Dictionary<string, List<string>> assemblyPaths = new Dictionary<string, List<string>>();
+    Dictionary<string, string> pathAssembly = new Dictionary<string, string>();
     Dictionary<DirectoryInfo, FileSystemWatcher> watchedDirs = new Dictionary<DirectoryInfo, FileSystemWatcher>();
 
     public event EventHandler<AssemblyAddedEventArgs> AssemblyAdded;
@@ -29,14 +31,22 @@ namespace PluginFramework
       {
         try
         {
-          lock (this.assemblyFiles)
+          lock (this.assemblyPaths)
           {
             reflectionManager.LoadAssembly(assemblyFile.FullName, Guid.NewGuid().ToString());
             var assemblyName = reflectionManager.Reflect(assemblyFile.FullName, assembly => assembly.FullName);
-            this.assemblyFiles.Add(assemblyName, assemblyFile);
+            
+            List<string> paths;
+            if (this.assemblyPaths.TryGetValue(assemblyName, out paths) == false)
+            {
+              paths = new List<string>();
+              this.assemblyPaths.Add(assemblyName, paths);
+            }
+            paths.Add(assemblyFile.FullName);
+            pathAssembly.Add(assemblyFile.FullName, assemblyName);
 
             if (this.AssemblyAdded != null)
-              this.AssemblyAdded(this, new AssemblyAddedEventArgs(assemblyFile, reflectionManager));
+              this.AssemblyAdded(this, new AssemblyAddedEventArgs(assemblyFile.FullName, reflectionManager));
 
             Debug.WriteLine("AssemblyContainer added {0}", (object)assemblyFile.FullName);
           }
@@ -51,15 +61,24 @@ namespace PluginFramework
 
     public void Remove(FileInfo assemblyFile)
     {
-      lock (this.assemblyFiles)
+      lock (this.assemblyPaths)
       {
-        var pair = assemblyFiles.FirstOrDefault(x => x.Value.FullName == assemblyFile.FullName);
-        if (pair.Key == null)
+        string assemblyName;
+        if (this.pathAssembly.TryGetValue(assemblyFile.FullName, out assemblyName) == false)
           return;
 
-        assemblyFiles.Remove(pair.Key);
+        this.pathAssembly.Remove(assemblyFile.FullName);
+
+        List<string> paths;
+        if (this.assemblyPaths.TryGetValue(assemblyName, out paths) == false)
+          return;
+
+        paths.Remove(assemblyFile.FullName);
+        if (paths.Count == 0)
+          this.assemblyPaths.Remove(assemblyName);
+
         if (this.AssemblyRemoved != null)
-          this.AssemblyRemoved(this, new AssemblyRemovedEventArgs(pair.Key));
+          this.AssemblyRemoved(this, new AssemblyRemovedEventArgs(assemblyFile.FullName));
 
         Debug.WriteLine("AssemblyContainer removed {0}", (object)assemblyFile.FullName);
       }
@@ -122,23 +141,33 @@ namespace PluginFramework
 
     byte[] IAssemblyRepository.Get(string assemblyFullName)
     {
-      FileInfo fileInfo = null;
-      lock (this.assemblyFiles)
+      byte[] buffer = null;
+      FileInfo assemblyFile = null;
+
+      lock (this.assemblyPaths)
       {
-        if (!this.assemblyFiles.TryGetValue(assemblyFullName, out fileInfo))
+        List<string> paths;
+        if (!this.assemblyPaths.TryGetValue(assemblyFullName, out paths))
           return null;
+
+        assemblyFile = paths.Select(path => new FileInfo(path)).FirstOrDefault(file => file.Exists);
       }
 
-      fileInfo.Refresh();
-
-      if (fileInfo.Exists == false)
-        return null;
-
-      byte[] buffer = new byte[fileInfo.Length];
-      using (var fileStream = fileInfo.OpenRead())
+      if (assemblyFile != null)
       {
-        if (fileStream.Read(buffer, 0, (int)fileInfo.Length) != fileInfo.Length)
-          return null;
+        try
+        {
+          buffer = new byte[assemblyFile.Length];
+          using (var fileStream = assemblyFile.OpenRead())
+          {
+            if (fileStream.Read(buffer, 0, (int)assemblyFile.Length) != assemblyFile.Length)
+              buffer = null;
+          }
+        }
+        catch (IOException)
+        {
+          buffer = null;
+        }
       }
 
       return buffer;

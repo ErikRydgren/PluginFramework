@@ -18,35 +18,28 @@ namespace PluginFramework
 
   public class AssemblyAddedEventArgs : EventArgs
   {
-    FileInfo assemblyFile;
     AssemblyReflectionManager reflectionManager;
 
-    public AssemblyAddedEventArgs(FileInfo assemblyFile, AssemblyReflectionManager reflectionManager)
+    public AssemblyAddedEventArgs(string id, AssemblyReflectionManager reflectionManager)
     {
-      this.assemblyFile = assemblyFile;
+      this.AssemblyId = id;
       this.reflectionManager = reflectionManager;
     }
 
-    public string AssemblyFullName
-    {
-      get
-      {
-        return this.Reflect(assembly => assembly.FullName);
-      }
-    }
+    public string AssemblyId { get; private set; }
 
     public T Reflect<T>(Func<Assembly, T> reflector)
     {
-      return reflectionManager.Reflect(this.assemblyFile.FullName, reflector);
+      return reflectionManager.Reflect(AssemblyId, reflector);
     }
   }
   public class AssemblyRemovedEventArgs : EventArgs
   {
-    public AssemblyRemovedEventArgs(string assemblyFullName)
+    public AssemblyRemovedEventArgs(string assemblyId)
     {
-      this.AssemblyFullName = assemblyFullName;
+      this.AssemblyId = assemblyId;
     }
 
-    public string AssemblyFullName { get; private set; }
+    public string AssemblyId { get; private set; }
   }
 }

@@ -101,28 +101,27 @@ namespace PluginFramework
           return pluginDescriptions;
         });
 
-      this.OnAssemblyRemoved(sender, new AssemblyRemovedEventArgs(e.AssemblyFullName));
+      this.OnAssemblyRemoved(sender, new AssemblyRemovedEventArgs(e.AssemblyId));
 
       if (plugins.Length > 0)
       {
-        this.assemblyPlugins.Add(e.AssemblyFullName, plugins);
+        this.assemblyPlugins.Add(e.AssemblyId, plugins);
         if (this.PluginAdded != null)
           foreach (var plugin in plugins)
             this.PluginAdded(this, new PluginEventArgs(plugin));
       }
-
     }
 
     void OnAssemblyRemoved(object sender, AssemblyRemovedEventArgs e)
     {
       PluginDescriptor[] lostPlugins;
-      if (this.assemblyPlugins.TryGetValue(e.AssemblyFullName, out lostPlugins))
+      if (this.assemblyPlugins.TryGetValue(e.AssemblyId, out lostPlugins))
       {
         if (this.PluginRemoved != null)
           foreach (var plugin in lostPlugins)
             this.PluginRemoved(this, new PluginEventArgs(plugin));
 
-        this.assemblyPlugins.Remove(e.AssemblyFullName);
+        this.assemblyPlugins.Remove(e.AssemblyId);
       }
     }
 
