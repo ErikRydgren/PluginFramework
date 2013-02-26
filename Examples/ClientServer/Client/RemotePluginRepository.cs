@@ -17,14 +17,6 @@ namespace PluginFramework
       this.bus = bus;
     }
 
-    public IEnumerable<PluginDescriptor> Plugins<T>(PluginFilter filter = null)
-    {
-      PluginFilter combinedFilter = Plugin.Implements<T>() | Plugin.DerivesFrom<T>();
-      if (filter != null)
-        combinedFilter = combinedFilter & filter;
-      return this.Plugins(combinedFilter);
-    }
-
     public IEnumerable<PluginDescriptor> Plugins(PluginFilter filter)
     {
       this.log.DebugFormat("Finding plugins statisfying {0}", filter);

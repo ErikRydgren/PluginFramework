@@ -41,14 +41,6 @@ namespace PluginFramework
       this.plugins.Remove(e.Plugin);
     }
 
-    public IEnumerable<PluginDescriptor> Plugins<T>(PluginFilter filter = null)
-    {
-      PluginFilter combinedFilter = Plugin.Implements<T>() | Plugin.DerivesFrom<T>();
-      if (filter != null)
-        combinedFilter = combinedFilter & filter;
-      return this.Plugins(combinedFilter);
-    }
-
     public IEnumerable<PluginDescriptor> Plugins(PluginFilter filter = null)
     {
       return filter != null ? filter.Filter(this.plugins) : this.plugins;
