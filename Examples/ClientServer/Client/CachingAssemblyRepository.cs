@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Castle.Core.Logging;
 
 namespace PluginFramework
 {
@@ -15,12 +16,14 @@ namespace PluginFramework
   {
     IAssemblyRepository repository;
     TimeSpan TTL;
+    ILogger log;
     Dictionary<string, AssemblyCache> cache = new Dictionary<string, AssemblyCache>();
 
-    public CachingAssemblyRepository(IAssemblyRepository repository, TimeSpan TTL)
+    public CachingAssemblyRepository(IAssemblyRepository repository, TimeSpan TTL, ILogger log)
     {
       this.repository = repository;
       this.TTL = TTL;
+      this.log = log;
     }
 
     public byte[] Get(string assemblyFullName)
@@ -28,10 +31,10 @@ namespace PluginFramework
       AssemblyCache cached;
       lock (this.cache)
       {
-        if (this.cache.TryGetValue(assemblyFullName, out cached))
+        if (this.cache.TryGetValue(assemblyFullName, out cached) && cached.TTL > DateTime.Now)
         {
-          if (cached.TTL > DateTime.Now)
-            return cached.Data;
+          log.DebugFormat("Cache hit for {0}", assemblyFullName);
+          return cached.Data;
         }
       }
 
