@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachingAssemblyRepository.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Installers\MassTransitInstaller.cs" />
     <Compile Include="Installers\PluginFrameworkInstaller.cs" />
