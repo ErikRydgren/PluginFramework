@@ -6,14 +6,17 @@ using Castle.Core.Logging;
 
 namespace PluginFramework
 {
-  internal struct AssemblyCache
-  {
-    public DateTime TTL;
-    public byte[] Data;
-  }
-
+  /// <summary>
+  /// Acts as a cache with defined TTL for results returned from wrapped IAssemblyRepository
+  /// </summary>
   public class CachingAssemblyRepository : MarshalByRefObject, IAssemblyRepository
   {
+    private struct AssemblyCache
+    {
+      public DateTime Expires;
+      public byte[] Data;
+    }
+
     IAssemblyRepository repository;
     TimeSpan TTL;
     ILogger log;
@@ -31,7 +34,7 @@ namespace PluginFramework
       AssemblyCache cached;
       lock (this.cache)
       {
-        if (this.cache.TryGetValue(assemblyFullName, out cached) && cached.TTL > DateTime.Now)
+        if (this.cache.TryGetValue(assemblyFullName, out cached) && cached.Expires > DateTime.Now)
         {
           log.DebugFormat("Cache hit for {0}", assemblyFullName);
           return cached.Data;
@@ -42,7 +45,7 @@ namespace PluginFramework
       if (data != null)
       {
         cached = new AssemblyCache();
-        cached.TTL = DateTime.Now + this.TTL;
+        cached.Expires = DateTime.Now + this.TTL;
         cached.Data = data;
         lock (this.cache)
         {

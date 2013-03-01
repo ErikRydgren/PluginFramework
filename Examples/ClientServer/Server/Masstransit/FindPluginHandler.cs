@@ -23,8 +23,7 @@ namespace PluginFramework.Handlers
     {
       FindPlugin message = context.Message;
 
-      if (log.IsDebugEnabled)
-        log.DebugFormat("Handling command FindPlugin {0}", message.Filter);
+      log.DebugFormat("Responding to query for {0}", message.Filter);
 
       IEnumerable<PluginDescriptor> plugins = pluginRepository.Plugins(message.Filter);
 

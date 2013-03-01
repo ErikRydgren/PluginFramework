@@ -8,7 +8,7 @@ Examples
 </tr>
 <tr>
   <td>ClientServer</td>
-  <td>Same functionality as SingleApplication but the system is separated into a client and a server running in separated processes. Communication is implemented using MassTransit and RabbitMQ.</td>
+  <td>Same functionality as SingleApplication but the system is separated into a client and a server running in separated processes. Communication is implemented either using Wcf or MassTransit (Note! Requires installed RabbitMQ server).</td>
 </tr>
 
 <tr>

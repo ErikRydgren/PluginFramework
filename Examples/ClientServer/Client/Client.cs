@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Castle.Core.Logging;
+using Castle.Facilities.Logging;
+using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using MassTransit;
 using MassTransit.NLogIntegration.Logging;
-using Castle.Facilities.Logging;
 using PluginFramework.Command;
 using PluginInterface;
-using Castle.MicroKernel;
 
 namespace PluginFramework
 {
@@ -87,8 +89,29 @@ namespace PluginFramework
       AppDomain.Unload(pluginDomain);
     }
 
-    static void Main(string[] args)
+    [Description("PluginFramework Client usage:")]
+    class Arguments
     {
+      //[Args.ArgsMemberSwitch(0)]
+      [DefaultValue("Wcf")]
+      [Description("The transport to use. Can be Wcf or Masstransit (note! Masstransit requires installed RabbitMQ)")]
+      public string Transport { get; set; }
+    }
+
+    static void Main(string[] cmdline)
+    {
+      var argsModelDef = Args.Configuration.Configure<Arguments>();
+      Arguments args;
+      try {
+        args = Args.Configuration.Configure<Arguments>().CreateAndBind(cmdline);
+      }
+      catch (Exception)
+      {
+        var modelHelp = new Args.Help.HelpProvider().GenerateModelHelp(argsModelDef);
+        new Args.Help.Formatters.ConsoleHelpFormatter().WriteHelp(modelHelp, Console.Out);
+        return;
+      }
+
       // Tell Masstransit to use NLog
       NLogLogger.Use();
 
@@ -98,9 +121,16 @@ namespace PluginFramework
         container.AddFacility<LoggingFacility>(f => f.LogUsing(LoggerImplementation.NLog));
         container.Install(FromAssembly.This());
 
-        // Create and run client
-        Client client = container.Resolve<Client>();
-        client.Run();
+        try
+        {
+          // Create and run client
+          Client client = container.Resolve<Client>(args.Transport + "Client");
+          client.Run();
+        }
+        catch (ComponentNotFoundException)
+        {
+          Console.WriteLine("Only supported transports are Masstransit and Wcf");
+        }
       }
     }
   }

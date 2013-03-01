@@ -23,10 +23,9 @@ namespace PluginFramework.Handlers
     {
       FetchAssembly message = context.Message;
 
-      if (log.IsDebugEnabled)
-        log.DebugFormat("Handling command FetchAssembly {0}", message.Name);
-
       byte[] bytes = assemblyRepository.Get(message.Name);
+
+      log.DebugFormat("Returning {0} bytes for {1}", bytes != null ? bytes.Length : 0, message.Name);
 
       FetchAssemblyResponse response = new FetchAssemblyResponse(message);
       response.Bytes = bytes;

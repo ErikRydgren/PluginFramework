@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ServiceModel;
 using Castle.Core.Logging;
 using Castle.Facilities.Logging;
+using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
@@ -14,21 +16,25 @@ namespace PluginFramework
   class Server
   {
     ILogger log;
-    IServiceBus bus;
+    ServiceHost host;
 
-    public Server(ILogger log, IServiceBus bus)
+    public Server(ILogger log, IServiceBus bus, IWcfService wcfService)
     {
       this.log = log;
-      this.bus = bus;
+      this.host = new ServiceHost(wcfService);
     }
 
     public void Start()
     {
+      host.Open();
+
       this.log.Info("PluginServer started");
     }
 
     public void Stop()
     {
+      host.Close();
+
       this.log.Info("PluginServer stopped");
     }
 
@@ -58,36 +64,6 @@ namespace PluginFramework
       });
 
       host.Run();
-    }
-  }
-
-  class RemoteAssemblyRepository : IAssemblyRepository
-  {
-    IServiceBus bus;
-
-    public RemoteAssemblyRepository(IServiceBus bus)
-    {
-      this.bus = bus;
-    }
-
-    public byte[] Get(string assemblyFullName)
-    {
-      FetchAssembly request = new FetchAssembly();
-      request.Name = assemblyFullName;
-
-      byte[] bytes = null;
-
-      this.bus.PublishRequest(request, callback =>
-        {
-          callback.SetTimeout(TimeSpan.FromSeconds(10));
-          callback.Handle<FetchAssemblyResponse>((context, message) =>
-            {
-              bytes = message.Bytes;
-            });
-          callback.HandleTimeout(TimeSpan.FromSeconds(10), cb => {});
-        });
-
-      return bytes;
     }
   }
 }
