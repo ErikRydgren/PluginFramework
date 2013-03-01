@@ -11,32 +11,27 @@ namespace PluginFramework
   [Serializable]
   public struct QualifiedName
   {
-    public string Name;
-
     public QualifiedName(string qualifiedName)
+      : this()
     {
-      this.Name = qualifiedName;
+      var parts = Split(qualifiedName);
+      this.TypeFullName = parts[0];
+      this.AssemblyFullName = parts[1];
     }
 
     public string TypeFullName
     {
-      get
-      {
-        return Split(Name)[0];
-      }
+      get; private set; 
     }
 
     public string AssemblyFullName
     {
-      get
-      {
-        return Split(Name)[1];
-      }
+      get; private set;
     }
 
     public override string ToString()
     {
-      return this.Name;
+      return this;
     }
 
     public static string[] Split(string qualifiedName)
@@ -53,7 +48,7 @@ namespace PluginFramework
 
     public static implicit operator string(QualifiedName name)
     {
-      return name.Name;
+      return name.TypeFullName + ", " + name.AssemblyFullName;
     }
   }
 }
