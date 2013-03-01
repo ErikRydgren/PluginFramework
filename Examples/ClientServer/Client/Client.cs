@@ -19,13 +19,13 @@ namespace PluginFramework
   {
     ILogger log;
     IPluginRepository pluginRepository;
-    PluginCreator pluginCreator;
+    IAssemblyRepository assemblyRepository;
 
-    public Client(ILogger log, IPluginRepository pluginRepository, PluginCreator pluginCreator)
+    public Client(ILogger log, IPluginRepository pluginRepository, IAssemblyRepository assemblyRepository)
     {
       this.log = log;
       this.pluginRepository = pluginRepository;
-      this.pluginCreator = pluginCreator;
+      this.assemblyRepository = assemblyRepository;
     }
 
     public void Run()
@@ -57,6 +57,7 @@ namespace PluginFramework
       Console.WriteLine("Creating AppDomain PluginDomain");
       AppDomain pluginDomain = AppDomain.CreateDomain("PluginDomain");
       pluginDomain.AssemblyLoad += (s, e) => Console.WriteLine("{0} loaded {1}", AppDomain.CurrentDomain.FriendlyName, e.LoadedAssembly.FullName);
+      IPluginCreator pluginCreator = PluginCreator.GetCreator(pluginDomain);
 
       try
       {
@@ -72,7 +73,7 @@ namespace PluginFramework
         foreach (var pluginDescriptor in foundPlugins)
         {
           Console.WriteLine(string.Format("Creating plugin {0} inside {1}", pluginDescriptor.QualifiedName.TypeFullName, pluginDomain.FriendlyName));
-          plugin = this.pluginCreator.Create<ITestPlugin>(pluginDescriptor, pluginDomain, settings);
+          plugin = pluginCreator.Create<ITestPlugin>(pluginDescriptor, this.assemblyRepository, settings);
           Console.WriteLine("Say hello plugin...");
           plugin.SayHello();
         }
@@ -96,7 +97,6 @@ namespace PluginFramework
       {
         container.AddFacility<LoggingFacility>(f => f.LogUsing(LoggerImplementation.NLog));
         container.Install(FromAssembly.This());
-        container.Register(Component.For<Client>());
 
         // Create and run client
         Client client = container.Resolve<Client>();

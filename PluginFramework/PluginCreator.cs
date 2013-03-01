@@ -8,59 +8,40 @@ using System.Collections.Specialized;
 namespace PluginFramework
 {
   /// <summary>
-  /// Implementation of <seealso cref="IPluginCreator"/>. Requires an IAssemblyRepository for fetching missing assemblies.
+  /// Implementation of <seealso cref="IPluginCreator"/>.
   /// </summary>
   public class PluginCreator : MarshalByRefObject, IPluginCreator
   {
-    IAssemblyRepository repository;
-    Dictionary<AppDomain, PluginCreator> creators = new Dictionary<AppDomain, PluginCreator>();
+    const string IDKEY = "PluginFramework.PluginCreator";
 
     /// <summary>
-    /// Constructs a PluginCreator instance.
+    /// External creation of instances not allowed. Use GetCreator to fetch a creator instance
     /// </summary>
-    /// <param name="repository">The <see cref="IAssemblyRepository"/> to use for resolving missing assemblies.</param>
-    /// <remarks>Required</remarks>
-    /// <exception cref="ArgumentNullException"/>
-    public PluginCreator(IAssemblyRepository repository)
+    private PluginCreator()
     {
-      if (repository == null)
-        throw new ArgumentNullException("repository");
-
-      this.repository = repository;
     }
 
     /// <summary>
-    /// Lookups or creates a PluginCreator located inside the target <see cref="AppDomain"/>.
+    /// Fetches or Creates a IPluginCreator located inside the target <see cref="AppDomain"/>.
     /// </summary>
     /// <param name="domain">The target <see cref="AppDomain"/></param>
-    /// <returns>A PluginCreator instance running inside target <see cref="AppDomain"/></returns>
+    /// <returns>A IPluginCreator instance running inside target <see cref="AppDomain"/></returns>
     /// <exception cref="PluginException"/>
-    private PluginCreator GetCreatorFor(AppDomain domain)
+    public static IPluginCreator GetCreator(AppDomain domain = null)
     {
       try
       {
-        PluginCreator creator;
         if (domain == null)
-          creator = this;
-        else if (domain == AppDomain.CurrentDomain)
-          creator = this;
-        else if (!creators.TryGetValue(domain, out creator))
-        {
-          creator = domain.CreateInstanceAndUnwrap(
-            typeof(PluginCreator).Assembly.FullName,
-            typeof(PluginCreator).FullName,
-            false,
-            BindingFlags.CreateInstance,
-            null,
-            new object[] { this.repository },
-            null,
-            null
-          ) as PluginCreator;
-          creators.Add(domain, creator);
-        }
+          domain = AppDomain.CurrentDomain;
 
+        IPluginCreator creator = domain.GetData(IDKEY) as IPluginCreator;
+        if (creator == null)
+        {
+          domain.DoCallBack(() => AppDomain.CurrentDomain.SetData(IDKEY, new PluginCreator()));
+          creator = domain.GetData(IDKEY) as IPluginCreator;
+        }
         return creator;
-      }
+      }        
       catch (PluginException)
       {
         throw;
@@ -80,14 +61,27 @@ namespace PluginFramework
     /// <param name="settings">A key value storage with settings to apply to properties defined as PluginSettings on the created instance</param>
     /// <returns>The created plugin instance as T</returns>
     /// <exception cref="PluginException"/>
-    public T Create<T>(PluginDescriptor descriptor, AppDomain domain = null, Dictionary<string, object> settings = null)
+    public T Create<T>(PluginDescriptor descriptor, IAssemblyRepository assemblyRepository, Dictionary<string, object> settings = null)
       where T : class
     {
       try
       {
-        PluginCreator creator = this.GetCreatorFor(domain);
+        ResolveEventHandler resolveHandler = new ResolveEventHandler((s, e) =>
+          {
+            // Fetch assembly from repository and load it into the appdomain
+            byte[] assemblyBytes = assemblyRepository.Get(e.Name);
+            if (assemblyBytes != null)
+              return Assembly.Load(assemblyBytes);
 
-        object plugin = creator.Create(descriptor, settings);
+            // Unable to resolve this assembly
+            throw new PluginException(string.Format("Unable to resolve assembly {0}", e.Name));
+          });
+
+        AppDomain.CurrentDomain.AssemblyResolve += resolveHandler;
+
+        object plugin = this.Create(descriptor, settings);
+
+        AppDomain.CurrentDomain.AssemblyResolve -= resolveHandler;
 
         if (plugin == null)
           return null;
@@ -117,7 +111,6 @@ namespace PluginFramework
     /// <exception cref="PluginException"/>
     private object Create(PluginDescriptor descriptor, Dictionary<string, object> settings)
     {
-      AppDomain.CurrentDomain.AssemblyResolve += this.RepositoryResolve;
       object instance = AppDomain.CurrentDomain.CreateInstanceAndUnwrap(descriptor.QualifiedName.AssemblyFullName, descriptor.QualifiedName.TypeFullName);
 
       foreach (var property in instance.GetType().GetProperties())
@@ -147,32 +140,7 @@ namespace PluginFramework
         }
       }
 
-      AppDomain.CurrentDomain.AssemblyResolve -= this.RepositoryResolve;
       return instance;
-    }
-
-    /// <summary>
-    /// Handles assembly resolving for the AssemblyResolve event on the target <see cref="AppDomain"/> using the provided <see cref="IAssemblyResolver"/>
-    /// </summary>
-    /// <param name="sender">The target <see cref="AppDomain"/></param>
-    /// <param name="e">The event arguments</param>
-    /// <returns>A resolved assembly</returns>
-    /// <exception cref="PluginException"/>
-    private Assembly RepositoryResolve(object sender, ResolveEventArgs e)
-    {
-      // Try to reuse already loaded assembly
-      Assembly[] currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-      for (int i = 0; i < currentAssemblies.Length; i++)
-        if (currentAssemblies[i].FullName == e.Name)
-          return currentAssemblies[i];
-
-      // Fetch assembly from repository and load it into the appdomain
-      byte[] assemblyBytes = this.repository.Get(e.Name);
-      if (assemblyBytes != null)
-        return Assembly.Load(assemblyBytes);
-
-      // Unable to resolve this assembly
-      throw new PluginException(string.Format("Unable to resolve assembly {0}", e.Name));
     }
   }
 }
