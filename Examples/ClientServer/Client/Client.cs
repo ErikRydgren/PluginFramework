@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Castle.Core.Logging;
@@ -14,6 +12,7 @@ using MassTransit;
 using MassTransit.NLogIntegration.Logging;
 using PluginFramework.Command;
 using PluginInterface;
+using PluginFramework.Installers;
 
 namespace PluginFramework
 {
@@ -51,7 +50,7 @@ namespace PluginFramework
       catch (Exception ex)
       {
         Console.WriteLine(ex);
-      }    
+      }
     }
 
     private void QueryAndRunPlugins()
@@ -89,48 +88,58 @@ namespace PluginFramework
       AppDomain.Unload(pluginDomain);
     }
 
-    [Description("PluginFramework Client usage:")]
-    class Arguments
-    {
-      //[Args.ArgsMemberSwitch(0)]
-      [DefaultValue("Wcf")]
-      [Description("The transport to use. Can be Wcf or Masstransit (note! Masstransit requires installed RabbitMQ)")]
-      public string Transport { get; set; }
-    }
-
     static void Main(string[] cmdline)
     {
+      // Parse commandline into Arguments
       var argsModelDef = Args.Configuration.Configure<Arguments>();
-      Arguments args;
-      try {
-        args = Args.Configuration.Configure<Arguments>().CreateAndBind(cmdline);
+      Arguments args = new Arguments();
+      try
+      {
+        Args.Configuration.Configure<Arguments>().BindModel(args, cmdline);
       }
       catch (Exception)
+      {
+        args.Help = true;
+      }
+
+      // Write help message
+      if (args.Help == true)
       {
         var modelHelp = new Args.Help.HelpProvider().GenerateModelHelp(argsModelDef);
         new Args.Help.Formatters.ConsoleHelpFormatter().WriteHelp(modelHelp, Console.Out);
         return;
       }
 
-      // Tell Masstransit to use NLog
-      NLogLogger.Use();
-
-      // Setup Windsor container
+      // Setup and run client
       using (WindsorContainer container = new WindsorContainer())
       {
         container.AddFacility<LoggingFacility>(f => f.LogUsing(LoggerImplementation.NLog));
-        container.Install(FromAssembly.This());
 
-        try
+        switch (args.Transport.ToLowerInvariant())
         {
-          // Create and run client
-          Client client = container.Resolve<Client>(args.Transport + "Client");
-          client.Run();
+          case "wcf":
+            container.Install(new WcfClientInstaller());
+            break;
+
+          case "masstransit":
+            container.Install(new MasstransitClientInstaller());
+            break;
+
+          default:
+            Console.WriteLine("Supported transports are Wcf and Masstransit");
+            return;
         }
-        catch (ComponentNotFoundException)
-        {
-          Console.WriteLine("Only supported transports are Masstransit and Wcf");
-        }
+
+        container.Register(
+          Component.For<IAssemblyRepository>().Named("Caching").ImplementedBy<CachingAssemblyRepository>().LifestyleSingleton()
+            .DependsOn(new { TTL = TimeSpan.FromSeconds(args.TTL) }),
+
+          Component.For<Client>().ImplementedBy<Client>().LifestyleTransient()
+          .DependsOn(args.Caching ? ServiceOverride.ForKey<IAssemblyRepository>().Eq("Caching") : null)
+        );
+
+        Client client = container.Resolve<Client>();
+        client.Run();
       }
     }
   }

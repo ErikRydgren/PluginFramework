@@ -12,13 +12,22 @@ namespace PluginFramework
   public class WcfServiceClient : MarshalByRefObject, IAssemblyRepository, IPluginRepository
   {
     ILogger log;
-    IWcfService service;
+    IWcfService service = null;
 
     public WcfServiceClient(ILogger log)
     {
       this.log = log;
 
-      service = ChannelFactory<IWcfService>.CreateChannel(new BasicHttpBinding(), new EndpointAddress("http://localhost/PluginFrameworkWcfService"));
+    }
+
+    private IWcfService Service
+    {
+      get
+      {
+        if (service == null || (service as IChannel).State == CommunicationState.Faulted)
+          service = ChannelFactory<IWcfService>.CreateChannel(new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:54321/PluginFrameworkWcfService"));
+        return service;
+      }
     }
 
     public IEnumerable<PluginDescriptor> Plugins(PluginFilter filter = null)
@@ -27,7 +36,7 @@ namespace PluginFramework
         try
         {
           this.log.DebugFormat("Finding plugins statisfying {0}", filter);
-          var foundPlugins = service.Plugins(filter);
+          var foundPlugins = this.Service.Plugins(filter);
           this.log.DebugFormat("Found {0} plugins for {1}", foundPlugins.Count(), filter);
           return foundPlugins;
         }
@@ -45,7 +54,7 @@ namespace PluginFramework
         try
         {
           log.DebugFormat("Requesting {0}", assemblyFullName);
-          byte[] bytes = service.Get(assemblyFullName);
+          byte[] bytes = this.Service.Get(assemblyFullName);
           log.DebugFormat("Got {0} bytes for {1}", bytes.Length, assemblyFullName);
           return bytes;
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Castle.MicroKernel.Registration;
 using MassTransit;
+using MassTransit.NLogIntegration.Logging;
 
 namespace PluginFramework.Installers
 {
@@ -11,6 +12,8 @@ namespace PluginFramework.Installers
   {
     public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
     {
+      NLogLogger.Use();
+
       container.Register(
         Classes.FromThisAssembly().BasedOn<IConsumer>(),
 
@@ -22,14 +25,7 @@ namespace PluginFramework.Installers
             conf.Subscribe(x => x.LoadFrom(container));
           })),
 
-        Component.For<IPluginRepository, IAssemblyRepository>().Named("Masstransit").ImplementedBy<MasstransitClient>().LifestyleSingleton(),
-        Component.For<IAssemblyRepository>().Named("MasstransitCaching").ImplementedBy<CachingAssemblyRepository>().LifestyleSingleton()
-          .DependsOn(ServiceOverride.ForKey<IAssemblyRepository>().Eq("Masstransit"))
-          .DependsOn(new { TTL = TimeSpan.FromSeconds(10) }),
-
-        Component.For<Client>().Named("MasstransitClient").ImplementedBy<Client>().LifestyleTransient()
-          .DependsOn(ServiceOverride.ForKey<IPluginRepository>().Eq("Masstransit"))
-          .DependsOn(ServiceOverride.ForKey<IAssemblyRepository>().Eq("MasstransitCaching")) // Change "MasstransitCaching" to "Masstransit" to bypass cache
+        Component.For<IPluginRepository, IAssemblyRepository>().ImplementedBy<MasstransitClient>().LifestyleSingleton()
       );
     }
   }
