@@ -1,0 +1,20 @@
+body
+{
+    margin: 20px;
+    background: #FFFFf0;
+}
+
+.code
+{
+    border: 1px solid black;
+    background: #DDDDDD;
+    padding: 10px 20px;
+    color: #400000;
+    font-size: smaller;
+    font-family: "Lucida Console" , Monaco, monospace;
+}
+
+.code b
+{
+    color: Black;
+}

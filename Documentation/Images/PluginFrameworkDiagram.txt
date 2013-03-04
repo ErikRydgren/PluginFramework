@@ -1,0 +1,43 @@
+# http://www.websequencediagrams.com
+
+alt Added assembly file
+
+FileSystem -> AssemblyContainer : File added
+AssemblyContainer -> AssemblySourceToPluginSource : AssemblyAdded
+
+loop For each plugin in assembly
+AssemblySourceToPluginSource -> PluginRepository : PluginFound
+end
+
+else Removed assembly file
+
+FileSystem -> AssemblyContainer : File removed
+AssemblyContainer -> AssemblySourceToPluginSource : AssemblyRemoved
+
+loop For each plugin in assembly
+AssemblySourceToPluginSource -> PluginRepository : LostPlugin
+end
+
+end
+
+User -> PluginRepository: Find plugins(filter)
+PluginRepository -> User: Found plugins
+
+User -> PluginCreator : GetCreator
+opt
+PluginCreator --> AppDomain : Get/Create IPluginCreator
+AppDomain --> IPluginCreator : CreateInstance
+end
+PluginCreator -> User : IPluginCreator
+User -> IPluginCreator : Create(plugin)
+
+IPluginCreator --> Plugin : CreateInstance
+
+loop Assembly resolving
+AppDomain -> AssemblyContainer : Get assembly
+AssemblyContainer -> AppDomain : bytes
+end
+
+IPluginCreator -> User : Plugin instance
+User -> Plugin : Use plugin
+

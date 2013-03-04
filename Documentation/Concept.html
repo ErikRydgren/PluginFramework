@@ -1,0 +1,40 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>PluginFramework - Concept</title>
+  <link rel="Stylesheet" type="text/css" href="doc.css" />
+</head>
+<body>
+  <h1>PluginFramework Concept</h1>
+  <img alt="Conceptual image" src="Images/PluginFramework.png" />
+
+<p>The key players inside the PluginFramework is the <a href="#AssemblyContainer">AssemblyContainer</a>, the <a href="#PluginRepository">PluginRepository</a> and the <a href="#PluginCreator">PluginCreator</a>.</p>
+
+<h3 id="AssemblyContainer">AssemblyContainer</h3>
+<p>The AssemblyContainer monitors one or more directories in the file system and keeps the container up to date with which assemblies that is currently available on disk.
+It then exploses those assemblies through two interfaces, <a href="#IAssemblySource">IAssemblySource</a> and <a href="#IAssemblyRepository">IAssemblyRepository</a>.</p>
+
+<h3 id="IAssemblySource">IAssemblySource</h3>
+<p>The IAssemblySource exposes changes to the container through the AssemblyAdded 
+  and AssemblyRemoved events.</p>
+
+<h3 id="IAssemblyRepository">IAssemblyRepository</h3>
+<p>The IAssemblyRepository allows external code to fetch the raw data for an assembly using the assemblys full name.</p>
+
+<h3 id="PluginRepository">PluginRepository</h3>
+<p>The PluginRepository reads and remembers plugins exposed through registered <a href="#IPluginSource">IPluginSources</a> and allows users to query for plugins that matches a specified <a href="#PluginFilter">filter</a></p>
+
+<h3 id="IPluginSource">IPluginSource</h3>
+<p>A plugin source exposes changes to plugins through the PluginAdded and 
+  PluginRemoved events.</p>
+
+<h3 id="PluginFilter">PluginFilter</h3>
+<p>A plugin filter describes what qualities a plugin must fulfil to be returned from a query to an <a href="#IPluginRepository">IPluginRepository</a>. Plugin filters is created using static methods on the Plugin class. Plugin filters can then be combined into complex filters using the & and | operators</p>
+
+<h3 id="PluginCreator">PluginCreator</h3>
+<p>The PluginCreator is an untility class that exposes static functions for finding and creating instances of <a href="#IPluginCreator">IPluginCreator</a> inside AppDomains.</p>
+
+<h3 id="IPluginCreator">IPluginCreator</h3>
+<p>The IPluginCreator interface is used to create plugins inside an AppDomain. The IPluginCreator uses an <a href="#IAssemblyRepository">IAssemblyRepository</a> to fetch and load missing assemblies inside the AppDomain.</p>
+
+</body>
+</html>
