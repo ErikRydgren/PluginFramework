@@ -10,11 +10,11 @@ namespace PluginFramework
   /// <summary>
   /// Utility class for extracting plugins from assemblies provided from an IAssemblySource and exposing them as an IPluginSource
   /// </summary>
-  public class AssemblySourcePluginSource : IPluginSource
+  public class AssemblySourceToPluginSource : IPluginSource
   {
     Dictionary<string, PluginDescriptor[]> assemblyPlugins;
 
-    public AssemblySourcePluginSource(IAssemblySource assemblySource)
+    public AssemblySourceToPluginSource(IAssemblySource assemblySource)
     {
       this.assemblyPlugins = new Dictionary<string, PluginDescriptor[]>();
       assemblySource.AssemblyAdded += new EventHandler<AssemblyAddedEventArgs>(OnAssemblyAdded);
