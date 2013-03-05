@@ -22,6 +22,7 @@ namespace PluginFramework
   using System.Collections.Generic;
   using System.Linq;
   using System.Reflection;
+  using System.Security.Permissions;
 
   /// <summary>
   /// Implementation of <seealso cref="IPluginCreator"/>.
@@ -77,6 +78,7 @@ namespace PluginFramework
     /// <param name="settings">A key value storage with settings to apply to properties defined as PluginSettings on the created instance</param>
     /// <returns>The created plugin instance as T</returns>
     /// <exception cref="PluginException"/>
+    [SecurityPermission(SecurityAction.LinkDemand, Flags=SecurityPermissionFlag.ControlAppDomain)]
     public T Create<T>(PluginDescriptor descriptor, IAssemblyRepository assemblyRepository, Dictionary<string, object> settings = null)
       where T : class
     {

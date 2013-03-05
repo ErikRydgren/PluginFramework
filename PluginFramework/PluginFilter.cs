@@ -77,14 +77,29 @@ namespace PluginFramework
       return Plugin.MinVersion(version) & Plugin.MaxVersion(version);
     }
 
+    public static PluginFilter Version(string versionstring)
+    {
+      return Plugin.Version((PluginVersion)versionstring);
+    }
+
     public static PluginFilter MinVersion(PluginVersion version)
     {
       return new PluginFilter(PluginFilter.FilterOp.MinVersion, name: string.Format("{0}.{1}", version.Major, version.Minor));
     }
 
+    public static PluginFilter MinVersion(string versionstring)
+    {
+      return Plugin.MinVersion((PluginVersion)versionstring);
+    }
+
     public static PluginFilter MaxVersion(PluginVersion version)
     {
       return new PluginFilter(PluginFilter.FilterOp.MaxVersion, name: string.Format("{0}.{1}", version.Major, version.Minor));
+    }
+
+    public static PluginFilter MaxVersion(string versionstring)
+    {
+      return Plugin.MaxVersion((PluginVersion)versionstring);
     }
   }
 
@@ -200,12 +215,12 @@ namespace PluginFramework
 
         case FilterOp.MinVersion:
           {
-            return plugins.Where(plugin => plugin.Version >= name);
+            return plugins.Where(plugin => plugin.Version >= (PluginVersion) name);
           }
 
         case FilterOp.MaxVersion:
           {
-            return plugins.Where(plugin => plugin.Version <= name);
+            return plugins.Where(plugin => plugin.Version <= (PluginVersion) name);
           }
 
         case FilterOp.And:
@@ -266,7 +281,7 @@ namespace PluginFramework
           return string.Join(" | ", this.subFilters.Select(x => x.ToString()).ToArray());
 
         default:
-          throw new NotImplementedException(string.Format("Operator {0} not implemented yet", this.filterOp.ToString()));
+          return string.Format("{0}({1})", this.filterOp.ToString(), this.name);
       }
     }
   }

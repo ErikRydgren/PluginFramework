@@ -20,12 +20,14 @@ namespace PluginFramework
 {
   using System;
   using System.Collections.Generic;
+  using System.Security.Permissions;
 
   /// <summary>
   /// Interface for creating instances of plugins described by <see cref="PluginDescriptor"/> inside a target <see cref="AppDomain"/>.
   /// </summary>
   public interface IPluginCreator
   {
+    [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
     T Create<T>(PluginDescriptor pluginDescriptor, IAssemblyRepository assemblyRepository, Dictionary<string, object> settings = null) where T : class;
   }
 }

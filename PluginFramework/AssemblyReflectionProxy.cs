@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Policy;
+using System.Security.Permissions;
 
 namespace PluginFramework
 {
@@ -31,6 +32,7 @@ namespace PluginFramework
       }
     }
 
+    [SecurityPermission(SecurityAction.LinkDemand, Flags=SecurityPermissionFlag.ControlAppDomain)]
     public TResult Reflect<TResult>(Func<Assembly, TResult> func)
     {
       DirectoryInfo directory = new FileInfo(_assemblyPath).Directory;
@@ -216,6 +218,7 @@ namespace PluginFramework
       return false;
     }
 
+    [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
     public TResult Reflect<TResult>(string assemblyPath, Func<Assembly, TResult> func)
     {
       // check if the assembly is found in the internal dictionaries

@@ -25,7 +25,7 @@ namespace PluginFramework.Examples.SingleApplication
   using PluginFramework;
   using PluginFramework.Examples.TestPlugin;
 
-  class Program
+  class Program : IDisposable
   {
     PluginRepository pluginRepository;
     AssemblyContainer assemblyContainer;
@@ -107,9 +107,15 @@ namespace PluginFramework.Examples.SingleApplication
       }
     }
 
+    public void Dispose()
+    {
+      this.assemblyContainer.Dispose();
+    }
+
     static void Main(string[] args)
     {
-      new Program().Run();
+      using (var program = new Program())
+        program.Run();
     }
   }
 }

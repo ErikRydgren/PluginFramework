@@ -20,6 +20,7 @@ namespace PluginFramework
 {
   using System;
   using System.Reflection;
+  using System.Security.Permissions;
 
   /// <summary>
   /// Interface for reporting changes in a collection of assemblies
@@ -42,6 +43,7 @@ namespace PluginFramework
 
     public string AssemblyId { get; private set; }
 
+    [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
     public T Reflect<T>(Func<Assembly, T> reflector)
     {
       return reflectionManager.Reflect(AssemblyId, reflector);

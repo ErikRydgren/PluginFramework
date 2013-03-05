@@ -23,12 +23,13 @@ namespace PluginFramework
   using System.Diagnostics;
   using System.IO;
   using System.Linq;
+  using System.Security.Permissions;
 
   /// <summary>
   /// Holds and publishes registered assemblies. Also provides functionality for loading from directorytree and react to changes in the tree.
   /// Implements and exposes <seealso cref="IAssemblySource"/> and <seealso cref="IAssemblyRepository"/>.
   /// </summary>
-  public class AssemblyContainer : MarshalByRefObject, IAssemblySource, IAssemblyRepository
+  public sealed class AssemblyContainer : MarshalByRefObject, IAssemblySource, IAssemblyRepository, IDisposable
   {
     Dictionary<string, List<string>> assemblyPaths = new Dictionary<string, List<string>>();
     Dictionary<string, string> pathAssembly = new Dictionary<string, string>();
@@ -37,6 +38,7 @@ namespace PluginFramework
     public event EventHandler<AssemblyAddedEventArgs> AssemblyAdded;
     public event EventHandler<AssemblyRemovedEventArgs> AssemblyRemoved;
 
+    [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
     public bool Add(FileInfo assemblyFile)
     {
       if (!assemblyFile.Exists)
@@ -101,6 +103,8 @@ namespace PluginFramework
       }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+    [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
     public void SyncWithDirectory(DirectoryInfo dir, bool includeSubdirectories)
     {
       if (!dir.Exists)
@@ -128,7 +132,6 @@ namespace PluginFramework
       if (pair.Key == null)
         return;
 
-      pair.Value.EnableRaisingEvents = false;
       pair.Value.Dispose();
       watchedDirs.Remove(pair.Key);
     }
@@ -188,6 +191,15 @@ namespace PluginFramework
       }
 
       return buffer;
+    }
+
+    public void Dispose()
+    {
+      foreach (var watcher in this.watchedDirs.Values)
+      {
+        watcher.Dispose();
+      }
+      this.watchedDirs = null;
     }
   }
 }

@@ -87,6 +87,24 @@ namespace PluginFramework
       this.Minor = minor;
     }
 
+    public PluginVersion(string versionstring)
+      : this()
+    {
+      try
+      {
+        string[] parts = versionstring.Split(new char[] { '.' });
+        if (parts.Length != 2)
+          throw new FormatException();
+        this.Major = int.Parse(parts[0]);
+        this.Minor = int.Parse(parts[1]);
+      }
+      catch (FormatException)
+      {
+        throw new FormatException("The versionstring must be on format intMajor.intMinor");
+      }
+    }
+
+
     public int CompareTo(PluginVersion other)
     {
       if (this.Major != other.Major)
@@ -109,20 +127,9 @@ namespace PluginFramework
       return string.Format("{0}.{1}", this.Major, this.Minor);
     }
 
-    public static implicit operator PluginVersion(string versionstring)
+    public static explicit operator PluginVersion(string versionstring)
     {
-      try
-      {
-        string[] parts = versionstring.Split(new char[] { '.' });
-        if (parts.Length != 2)
-          throw new FormatException();
-        PluginVersion version = new PluginVersion(int.Parse(parts[0]), int.Parse(parts[1]));
-        return version;
-      }
-      catch (FormatException)
-      {
-        throw new FormatException("The versionstring must be on format intMajor.intMinor");
-      }
+      return new PluginVersion(versionstring);
     }
 
     public static bool operator < (PluginVersion left, PluginVersion right)
