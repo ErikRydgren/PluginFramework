@@ -33,7 +33,9 @@ namespace PluginFramework
         {
           lock (this.assemblyPaths)
           {
-            reflectionManager.LoadAssembly(assemblyFile.FullName, Guid.NewGuid().ToString());
+            if (!reflectionManager.LoadAssembly(assemblyFile.FullName, Guid.NewGuid().ToString()))
+              return false;
+
             var assemblyName = reflectionManager.Reflect(assemblyFile.FullName, assembly => assembly.FullName);
             
             List<string> paths;
