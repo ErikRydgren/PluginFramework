@@ -8,7 +8,7 @@
     <ProjectGuid>{536342E2-6220-48E4-BEE2-6AE194016CCA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SingleApplication</RootNamespace>
+    <RootNamespace>PluginFramework.Examples.SingleApplication</RootNamespace>
     <AssemblyName>SingleApplication</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

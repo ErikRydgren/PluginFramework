@@ -8,7 +8,7 @@
     <ProjectGuid>{57E8F3CE-A82F-4C91-B24D-8066A4FFBBD0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PluginFramework</RootNamespace>
+    <RootNamespace>PluginFramework.Examples.ClientServer</RootNamespace>
     <AssemblyName>Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

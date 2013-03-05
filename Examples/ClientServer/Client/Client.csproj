@@ -8,7 +8,7 @@
     <ProjectGuid>{6B89F397-033E-4B54-9260-552ED7F19C10}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PluginFramework</RootNamespace>
+    <RootNamespace>PluginFramework.Examples.ClientServer</RootNamespace>
     <AssemblyName>Client</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>PluginFramework.Client</StartupObject>
+    <StartupObject>PluginFramework.Examples.ClientServer.Client</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Args">
