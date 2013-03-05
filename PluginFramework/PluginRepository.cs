@@ -25,7 +25,7 @@ namespace PluginFramework
   /// </summary>
   public class PluginRepository : IPluginRepository
   {
-    ISet<PluginDescriptor> plugins;
+    HashSet<PluginDescriptor> plugins;
 
     public PluginRepository()
     {

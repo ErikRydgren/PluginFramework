@@ -65,7 +65,7 @@ namespace PluginFramework
             if (this.AssemblyAdded != null)
               this.AssemblyAdded(this, new AssemblyAddedEventArgs(assemblyFile.FullName, reflectionManager));
 
-            Debug.WriteLine("AssemblyContainer added {0}", (object)assemblyFile.FullName);
+            Debug.WriteLine("AssemblyContainer added " + assemblyFile.FullName);
           }
           return true;
         }
@@ -97,7 +97,7 @@ namespace PluginFramework
         if (this.AssemblyRemoved != null)
           this.AssemblyRemoved(this, new AssemblyRemovedEventArgs(assemblyFile.FullName));
 
-        Debug.WriteLine("AssemblyContainer removed {0}", (object)assemblyFile.FullName);
+        Debug.WriteLine("AssemblyContainer removed " + assemblyFile.FullName);
       }
     }
 

@@ -218,7 +218,7 @@ namespace PluginFramework
 
         case FilterOp.Or:
           {
-            ISet<PluginDescriptor> result = new HashSet<PluginDescriptor>();
+            HashSet<PluginDescriptor> result = new HashSet<PluginDescriptor>();
 
             foreach (var filter in this.subFilters)
               foreach (var plugin in filter.Filter(plugins))
@@ -260,10 +260,10 @@ namespace PluginFramework
           return string.Format("MaxVersion({0})", this.name);
 
         case FilterOp.And:
-          return string.Join(" & ", this.subFilters.Select(x => x.ToString()));
+          return string.Join(" & ", this.subFilters.Select(x => x.ToString()).ToArray());
 
         case FilterOp.Or:
-          return string.Join(" | ", this.subFilters.Select(x => x.ToString()));
+          return string.Join(" | ", this.subFilters.Select(x => x.ToString()).ToArray());
 
         default:
           throw new NotImplementedException(string.Format("Operator {0} not implemented yet", this.filterOp.ToString()));

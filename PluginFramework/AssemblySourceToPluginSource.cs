@@ -44,7 +44,7 @@ namespace PluginFramework
           var pluginTypes =
             (from type in assembly.GetExportedTypes()
              where type.IsClass && !type.IsGenericType && type.IsPublic && type.IsVisible && !type.IsAbstract
-             where type.GetCustomAttributesData().Any(x => x.Constructor.DeclaringType.FullName == typeof(PluginAttribute).FullName)
+             where CustomAttributeData.GetCustomAttributes(type).Any(x => x.Constructor.DeclaringType.FullName == typeof(PluginAttribute).FullName)
              select type).ToArray();
 
           PluginDescriptor[] pluginDescriptions = new PluginDescriptor[pluginTypes.Length];
@@ -52,7 +52,7 @@ namespace PluginFramework
           for (int i = 0; i < pluginTypes.Length; i++)
           {
             Type type = pluginTypes[i];
-            IList<CustomAttributeData> attributes = type.GetCustomAttributesData();
+            IList<CustomAttributeData> attributes = CustomAttributeData.GetCustomAttributes(type);
 
             PluginDescriptor plugin = new PluginDescriptor();
             pluginDescriptions[i] = plugin;
@@ -98,7 +98,7 @@ namespace PluginFramework
               List<PluginSettingDescriptor> settings = new List<PluginSettingDescriptor>();
               foreach (var property in type.GetProperties())
               {
-                CustomAttributeData attribute = property.GetCustomAttributesData().FirstOrDefault(x => x.Constructor.DeclaringType.FullName == typeof(PluginSettingAttribute).FullName);
+                CustomAttributeData attribute =  CustomAttributeData.GetCustomAttributes(property).FirstOrDefault(x => x.Constructor.DeclaringType.FullName == typeof(PluginSettingAttribute).FullName);
                 if (attribute == null)
                   continue;
 
