@@ -53,7 +53,7 @@
     <Compile Include="IPluginCreator.cs" />
     <Compile Include="IPluginSource.cs" />
     <Compile Include="PluginCreator.cs" />
-    <Compile Include="AssemblySourcePluginSource.cs" />
+    <Compile Include="AssemblySourceToPluginSource.cs" />
     <Compile Include="AssemblyReflectionProxy.cs" />
     <Compile Include="IAssemblyRepository.cs" />
     <Compile Include="IPluginRepository.cs" />

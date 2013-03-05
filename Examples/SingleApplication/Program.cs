@@ -19,7 +19,7 @@ namespace SingleApplication
       Console.WriteLine("Creating plugin repository");
       this.pluginRepository = new PluginRepository();
       this.assemblyContainer = new AssemblyContainer();
-      this.pluginRepository.AddPluginSource(new AssemblySourcePluginSource(this.assemblyContainer));
+      this.pluginRepository.AddPluginSource(new AssemblySourceToPluginSource(this.assemblyContainer));
 
       DirectoryInfo pluginDir = new DirectoryInfo(@"..\..\..\Plugin\Bin");
       Console.WriteLine(@"Adding plugins from {0}", pluginDir.FullName);
@@ -37,7 +37,10 @@ namespace SingleApplication
       try
       {
         ITestPlugin plugin;
-        Dictionary<string, object> settings = new Dictionary<string, object>();
+        Dictionary<string, object> settings = new Dictionary<string, object>()
+        {
+          { "Setting", "Value" }
+        };
         settings.Add("Name", "SettingName");
 
         PluginFilter filter = Plugin.Implements<ITestPlugin>() & Plugin.MinVersion("1.0");

@@ -27,6 +27,20 @@ namespace PluginFramework
     }
   }
 
+  [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+  public class PluginInfoAttribute : Attribute
+  {
+    string id;
+    string value;
+
+    public PluginInfoAttribute(string id, string value)
+    {
+      this.id = id;
+      this.value = value;
+    }
+  }
+
+
   /// <summary>
   /// Marks a plugin property as a plugin setting
   /// </summary>

@@ -15,7 +15,7 @@ namespace PluginFramework.Installers
       AssemblyContainer assemblyContainer = new AssemblyContainer();
 
       PluginRepository pluginRepository = new PluginRepository();
-      pluginRepository.AddPluginSource(new AssemblySourcePluginSource(assemblyContainer));
+      pluginRepository.AddPluginSource(new AssemblySourceToPluginSource(assemblyContainer));
 
       System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
       DirectoryInfo pluginDir = new DirectoryInfo(settingsReader.GetValue("PluginPath", typeof(string)) as string);

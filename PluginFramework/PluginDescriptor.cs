@@ -18,6 +18,7 @@ namespace PluginFramework
 
     public string Name { get; set; }
     public PluginVersion Version { get; set; }
+    public IDictionary<string, string> InfoValues { get; set; }
 
     public bool Equals(PluginDescriptor other)
     {

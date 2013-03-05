@@ -45,6 +45,16 @@ namespace PluginFramework
       return new PluginFilter(PluginFilter.FilterOp.IsNamed, name: name);
     }
 
+    public static PluginFilter HasInfo(string key)
+    {
+      return new PluginFilter(PluginFilter.FilterOp.HasInfo, name: key);
+    }
+
+    public static PluginFilter InfoValue(string key, string value)
+    {
+      return new PluginFilter(PluginFilter.FilterOp.InfoValue, name: key + '=' + value);
+    }
+
     public static PluginFilter Version(PluginVersion version)
     {
       return Plugin.MinVersion(version) & Plugin.MaxVersion(version);
@@ -72,6 +82,8 @@ namespace PluginFramework
       Implements,
       DerivesFrom,
       IsNamed,
+      HasInfo,
+      InfoValue,
       MinVersion,
       MaxVersion,
       And,
@@ -154,6 +166,21 @@ namespace PluginFramework
             return plugins.Where(plugin => plugin.Name == this.name);
           }
 
+        case FilterOp.HasInfo:
+          {
+            return plugins.Where(plugin => plugin.InfoValues.Keys.Contains(this.name));
+          }
+
+        case FilterOp.InfoValue:
+          {
+            string[] keyValue = this.name.Split("=".ToCharArray(), 2);
+            return plugins.Where(plugin =>
+            {
+              string value;
+              return plugin.InfoValues.TryGetValue(keyValue[0], out value) && value == keyValue[1];
+            });
+          }
+
         case FilterOp.MinVersion:
           {
             return plugins.Where(plugin => plugin.Version >= name);
@@ -202,6 +229,12 @@ namespace PluginFramework
 
         case FilterOp.IsNamed:
           return string.Format("Named({0})", this.name);
+
+        case FilterOp.HasInfo:
+          return string.Format("HasInfo({0})", this.name);
+
+        case FilterOp.InfoValue:
+          return string.Format("InfoValue({0})", this.name);
 
         case FilterOp.MinVersion:
           return string.Format("MinVersion({0})", this.name);
