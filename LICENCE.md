@@ -3,8 +3,7 @@ PluginFramework Licence
 
 PluginFramework is released under the 3-clause BSD License
 
-Copyright (c) 2013, Erik Rydgren
-All rights reserved.
+Copyright (c) 2013, Erik Rydgren, et al. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
