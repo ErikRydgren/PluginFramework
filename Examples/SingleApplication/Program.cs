@@ -109,7 +109,8 @@ namespace PluginFramework.Examples.SingleApplication
 
     public void Dispose()
     {
-      this.assemblyContainer.Dispose();
+      if (this.assemblyContainer != null)
+        this.assemblyContainer.Dispose();
     }
 
     static void Main(string[] args)
