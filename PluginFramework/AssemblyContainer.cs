@@ -177,12 +177,7 @@ namespace PluginFramework
       {
         try
         {
-          buffer = new byte[assemblyFile.Length];
-          using (var fileStream = assemblyFile.OpenRead())
-          {
-            if (fileStream.Read(buffer, 0, (int)assemblyFile.Length) != assemblyFile.Length)
-              buffer = null;
-          }
+          buffer = File.ReadAllBytes(assemblyFile.FullName);
         }
         catch (IOException)
         {
