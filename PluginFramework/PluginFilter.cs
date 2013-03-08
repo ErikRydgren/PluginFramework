@@ -96,9 +96,9 @@ namespace PluginFramework
     /// <param name="baseType">Qualified name of the required base.</param>
     /// <returns>The created filter</returns>
     /// <exception cref="System.ArgumentNullException">baseType</exception>
-    public static PluginFilter DerivesFrom(string qualifiedTypeName)
+    public static PluginFilter DerivesFrom(string baseType)
     {
-      return new PluginFilter(PluginFilter.FilterOperation.DerivesFrom, operationData: qualifiedTypeName);
+      return new PluginFilter(PluginFilter.FilterOperation.DerivesFrom, operationData: baseType);
     }
 
     /// <summary>
@@ -114,8 +114,10 @@ namespace PluginFramework
     /// <summary>
     /// Creates a filter that requires that plugins have a specified metainfo key.
     /// </summary>
-    /// <param name="name">The metainfo key.</param>
-    /// <returns>The created filter</returns>
+    /// <param name="key">The key.</param>
+    /// <returns>
+    /// The created filter
+    /// </returns>
     public static PluginFilter HasInfo(string key)
     {
       return new PluginFilter(PluginFilter.FilterOperation.HasInfo, operationData: key);
@@ -379,8 +381,10 @@ namespace PluginFramework
     /// <summary>
     /// Creates a filter that requires that plugins passes this filter and also derive from the provided type.
     /// </summary>
-    /// <param name="type">Type the plugin is required to derive from</param>
-    /// <returns>The created filter</returns>
+    /// <param name="baseType">Type of the base.</param>
+    /// <returns>
+    /// The created filter
+    /// </returns>
     /// <exception cref="System.ArgumentNullException">type</exception>
     public PluginFilter DerivesFrom(Type baseType)
     {
@@ -396,9 +400,9 @@ namespace PluginFramework
     /// <param name="baseType">Qualified name of the required base.</param>
     /// <returns>The created filter</returns>
     /// <exception cref="System.ArgumentNullException">baseType</exception>
-    public PluginFilter DerivesFrom(string qualifiedTypeName)
+    public PluginFilter DerivesFrom(string baseType)
     {
-      return this.And(Plugin.DerivesFrom(qualifiedTypeName));
+      return this.And(Plugin.DerivesFrom(baseType));
     }
 
     /// <summary>
@@ -414,8 +418,10 @@ namespace PluginFramework
     /// <summary>
     /// Creates a filter that requires that plugins passes this filter and also have a specified metainfo key.
     /// </summary>
-    /// <param name="name">The metainfo key.</param>
-    /// <returns>The created filter</returns>
+    /// <param name="key">The key.</param>
+    /// <returns>
+    /// The created filter
+    /// </returns>
     public PluginFilter HasInfo(string key)
     {
       return this.And(Plugin.HasInfo(key));

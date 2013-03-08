@@ -28,7 +28,7 @@ namespace PluginFramework
 
   /// <summary>
   /// Holds and publishes registered assemblies. Also provides functionality for loading from directorytree and react to changes in the tree.
-  /// Implements and exposes <seealso cref="IAssemblySource" /> and <seealso cref="IAssemblyRepository" />.
+  /// Implements and exposes <see cref="IAssemblySource" /> and <see cref="IAssemblyRepository" />.
   /// </summary>
   public sealed class AssemblyContainer : MarshalByRefObject, IAssemblySource, IAssemblyRepository, IDisposable
   {

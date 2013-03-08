@@ -27,6 +27,9 @@ namespace PluginFramework
   [Serializable]
   public class PluginException : Exception
   {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginException"/> class.
+    /// </summary>
     public PluginException()
     {
     }

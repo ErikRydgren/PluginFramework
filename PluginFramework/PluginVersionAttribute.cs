@@ -19,44 +19,39 @@
 namespace PluginFramework
 {
   using System;
+  using System.Globalization;
 
   /// <summary>
-  /// Interface for exposing changes in a plugin container.
+  /// Defines the plugin version
   /// </summary>
-  public interface IPluginSource
+  [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+  public sealed class PluginVersionAttribute : Attribute
   {
     /// <summary>
-    /// Occurs when a plugin as added to the container.
+    /// Initializes a new instance of the <see cref="PluginVersionAttribute"/> class.
     /// </summary>
-    event EventHandler<PluginEventArgs> PluginAdded;
-
-    /// <summary>
-    /// Occurs when a plugin is removed from the container.
-    /// </summary>
-    event EventHandler<PluginEventArgs> PluginRemoved;
-  }
-
-
-  /// <summary>
-  /// Argument to IPluginSource events.
-  /// </summary>
-  public class PluginEventArgs : EventArgs
-  {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PluginEventArgs"/> class.
-    /// </summary>
-    /// <param name="plugin">The plugin.</param>
-    public PluginEventArgs(PluginDescriptor plugin)
+    /// <param name="major">The major.</param>
+    /// <param name="minor">The minor.</param>
+    public PluginVersionAttribute(int major, int minor)
     {
-      this.Plugin = plugin;
+      this.Major = major;
+      this.Minor = minor;
     }
 
     /// <summary>
-    /// Gets the plugin descriptor.
+    /// Gets the major version.
     /// </summary>
     /// <value>
-    /// The plugin descriptor.
+    /// The major version.
     /// </value>
-    public PluginDescriptor Plugin { get; private set; }
+    public int Major { get; private set; }
+
+    /// <summary>
+    /// Gets the minor version.
+    /// </summary>
+    /// <value>
+    /// The minor version.
+    /// </value>
+    public int Minor { get; private set; }
   }
 }

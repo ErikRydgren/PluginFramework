@@ -19,44 +19,39 @@
 namespace PluginFramework
 {
   using System;
+  using System.Globalization;
 
   /// <summary>
-  /// Interface for exposing changes in a plugin container.
+  /// Describes a plugin metadata value
   /// </summary>
-  public interface IPluginSource
+  [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+  public sealed class PluginInfoAttribute : Attribute
   {
     /// <summary>
-    /// Occurs when a plugin as added to the container.
+    /// Initializes a new instance of the <see cref="PluginInfoAttribute"/> class.
     /// </summary>
-    event EventHandler<PluginEventArgs> PluginAdded;
-
-    /// <summary>
-    /// Occurs when a plugin is removed from the container.
-    /// </summary>
-    event EventHandler<PluginEventArgs> PluginRemoved;
-  }
-
-
-  /// <summary>
-  /// Argument to IPluginSource events.
-  /// </summary>
-  public class PluginEventArgs : EventArgs
-  {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PluginEventArgs"/> class.
-    /// </summary>
-    /// <param name="plugin">The plugin.</param>
-    public PluginEventArgs(PluginDescriptor plugin)
+    /// <param name="key">The key.</param>
+    /// <param name="value">The value.</param>
+    public PluginInfoAttribute(string key, string value)
     {
-      this.Plugin = plugin;
+      this.Key = key;
+      this.Value = value;
     }
 
     /// <summary>
-    /// Gets the plugin descriptor.
+    /// Gets the key.
     /// </summary>
     /// <value>
-    /// The plugin descriptor.
+    /// The key.
     /// </value>
-    public PluginDescriptor Plugin { get; private set; }
+    public string Key { get; private set; }
+
+    /// <summary>
+    /// Gets the value.
+    /// </summary>
+    /// <value>
+    /// The value.
+    /// </value>
+    public string Value { get; private set; }
   }
 }

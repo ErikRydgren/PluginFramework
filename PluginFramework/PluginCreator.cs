@@ -82,14 +82,16 @@ namespace PluginFramework
     }
 
     /// <summary>
-    /// Creates an instance of the plugin described by a <see cref="PluginDescriptor"/> inside a target <see cref="AppDomain"/> and then applying the provided settings.
+    /// Creates an instance of the plugin described by a <see cref="PluginDescriptor" /> inside a target <see cref="AppDomain" /> and then applying the provided settings.
     /// </summary>
     /// <typeparam name="T">The type the created plugin instance will returned as</typeparam>
     /// <param name="descriptor">A descriptor that identifies and describes the plugin to create</param>
-    /// <param name="domain">The target <see cref="AppDomain"/>. If null then the instance will be created inside the current domain</param>
+    /// <param name="assemblyRepository">The assembly repository used for resolving missing assemblies.</param>
     /// <param name="settings">A key value storage with settings to apply to properties defined as PluginSettings on the created instance</param>
-    /// <returns>The created plugin instance as T</returns>
-    /// <exception cref="PluginException"/>
+    /// <returns>
+    /// The created plugin instance as T
+    /// </returns>
+    /// <exception cref="PluginException"></exception>
     [SecurityPermission(SecurityAction.LinkDemand, Flags=SecurityPermissionFlag.ControlAppDomain)]
     public T Create<T>(PluginDescriptor descriptor, IAssemblyRepository assemblyRepository, Dictionary<string, object> settings)
       where T : class

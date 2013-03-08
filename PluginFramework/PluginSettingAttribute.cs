@@ -19,44 +19,35 @@
 namespace PluginFramework
 {
   using System;
-
+  using System.Globalization;
   /// <summary>
-  /// Interface for exposing changes in a plugin container.
+  /// Marks a plugin property as a plugin setting
   /// </summary>
-  public interface IPluginSource
+  [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+  public sealed class PluginSettingAttribute : Attribute
   {
     /// <summary>
-    /// Occurs when a plugin as added to the container.
+    /// Initializes a new instance of the <see cref="PluginSettingAttribute"/> class.
     /// </summary>
-    event EventHandler<PluginEventArgs> PluginAdded;
-
-    /// <summary>
-    /// Occurs when a plugin is removed from the container.
-    /// </summary>
-    event EventHandler<PluginEventArgs> PluginRemoved;
-  }
-
-
-  /// <summary>
-  /// Argument to IPluginSource events.
-  /// </summary>
-  public class PluginEventArgs : EventArgs
-  {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PluginEventArgs"/> class.
-    /// </summary>
-    /// <param name="plugin">The plugin.</param>
-    public PluginEventArgs(PluginDescriptor plugin)
+    public PluginSettingAttribute()
     {
-      this.Plugin = plugin;
+      this.Required = false;
     }
 
     /// <summary>
-    /// Gets the plugin descriptor.
+    /// Gets or sets a value indicating whether this setting is required.
     /// </summary>
     /// <value>
-    /// The plugin descriptor.
+    ///   <c>true</c> if required; otherwise, <c>false</c>.
     /// </value>
-    public PluginDescriptor Plugin { get; private set; }
+    public bool Required { get; set; }
+
+    /// <summary>
+    /// Gets or sets the setting name.
+    /// </summary>
+    /// <value>
+    /// The name.
+    /// </value>
+    public string Name { get; set; }
   }
 }

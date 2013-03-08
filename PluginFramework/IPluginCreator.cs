@@ -41,19 +41,24 @@ namespace PluginFramework
     T Create<T>(PluginDescriptor descriptor, IAssemblyRepository assemblyRepository, Dictionary<string, object> settings) where T : class;
   }
 
+  /// <summary>
+  /// Helper extensions to the IPluginCreator
+  /// </summary>
   public static class IPluginCreatorExtension
   {
     /// <summary>
     /// Creates an instance of the plugin described by the provided descriptor.
     /// </summary>
     /// <typeparam name="T">The type the plugin will be returned as.</typeparam>
-    /// <param name="descriptor">The plugin descriptor.</param>
+    /// <param name="creator">The creator.</param>
+    /// <param name="pluginDescriptor">The plugin descriptor.</param>
     /// <param name="assemblyRepository">The assembly repository used for resolving missing assemblies.</param>
-    /// <param name="settings">The settings used to initialize the plugin.</param>
-    /// <returns>The created plugin instance as T</returns>
+    /// <returns>
+    /// The created plugin instance as T
+    /// </returns>
     /// <exception cref="System.ArgumentNullException">creator</exception>
-    /// <exception cref="System.InvalidCastException"/>
-    /// <exception cref="PluginFramework.PluginException"/>
+    /// <exception cref="System.InvalidCastException"></exception>
+    /// <exception cref="PluginFramework.PluginException"></exception>
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
     public static T Create<T>(this IPluginCreator creator, PluginDescriptor pluginDescriptor, IAssemblyRepository assemblyRepository) 
       where T : class

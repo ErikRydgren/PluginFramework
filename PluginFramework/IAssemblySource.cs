@@ -46,6 +46,11 @@ namespace PluginFramework
   {
     AssemblyReflectionManager reflectionManager;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AssemblyAddedEventArgs"/> class.
+    /// </summary>
+    /// <param name="id">The assembly id.</param>
+    /// <param name="reflectionManager">The reflection manager.</param>
     public AssemblyAddedEventArgs(string id, AssemblyReflectionManager reflectionManager)
     {
       this.AssemblyId = id;
@@ -83,6 +88,10 @@ namespace PluginFramework
   /// </summary>
   public class AssemblyRemovedEventArgs : EventArgs
   {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AssemblyRemovedEventArgs"/> class.
+    /// </summary>
+    /// <param name="assemblyId">The assembly id.</param>
     public AssemblyRemovedEventArgs(string assemblyId)
     {
       this.AssemblyId = assemblyId;

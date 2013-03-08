@@ -123,21 +123,43 @@ namespace PluginFramework
       return this.TypeFullName.GetHashCode() & this.AssemblyFullName.GetHashCode();
     }
 
+    /// <summary>
+    /// Casts a string to QualifiedName
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <returns>QualifiedName</returns>
     public static implicit operator QualifiedName(string name)
     {
       return new QualifiedName(name);
     }
 
+    /// <summary>
+    /// Casts a QualifiedName to string
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <returns>string</returns>
     public static implicit operator string(QualifiedName name)
     {
       return name.TypeFullName + ", " + name.AssemblyFullName;
     }
 
+    /// <summary>
+    /// Compares left and right
+    /// </summary>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns><c>true</c> if left and right are equal</returns>
     public static bool operator == (QualifiedName left, QualifiedName right)
     {
       return left.Equals(right);
     }
 
+    /// <summary>
+    /// Compares left and right
+    /// </summary>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns><c>true</c> if left and right are not equal</returns>
     public static bool operator !=(QualifiedName left, QualifiedName right)
     {
       return !left.Equals(right);

@@ -30,6 +30,11 @@ namespace PluginFramework
   {
     Dictionary<string, PluginDescriptor[]> assemblyPlugins;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AssemblySourceToPluginSource"/> class.
+    /// </summary>
+    /// <param name="assemblySource">The assembly source.</param>
+    /// <exception cref="System.ArgumentNullException">assemblySource</exception>
     public AssemblySourceToPluginSource(IAssemblySource assemblySource)
     {
       if (assemblySource == null)
@@ -40,6 +45,12 @@ namespace PluginFramework
       assemblySource.AssemblyRemoved += new EventHandler<AssemblyRemovedEventArgs>(OnAssemblyRemoved);
     }
 
+    /// <summary>
+    /// Called when a new assembly is reported from the assembly source.
+    /// The new assembly is examined through reflection and events for found plugins are raised on the <see cref="IPluginSource"/> interface.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="AssemblyAddedEventArgs"/> instance containing the event data.</param>
     private void OnAssemblyAdded(object sender, AssemblyAddedEventArgs e)
     {
       var plugins = e.Reflect(assembly =>
@@ -85,6 +96,12 @@ namespace PluginFramework
       }
     }
 
+    /// <summary>
+    /// Called when a removed assembly is reported from the assembly source.
+    /// Lost plugin events are raised for plugins known to reside inside the assembly.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="AssemblyRemovedEventArgs"/> instance containing the event data.</param>
     private void OnAssemblyRemoved(object sender, AssemblyRemovedEventArgs e)
     {
       PluginDescriptor[] lostPlugins;
@@ -98,12 +115,22 @@ namespace PluginFramework
       }
     }
 
+    /// <summary>
+    /// Finds the PluginAttribute and returns it's named values.
+    /// </summary>
+    /// <param name="attributes">The class attributes.</param>
+    /// <returns></returns>
     private static IDictionary<string, object> GetPluginAttributeNamedValues(IList<CustomAttributeData> attributes)
     {
       var attribute = attributes.First(x => x.Constructor.DeclaringType.FullName == typeof(PluginAttribute).FullName);
       return attribute.NamedArguments.ToDictionary(x => x.MemberInfo.Name, x => x.TypedValue.Value);
     }
 
+    /// <summary>
+    /// Gets the plugin version from the PluginVersionAttribute.
+    /// </summary>
+    /// <param name="attributes">The class attributes.</param>
+    /// <returns></returns>
     private static PluginVersion GetPluginVersion(IList<CustomAttributeData> attributes)
     { // Version from PluginVersionAttribute
       var attribute = attributes.FirstOrDefault(x => x.Constructor.DeclaringType.FullName == typeof(PluginVersionAttribute).FullName);
@@ -112,12 +139,22 @@ namespace PluginFramework
         new PluginVersion();
     }
 
+    /// <summary>
+    /// Sets the plugin metainfo values from <see cref="PluginInfoAttribute"/>s found in class attributes.
+    /// </summary>
+    /// <param name="plugin">The plugindescriptor.</param>
+    /// <param name="attributes">The class attributes.</param>
     private static void SetPluginInfoValuesFromAttributes(PluginDescriptor plugin, IList<CustomAttributeData> attributes)
     {
       foreach (var attribute in attributes.Where(x => x.Constructor.DeclaringType.FullName == typeof(PluginInfoAttribute).FullName))
         plugin.InfoValues[attribute.ConstructorArguments[0].Value as string] = attribute.ConstructorArguments[1].Value as string;
     }
 
+    /// <summary>
+    /// Fills the plugindescriptor with the plugin inherited ancestors.
+    /// </summary>
+    /// <param name="plugin">The plugindescriptor.</param>
+    /// <param name="type">The plugintype.</param>
     private static void SetPluginAncestors(PluginDescriptor plugin, Type type)
     {
       Type loop = type;
@@ -128,12 +165,22 @@ namespace PluginFramework
       }
     }
 
+    /// <summary>
+    /// Fills the plugindescriptor with the plugin implemented interfaces.
+    /// </summary>
+    /// <param name="plugin">The plugindescriptor.</param>
+    /// <param name="type">The plugintype.</param>
     private static void SetPluginInterfaces(PluginDescriptor plugin, Type type)
     {
       foreach (var interfaceType in type.GetInterfaces())
         plugin.Interfaces.Add(new QualifiedName(interfaceType.AssemblyQualifiedName));
     }
 
+    /// <summary>
+    /// Fills the plugindescriptor with the plugins settings.
+    /// </summary>
+    /// <param name="plugin">The plugindescriptor.</param>
+    /// <param name="type">The plugintype.</param>
     private static void SetPluginSettings(PluginDescriptor plugin, Type type)
     {
       // Fetch plugin settings
@@ -159,7 +206,14 @@ namespace PluginFramework
       }
     }
 
+    /// <summary>
+    /// Occurs when a plugin as added to the container.
+    /// </summary>
     public event EventHandler<PluginEventArgs> PluginAdded;
+
+    /// <summary>
+    /// Occurs when a plugin is removed from the container.
+    /// </summary>
     public event EventHandler<PluginEventArgs> PluginRemoved;
   }
 }
