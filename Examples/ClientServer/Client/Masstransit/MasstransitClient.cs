@@ -57,7 +57,7 @@ namespace PluginFramework.Examples.ClientServer
       return foundPlugins;
     }
 
-    public byte[] Get(string assemblyFullName)
+    public byte[] Fetch(string assemblyFullName)
     {
       byte[] bytes = null;
 

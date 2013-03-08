@@ -45,7 +45,7 @@ namespace PluginFramework.Examples.ClientServer
     public byte[] Get(string assemblyFullName)
     {
       log.DebugFormat("Processing request fetch assembly: {0}", assemblyFullName);
-      return this.assemblyRepository.Get(assemblyFullName);
+      return this.assemblyRepository.Fetch(assemblyFullName);
     }
   }
 }

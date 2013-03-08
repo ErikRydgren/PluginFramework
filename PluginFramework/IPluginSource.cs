@@ -21,14 +21,25 @@ namespace PluginFramework
   using System;
 
   /// <summary>
-  /// Interface for exposing changes in a plugin container
+  /// Interface for exposing changes in a plugin container.
   /// </summary>
   public interface IPluginSource
   {
+    /// <summary>
+    /// Occurs when a plugin as added to the container.
+    /// </summary>
     event EventHandler<PluginEventArgs> PluginAdded;
+
+    /// <summary>
+    /// Occurs when a plugin is removed from the container.
+    /// </summary>
     event EventHandler<PluginEventArgs> PluginRemoved;
   }
 
+
+  /// <summary>
+  /// Argument to IPluginSource events.
+  /// </summary>
   public class PluginEventArgs : EventArgs
   {
     public PluginEventArgs(PluginDescriptor plugin)
@@ -36,6 +47,12 @@ namespace PluginFramework
       this.Plugin = plugin;
     }
 
+    /// <summary>
+    /// Gets the plugin descriptor.
+    /// </summary>
+    /// <value>
+    /// The plugin descriptor.
+    /// </value>
     public PluginDescriptor Plugin { get; private set; }
   }
 }

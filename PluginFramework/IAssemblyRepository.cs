@@ -23,6 +23,11 @@ namespace PluginFramework
   /// </summary>
   public interface IAssemblyRepository
   {
-    byte[] Get(string assemblyFullName);
+    /// <summary>
+    /// Fetches the specified assembly by it's full name.
+    /// </summary>
+    /// <param name="assemblyFullName">Full name of the assembly.</param>
+    /// <returns>Assembly as byte array or null if the assembly was not found in the repository.</returns>
+    byte[] Fetch(string assemblyFullName);
   }
 }

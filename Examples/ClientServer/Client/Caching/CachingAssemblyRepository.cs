@@ -45,7 +45,7 @@ namespace PluginFramework.Examples.ClientServer
       this.purgeTimer = new System.Threading.Timer(OnPurge, null, 1000, 1000);
     }
 
-    public byte[] Get(string assemblyFullName)
+    public byte[] Fetch(string assemblyFullName)
     {
       byte[] data;
       lock (this.cache)
@@ -57,7 +57,7 @@ namespace PluginFramework.Examples.ClientServer
         }
       }
 
-      data = this.repository.Get(assemblyFullName);
+      data = this.repository.Fetch(assemblyFullName);
       if (data != null)
       {
         lock (this.cache)

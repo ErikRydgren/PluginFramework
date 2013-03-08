@@ -26,6 +26,10 @@ namespace PluginFramework
   [Serializable]
   public struct QualifiedName
   {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QualifiedName"/> struct.
+    /// </summary>
+    /// <param name="qualifiedName">An assembly qualified typename</param>
     public QualifiedName(string qualifiedName)
       : this()
     {
@@ -34,26 +38,89 @@ namespace PluginFramework
       this.AssemblyFullName = parts[1];
     }
 
+    /// <summary>
+    /// Gets the full name of the type.
+    /// </summary>
+    /// <value>
+    /// The full name of the type.
+    /// </value>
     public string TypeFullName
     {
       get; private set; 
     }
 
+    /// <summary>
+    /// Gets the full name of the assembly.
+    /// </summary>
+    /// <value>
+    /// The full name of the assembly.
+    /// </value>
     public string AssemblyFullName
     {
       get; private set;
     }
 
+    /// <summary>
+    /// Returns a <see cref="System.String" /> that represents this instance.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
     public override string ToString()
     {
       return this;
     }
 
+    /// <summary>
+    /// Splits the specified qualified name to typename and assembly name.
+    /// </summary>
+    /// <param name="qualifiedName">The assembly qualified tyoename</param>
+    /// <returns></returns>
+    /// <exception cref="System.ArgumentNullException">qualifiedName</exception>
+    /// <exception cref="System.ArgumentException">qualifiedName must be a fully assembly qualified typename</exception>
     public static string[] Split(string qualifiedName)
     {
+      if (qualifiedName == null)
+        throw new ArgumentNullException("qualifiedName");
+
       string[] delimiters = new string[] { ", " };
       string[] nameParts = qualifiedName.Split(delimiters, 2, StringSplitOptions.None);
+
+      if (nameParts.Length != 2)
+        throw new ArgumentException("qualifiedName must be a fully assembly qualified typename");
+
       return nameParts;
+    }
+
+    /// <summary>
+    /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
+    /// </summary>
+    /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+    /// </returns>
+    public override bool Equals(object obj)
+    {
+      if (obj == null)
+        return false;
+
+      if (!(obj is QualifiedName))
+        return false;
+
+      QualifiedName other = (QualifiedName) obj;
+      return this.TypeFullName.Equals(other.TypeFullName, StringComparison.OrdinalIgnoreCase) 
+          && this.AssemblyFullName.Equals(other.AssemblyFullName, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// Returns a hash code for this instance.
+    /// </summary>
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+    /// </returns>
+    public override int GetHashCode()
+    {
+      return this.TypeFullName.GetHashCode() & this.AssemblyFullName.GetHashCode();
     }
 
     public static implicit operator QualifiedName(string name)
@@ -64,6 +131,16 @@ namespace PluginFramework
     public static implicit operator string(QualifiedName name)
     {
       return name.TypeFullName + ", " + name.AssemblyFullName;
+    }
+
+    public static bool operator == (QualifiedName left, QualifiedName right)
+    {
+      return left.Equals(right);
+    }
+
+    public static bool operator !=(QualifiedName left, QualifiedName right)
+    {
+      return !left.Equals(right);
     }
   }
 }

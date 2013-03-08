@@ -19,33 +19,53 @@
 namespace PluginFramework
 {
   using System;
+  using System.Globalization;
 
   /// <summary>
   /// Describes an exception throwed by the PluginFramework
   /// </summary>
   [Serializable]
-  public class PluginException : ApplicationException
+  public class PluginException : Exception
   {
     public PluginException()
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginException"/> class.
+    /// </summary>
+    /// <param name="message">The message that describes the error.</param>
     public PluginException(string message)
       :base(message)
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginException"/> class.
+    /// </summary>
+    /// <param name="message">The formatted message.</param>
+    /// <param name="args">The formatting arguments.</param>
     public PluginException(string message, params object[] args)
-      : base(string.Format(message, args))
+      : base(string.Format(CultureInfo.InvariantCulture, message, args))
     {
     }
 
-    public PluginException(Exception innerException, string message, params object[] args)
-      : base(string.Format(message, args), innerException)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginException"/> class.
+    /// </summary>
+    /// <param name="message">The error message that explains the reason for the exception.</param>
+    /// <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+    public PluginException(string message, Exception innerException)
+      : base(message, innerException)
     {
     }
 
-    public PluginException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginException"/> class.
+    /// </summary>
+    /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
+    /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
+    protected PluginException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
       : base(info, context)
     {
     }

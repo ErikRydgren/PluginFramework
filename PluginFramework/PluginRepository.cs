@@ -27,34 +27,68 @@ namespace PluginFramework
   {
     HashSet<PluginDescriptor> plugins;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginRepository"/> class.
+    /// </summary>
     public PluginRepository()
     {
       this.plugins = new HashSet<PluginDescriptor>();      
     }
 
-    public void AddPluginSource(IPluginSource pluginSource)
+    /// <summary>
+    /// Adds a plugin source to the repository.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    public void AddPluginSource(IPluginSource source)
     {
-      pluginSource.PluginAdded += this.OnPluginFound;
-      pluginSource.PluginRemoved += this.OnPluginLost;
+      if (source == null)
+        return;
+
+      source.PluginAdded += this.OnPluginFound;
+      source.PluginRemoved += this.OnPluginLost;
     }
 
-    public void RemovePluginSource(IPluginSource pluginSource)
+    /// <summary>
+    /// Removes a plugin source from the repository.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    public void RemovePluginSource(IPluginSource source)
     {
-      pluginSource.PluginAdded -= this.OnPluginFound;
-      pluginSource.PluginRemoved -= this.OnPluginLost;
+      if (source == null)
+        return;
+
+      source.PluginAdded -= this.OnPluginFound;
+      source.PluginRemoved -= this.OnPluginLost;
     }
 
+    /// <summary>
+    /// Called when a plugin source reports a new plugin.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="PluginEventArgs"/> instance containing the event data.</param>
     void OnPluginFound(object sender, PluginEventArgs e)
     {
       this.plugins.Add(e.Plugin);
     }
 
+    /// <summary>
+    /// Called when a plugin source reports a lost plugin.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="PluginEventArgs"/> instance containing the event data.</param>
     void OnPluginLost(object sender, PluginEventArgs e)
     {
       this.plugins.Remove(e.Plugin);
     }
 
-    public IEnumerable<PluginDescriptor> Plugins(PluginFilter filter = null)
+    /// <summary>
+    /// Method for querying for plugins that satisfies a supplied filter
+    /// </summary>
+    /// <param name="filter">The requirements that plugins must fulfill to be returned. If no filter is provided then all known plugins is returned.</param>
+    /// <returns>
+    /// Enumerable of plugins that fulfills the requirements
+    /// </returns>
+    public IEnumerable<PluginDescriptor> Plugins(PluginFilter filter)
     {
       return filter != null ? filter.Filter(this.plugins) : this.plugins;
     }

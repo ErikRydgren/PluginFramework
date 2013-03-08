@@ -1,4 +1,4 @@
-﻿// 
+// 
 // Copyright (c) 2013, Erik Rydgren, et al. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -16,35 +16,51 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 // POSSIBILITY OF SUCH DAMAGE.
 //
-namespace PluginFramework.Examples.ClientServer
+namespace PluginFramework
 {
-  using Castle.Core.Logging;
-  using MassTransit;
+  using System;
+  using System.Collections.Generic;
+  using System.Globalization;
 
-  public class FetchAssemblyHandler : Consumes<FetchAssembly>.Context
+  /// <summary>
+  /// Describes a plugin setting. 
+  /// </summary>
+  [Serializable]
+  public class PluginSettingDescriptor
   {
-    ILogger log;
-    IAssemblyRepository assemblyRepository;
+    /// <summary>
+    /// Gets the name of the setting.
+    /// </summary>
+    /// <value>
+    /// The setting name.
+    /// </value>
+    public string Name { get; internal set; }
 
-    public FetchAssemblyHandler(IAssemblyRepository assemblyRepository, ILogger log)
+    /// <summary>
+    /// Gets the type of the setting.
+    /// </summary>
+    /// <value>
+    /// The type of the setting.
+    /// </value>
+    public QualifiedName SettingType { get; internal set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the setting is required to use the plugin.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> if required; otherwise, <c>false</c>.
+    /// </value>
+    public bool Required { get; internal set; }
+
+    /// <summary>
+    /// Returns a <see cref="System.String" /> that represents this instance.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
+    public override string ToString()
     {
-      this.log = log;
-      this.assemblyRepository = assemblyRepository;
+      return string.Format(CultureInfo.InvariantCulture, "{0} [{1}] {2}", this.Name, this.Required ? "required" : "optional", this.SettingType);
     }
-
-    public void Consume(IConsumeContext<FetchAssembly> context)
-    {
-      FetchAssembly message = context.Message;
-
-      byte[] bytes = assemblyRepository.Fetch(message.Name);
-
-      log.DebugFormat("Returning {0} bytes for {1}", bytes != null ? bytes.Length : 0, message.Name);
-
-      FetchAssemblyResponse response = new FetchAssemblyResponse(message);
-      response.Bytes = bytes;
-      
-      context.Respond(response);
-    }
-
   }
 }

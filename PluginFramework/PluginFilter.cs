@@ -20,96 +20,191 @@ namespace PluginFramework
 {
   using System;
   using System.Collections.Generic;
+  using System.Globalization;
   using System.Linq;
 
   /// <summary>
   /// Static utility class for creating a <see cref="PluginFilter"/>.
   /// </summary>
-  public class Plugin
+  public static class Plugin
   {
-    public static PluginFilter Implements(Type interfacetype)
+    /// <summary>
+    /// Creates a filter that requires that plugins implement or derive from the provided type.
+    /// </summary>
+    /// <param name="type">Type the plugin is required to implement or derive from</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">type</exception>
+    public static PluginFilter IsTypeOf(Type type)
     {
-      return Plugin.Implements(interfacetype.AssemblyQualifiedName);
+      if (type == null)
+        throw new ArgumentNullException("type");
+
+      return IsTypeOf(type.AssemblyQualifiedName);
     }
 
-    public static PluginFilter Implements<T>()
+    /// <summary>
+    /// Creates a filter that requires that plugins implement or derive from the named type.
+    /// </summary>
+    /// <param name="qualifiedTypeName">Qualified name of the type.</param>
+    /// <returns>The created filter</returns>
+    public static PluginFilter IsTypeOf(string qualifiedTypeName)
     {
-      return Plugin.Implements(typeof(T).AssemblyQualifiedName);
+      return Implements(qualifiedTypeName).Or(DerivesFrom(qualifiedTypeName));
     }
 
+    /// <summary>
+    /// Creates a filter that requires that plugins implements the provided interface type.
+    /// </summary>
+    /// <param name="interfaceType">Type of the interface the plugin is required to implement.</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">interfaceType</exception>
+    public static PluginFilter Implements(Type interfaceType)
+    {
+      if (interfaceType == null)
+        throw new ArgumentNullException("interfaceType");
+
+      return Plugin.Implements(interfaceType.AssemblyQualifiedName);
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins implements the named interface.
+    /// </summary>
+    /// <param name="qualifiedTypeName">Name of the qualified type.</param>
+    /// <returns>The created filter</returns>
     public static PluginFilter Implements(string qualifiedTypeName)
     {
-      return new PluginFilter(PluginFilter.FilterOp.Implements, name: qualifiedTypeName);
+      return new PluginFilter(PluginFilter.FilterOperation.Implements, operationData: qualifiedTypeName);
     }
 
-    public static PluginFilter DerivesFrom(Type interfacetype)
+    /// <summary>
+    /// Creates a filter that requires that plugins derive from the provided type.
+    /// </summary>
+    /// <param name="baseType">Type of the required base.</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">baseType</exception>
+    public static PluginFilter DerivesFrom(Type baseType)
     {
-      return Plugin.DerivesFrom(interfacetype.AssemblyQualifiedName);
+      if (baseType == null)
+        throw new ArgumentNullException("baseType");
+
+      return Plugin.DerivesFrom(baseType.AssemblyQualifiedName);
     }
 
-    public static PluginFilter DerivesFrom<T>()
-    {
-      return Plugin.DerivesFrom(typeof(T).AssemblyQualifiedName);
-    }
-
+    /// <summary>
+    /// Creates a filter that requires that plugins derive from the named type.
+    /// </summary>
+    /// <param name="baseType">Qualified name of the required base.</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">baseType</exception>
     public static PluginFilter DerivesFrom(string qualifiedTypeName)
     {
-      return new PluginFilter(PluginFilter.FilterOp.DerivesFrom, name: qualifiedTypeName);
+      return new PluginFilter(PluginFilter.FilterOperation.DerivesFrom, operationData: qualifiedTypeName);
     }
 
+    /// <summary>
+    /// Creates a filter that requires that the name of plugins matches name.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <returns>The created filter</returns>
     public static PluginFilter IsNamed(string name)
     {
-      return new PluginFilter(PluginFilter.FilterOp.IsNamed, name: name);
+      return new PluginFilter(PluginFilter.FilterOperation.IsNamed, operationData: name);
     }
 
+    /// <summary>
+    /// Creates a filter that requires that plugins have a specified metainfo key.
+    /// </summary>
+    /// <param name="name">The metainfo key.</param>
+    /// <returns>The created filter</returns>
     public static PluginFilter HasInfo(string key)
     {
-      return new PluginFilter(PluginFilter.FilterOp.HasInfo, name: key);
+      return new PluginFilter(PluginFilter.FilterOperation.HasInfo, operationData: key);
     }
 
-    public static PluginFilter InfoValue(string key, string value)
+    /// <summary>
+    /// Creates a filter that requires that plugins have a specified metainfo value.
+    /// </summary>
+    /// <param name="key">The metainfo key.</param>
+    /// <param name="value">The metainfo value.</param>
+    /// <returns>
+    /// The created filter
+    /// </returns>
+    public static PluginFilter HasInfoValue(string key, string value)
     {
-      return new PluginFilter(PluginFilter.FilterOp.InfoValue, name: key + '=' + value);
+      return new PluginFilter(PluginFilter.FilterOperation.InfoValue, operationData: key + '=' + value);
     }
 
-    public static PluginFilter Version(PluginVersion version)
+    /// <summary>
+    /// Creates a filter that requires that plugins have a specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public static PluginFilter HasVersion(PluginVersion pluginVersion)
     {
-      return Plugin.MinVersion(version) & Plugin.MaxVersion(version);
+      return Plugin.HasMinVersion(pluginVersion).HasMaxVersion(pluginVersion);
     }
 
-    public static PluginFilter Version(string versionstring)
+    /// <summary>
+    /// Creates a filter that requires that plugins have a specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created version</returns>
+    public static PluginFilter HasVersion(string pluginVersion)
     {
-      return Plugin.Version((PluginVersion)versionstring);
+      return Plugin.HasVersion((PluginVersion)pluginVersion);
     }
 
-    public static PluginFilter MinVersion(PluginVersion version)
+    /// <summary>
+    /// Creates a filter that requires that plugins have a version greater than or equal to the specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public static PluginFilter HasMinVersion(PluginVersion pluginVersion)
     {
-      return new PluginFilter(PluginFilter.FilterOp.MinVersion, name: string.Format("{0}.{1}", version.Major, version.Minor));
+      return new PluginFilter(PluginFilter.FilterOperation.MinVersion, operationData: string.Format(CultureInfo.InvariantCulture, "{0}.{1}", pluginVersion.Major, pluginVersion.Minor));
     }
 
-    public static PluginFilter MinVersion(string versionstring)
+    /// <summary>
+    /// Creates a filter that requires that plugins have a version greater than or equal to the specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public static PluginFilter HasMinVersion(string pluginVersion)
     {
-      return Plugin.MinVersion((PluginVersion)versionstring);
+      return Plugin.HasMinVersion((PluginVersion)pluginVersion);
     }
 
-    public static PluginFilter MaxVersion(PluginVersion version)
+    /// <summary>
+    /// Creates a filter that requires that plugins have a version less than or equal to the specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public static PluginFilter HasMaxVersion(PluginVersion pluginVersion)
     {
-      return new PluginFilter(PluginFilter.FilterOp.MaxVersion, name: string.Format("{0}.{1}", version.Major, version.Minor));
+      return new PluginFilter(PluginFilter.FilterOperation.MaxVersion, operationData: string.Format(CultureInfo.InvariantCulture, "{0}.{1}", pluginVersion.Major, pluginVersion.Minor));
     }
 
-    public static PluginFilter MaxVersion(string versionstring)
+    /// <summary>
+    /// Creates a filter that requires that plugins have a version less than or equal to the specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public static PluginFilter HasMaxVersion(string pluginVersion)
     {
-      return Plugin.MaxVersion((PluginVersion)versionstring);
+      return Plugin.HasMaxVersion((PluginVersion)pluginVersion);
     }
   }
 
   /// <summary>
-  /// Describes the conditions a plugin needs to satisfy to be returned from a <see cref="IPluginRepository"/> search.
+  /// Describes the conditions a plugin needs to satisfy to be returned from a <see cref="IPluginRepository" /> search.
   /// </summary>
   [Serializable]
   public class PluginFilter
   {
-    public enum FilterOp
+    /// <summary>
+    /// The possible filter operations
+    /// </summary>
+    internal enum FilterOperation
     {
       Implements,
       DerivesFrom,
@@ -122,38 +217,74 @@ namespace PluginFramework
       Or,
     }
 
-    public FilterOp filterOp { get; private set; }
-    public string name { get; private set; }
-    public PluginFilter[] subFilters { get; private set; }
+    /// <summary>
+    /// Gets the filter operation.
+    /// </summary>
+    /// <value>
+    /// The operation.
+    /// </value>
+    internal FilterOperation operation { get; private set; }
 
+    /// <summary>
+    /// Gets the data needed to perform operation.
+    /// </summary>
+    /// <value>
+    /// The operation data.
+    /// </value>
+    internal string operationData { get; private set; }
+
+    /// <summary>
+    /// Gets the sub filters for boolean operations.
+    /// </summary>
+    /// <value>
+    /// The sub filters.
+    /// </value>
+    internal PluginFilter[] subFilters { get; private set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginFilter"/> class.
+    /// </summary>
     public PluginFilter()
     {
     }
 
-    internal PluginFilter(FilterOp filterOp, string name = null, PluginFilter[] subFilters = null)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginFilter"/> class.
+    /// </summary>
+    /// <param name="filterOp">The filter operatrion</param>
+    /// <param name="operationData">The data needed for the operation</param>
+    /// <param name="subFilters">The sub filters.</param>
+    internal PluginFilter(FilterOperation filterOp, string operationData = null, PluginFilter[] subFilters = null)
     {
-      this.filterOp = filterOp;
-      this.name = name;
+      this.operation = filterOp;
+      this.operationData = operationData;
       this.subFilters = subFilters;
     }
 
-    private static PluginFilter Combine(FilterOp op, PluginFilter left, PluginFilter right)
+    /// <summary>
+    /// Creates a combined PluginFilter from two filters and a provided boolean operation.
+    /// </summary>
+    /// <param name="op">The boolean operation</param>
+    /// <param name="left">The left filter</param>
+    /// <param name="right">The right filter</param>
+    /// <returns>The created filter</returns>
+    private static PluginFilter Combine(FilterOperation op, PluginFilter left, PluginFilter right)
     {
       PluginFilter[] filters;
 
-      if (left.filterOp == op && right.filterOp == op)
+      if (left.operation == op && right.operation == op)
       {
         filters = new PluginFilter[left.subFilters.Length + right.subFilters.Length];
         left.subFilters.CopyTo(filters, 0);
         right.subFilters.CopyTo(filters, left.subFilters.Length);
       }
-      else if (left.filterOp == op)
+      else if (left.operation == op)
       {
         filters = new PluginFilter[left.subFilters.Length + 1];
         left.subFilters.CopyTo(filters, 0);
         filters[left.subFilters.Length] = right;
       }
-      else if (right.filterOp == op)
+      else if (right.operation == op)
       {
         filters = new PluginFilter[right.subFilters.Length + 1];
         filters[0] = left;
@@ -169,119 +300,385 @@ namespace PluginFramework
       return new PluginFilter(op, subFilters: filters);
     }
 
-    public static PluginFilter operator &(PluginFilter left, PluginFilter right)
+    /// <summary>
+    /// Creates a filter that requires that plugins first pass this filter then pass the supplied filter  
+    /// </summary>
+    /// <param name="filter">The filter.</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">filter</exception>
+    public PluginFilter And(PluginFilter filter)
     {
-      return Combine(FilterOp.And, left, right);
+      if (filter == null)
+        throw new ArgumentNullException("filter");
+
+      return Combine(FilterOperation.And, this, filter);
     }
 
-    public static PluginFilter operator |(PluginFilter left, PluginFilter right)
+    /// <summary>
+    /// Creates a filter that requires that plugins either pass this filter or pass the supplied filter  
+    /// </summary>
+    /// <param name="filter">The filter.</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">filter</exception>
+    public PluginFilter Or(PluginFilter filter)
     {
-      return Combine(FilterOp.Or, left, right);
+      if (filter == null)
+        throw new ArgumentNullException("filter");
+
+      return Combine(FilterOperation.Or, this, filter);
     }
 
-    public IEnumerable<PluginDescriptor> Filter(IEnumerable<PluginDescriptor> plugins)
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also implement or derive from the provided type.
+    /// </summary>
+    /// <param name="type">Type the plugin is required to implement or derive from</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">type</exception>
+    public PluginFilter IsTypeOf(Type type)
     {
-      switch (this.filterOp)
+      if (type == null)
+        throw new ArgumentNullException("type");
+
+      return this.And(Plugin.Implements(type).Or(Plugin.DerivesFrom(type)));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also implement or derive from the named type.
+    /// </summary>
+    /// <param name="qualifiedTypeName">Qualified name of the type.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter IsTypeOf(string qualifiedTypeName)
+    {
+      return this.And(Plugin.Implements(qualifiedTypeName).Or(Plugin.DerivesFrom(qualifiedTypeName)));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also implements the provided interface type.
+    /// </summary>
+    /// <param name="interfaceType">Type of the interface the plugin is required to implement.</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">interfaceType</exception>
+    public PluginFilter Implements(Type interfaceType)
+    {
+      if (interfaceType == null)
+        throw new ArgumentNullException("interfaceType");
+
+      return this.And(Plugin.Implements(interfaceType));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also implements the named interface.
+    /// </summary>
+    /// <param name="qualifiedTypeName">Name of the qualified type.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter Implements(string qualifiedTypeName)
+    {
+      return this.And(Plugin.Implements(qualifiedTypeName));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also derive from the provided type.
+    /// </summary>
+    /// <param name="type">Type the plugin is required to derive from</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">type</exception>
+    public PluginFilter DerivesFrom(Type baseType)
+    {
+      if (baseType == null)
+        throw new ArgumentNullException("baseType");
+
+      return this.And(Plugin.DerivesFrom(baseType));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also derive from the named type.
+    /// </summary>
+    /// <param name="baseType">Qualified name of the required base.</param>
+    /// <returns>The created filter</returns>
+    /// <exception cref="System.ArgumentNullException">baseType</exception>
+    public PluginFilter DerivesFrom(string qualifiedTypeName)
+    {
+      return this.And(Plugin.DerivesFrom(qualifiedTypeName));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires plugins passes this filter and also that the name of plugins matches name.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter IsNamed(string name)
+    {
+      return this.And(Plugin.IsNamed(name));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also have a specified metainfo key.
+    /// </summary>
+    /// <param name="name">The metainfo key.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter HasInfo(string key)
+    {
+      return this.And(Plugin.HasInfo(key));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also have a specified metainfo value.
+    /// </summary>
+    /// <param name="key">The metainfo key.</param>
+    /// <param name="value">The metainfo value.</param>
+    /// <returns>
+    /// The created filter
+    /// </returns>
+    public PluginFilter HasInfoValue(string key, string value)
+    {
+      return this.And(Plugin.HasInfoValue(key, value));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also have a specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter HasVersion(PluginVersion pluginVersion)
+    {
+      return this.And(Plugin.HasVersion(pluginVersion));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also have a specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter HasVersion(string pluginVersion)
+    {
+      return this.And(Plugin.HasVersion(pluginVersion));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also have a version greater than or equal to the specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter HasMinVersion(PluginVersion pluginVersion)
+    {
+      return this.And(Plugin.HasMinVersion(pluginVersion));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also have a version greater than or equal to the specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter HasMinVersion(string pluginVersion)
+    {
+      return this.And(Plugin.HasMinVersion(pluginVersion));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also have a version less than or equal to the specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter HasMaxVersion(PluginVersion pluginVersion)
+    {
+      return this.And(Plugin.HasMaxVersion(pluginVersion));
+    }
+
+    /// <summary>
+    /// Creates a filter that requires that plugins passes this filter and also have a version less than or equal to the specified version.
+    /// </summary>
+    /// <param name="pluginVersion">The plugin version.</param>
+    /// <returns>The created filter</returns>
+    public PluginFilter HasMaxVersion(string pluginVersion)
+    {
+      return this.And(Plugin.HasMaxVersion(pluginVersion));
+    }
+
+    /// <summary>
+    /// Applies this filter to plugins.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes this filter</returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    internal IEnumerable<PluginDescriptor> Filter(IEnumerable<PluginDescriptor> plugins)
+    {
+      switch (this.operation)
       {
-        case FilterOp.Implements:
-          {
-            return plugins.Where(plugin => plugin.Interfaces.Contains(this.name));
-          }
+        case FilterOperation.Implements:
+          return ApplyImplementsFilter(plugins);
 
-        case FilterOp.DerivesFrom:
-          {
-            return plugins.Where(plugin => plugin.Derives.Contains(this.name));
-          }
+        case FilterOperation.DerivesFrom:
+          return ApplyDerivesFromFilter(plugins);
 
-        case FilterOp.IsNamed:
-          {
-            return plugins.Where(plugin => plugin.Name == this.name);
-          }
+        case FilterOperation.IsNamed:
+          return ApplyIsNamedFilter(plugins);
 
-        case FilterOp.HasInfo:
-          {
-            return plugins.Where(plugin => plugin.InfoValues.Keys.Contains(this.name));
-          }
+        case FilterOperation.HasInfo:
+          return ApplyHasInfoFilter(plugins);
 
-        case FilterOp.InfoValue:
-          {
-            string[] keyValue = this.name.Split("=".ToCharArray(), 2);
-            return plugins.Where(plugin =>
-            {
-              string value;
-              return plugin.InfoValues.TryGetValue(keyValue[0], out value) && value == keyValue[1];
-            });
-          }
+        case FilterOperation.InfoValue:
+          return ApplyInfoValueFilter(plugins);
 
-        case FilterOp.MinVersion:
-          {
-            return plugins.Where(plugin => plugin.Version >= (PluginVersion) name);
-          }
+        case FilterOperation.MinVersion:
+          return ApplyMinVersionFilter(plugins);
 
-        case FilterOp.MaxVersion:
-          {
-            return plugins.Where(plugin => plugin.Version <= (PluginVersion) name);
-          }
+        case FilterOperation.MaxVersion:
+          return ApplyMaxVersionFilter(plugins);
 
-        case FilterOp.And:
-          {
-            foreach (var filter in this.subFilters)
-              plugins = filter.Filter(plugins);
+        case FilterOperation.And:
+          return ApplyAndFilter(plugins);
 
-            return plugins;
-          }
-
-        case FilterOp.Or:
-          {
-            HashSet<PluginDescriptor> result = new HashSet<PluginDescriptor>();
-
-            foreach (var filter in this.subFilters)
-              foreach (var plugin in filter.Filter(plugins))
-                result.Add(plugin);
-
-            return result;
-          }
+        case FilterOperation.Or:
+          return ApplyOrFilter(plugins);
 
         default:
-          {
-            throw new NotImplementedException(string.Format("Operator {0} not implemented yet", this.filterOp.ToString()));
-          }
+          throw new NotImplementedException(string.Format(CultureInfo.InvariantCulture, "Operator {0} not implemented yet", this.operation.ToString()));
       }
     }
 
+    /// <summary>
+    /// Applies the max version filter.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes the filter</returns>
+    private IEnumerable<PluginDescriptor> ApplyMaxVersionFilter(IEnumerable<PluginDescriptor> plugins)
+    {
+      return plugins.Where(plugin => plugin.Version <= (PluginVersion)operationData);
+    }
+
+    /// <summary>
+    /// Applies the min version filter.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes the filter</returns>
+    private IEnumerable<PluginDescriptor> ApplyMinVersionFilter(IEnumerable<PluginDescriptor> plugins)
+    {
+      return plugins.Where(plugin => plugin.Version >= (PluginVersion)operationData);
+    }
+
+    /// <summary>
+    /// Applies the has info filter.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes the filter</returns>
+    private IEnumerable<PluginDescriptor> ApplyHasInfoFilter(IEnumerable<PluginDescriptor> plugins)
+    {
+      return plugins.Where(plugin => plugin.InfoValues.Keys.Contains(this.operationData));
+    }
+
+    /// <summary>
+    /// Applies the is named filter.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes the filter</returns>
+    private IEnumerable<PluginDescriptor> ApplyIsNamedFilter(IEnumerable<PluginDescriptor> plugins)
+    {
+      return plugins.Where(plugin => plugin.Name == this.operationData);
+    }
+
+    /// <summary>
+    /// Applies the derives from filter.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes the filter</returns>
+    private IEnumerable<PluginDescriptor> ApplyDerivesFromFilter(IEnumerable<PluginDescriptor> plugins)
+    {
+      return plugins.Where(plugin => plugin.Derives.Contains(this.operationData));
+    }
+
+    /// <summary>
+    /// Applies the implements filter.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes the filter</returns>
+    private IEnumerable<PluginDescriptor> ApplyImplementsFilter(IEnumerable<PluginDescriptor> plugins)
+    {
+      return plugins.Where(plugin => plugin.Interfaces.Contains(this.operationData));
+    }
+
+    /// <summary>
+    /// Applies the or filter.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes the filter</returns>
+    private IEnumerable<PluginDescriptor> ApplyOrFilter(IEnumerable<PluginDescriptor> plugins)
+    {
+      HashSet<PluginDescriptor> result = new HashSet<PluginDescriptor>();
+
+      foreach (var filter in this.subFilters)
+        foreach (var plugin in filter.Filter(plugins))
+          result.Add(plugin);
+
+      return result;
+    }
+
+    /// <summary>
+    /// Applies the and filter.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes the filter</returns>
+    private IEnumerable<PluginDescriptor> ApplyAndFilter(IEnumerable<PluginDescriptor> plugins)
+    {
+      foreach (var filter in this.subFilters)
+        plugins = filter.Filter(plugins);
+
+      return plugins;
+    }
+
+    /// <summary>
+    /// Applies the info value filter.
+    /// </summary>
+    /// <param name="plugins">The plugins.</param>
+    /// <returns>Enumeration of plugins that passes the filter</returns>
+    private IEnumerable<PluginDescriptor> ApplyInfoValueFilter(IEnumerable<PluginDescriptor> plugins)
+    {
+      string[] keyValue = this.operationData.Split("=".ToCharArray(), 2);
+      return plugins.Where(plugin =>
+      {
+        string value;
+        return plugin.InfoValues.TryGetValue(keyValue[0], out value) && value == keyValue[1];
+      });
+    }
+
+    /// <summary>
+    /// Returns a <see cref="System.String" /> that represents this instance.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
     public override string ToString()
     {
-      switch (this.filterOp)
+      switch (this.operation)
       {
-        case FilterOp.Implements:
-          return string.Format("Implements({0})", this.name);
+        case FilterOperation.Implements:
+          return "Implements(" + operationData + ")";
 
-        case FilterOp.DerivesFrom:
-          return string.Format("DerivesFrom({0})", this.name);
+        case FilterOperation.DerivesFrom:
+          return "DerivesFrom(" + this.operationData + ")";
 
-        case FilterOp.IsNamed:
-          return string.Format("Named({0})", this.name);
+        case FilterOperation.IsNamed:
+          return "Named(" + this.operationData + ")";
 
-        case FilterOp.HasInfo:
-          return string.Format("HasInfo({0})", this.name);
+        case FilterOperation.HasInfo:
+          return "HasInfo(" + this.operationData + ")";
 
-        case FilterOp.InfoValue:
-          return string.Format("InfoValue({0})", this.name);
+        case FilterOperation.InfoValue:
+          return "InfoValue(" + this.operationData + ")";
 
-        case FilterOp.MinVersion:
-          return string.Format("MinVersion({0})", this.name);
+        case FilterOperation.MinVersion:
+          return "MinVersion(" + this.operationData + ")";
 
-        case FilterOp.MaxVersion:
-          return string.Format("MaxVersion({0})", this.name);
+        case FilterOperation.MaxVersion:
+          return "MaxVersion(" + this.operationData + ")";
 
-        case FilterOp.And:
+        case FilterOperation.And:
           return string.Join(" & ", this.subFilters.Select(x => x.ToString()).ToArray());
 
-        case FilterOp.Or:
-          return string.Join(" | ", this.subFilters.Select(x => x.ToString()).ToArray());
+        case FilterOperation.Or:
+          return "( " + string.Join(" ) | ( ", this.subFilters.Select(x => x.ToString()).ToArray()) + " )";
 
         default:
-          return string.Format("{0}({1})", this.filterOp.ToString(), this.name);
+          return this.operation.ToString() + "(" + this.operationData + ")";
       }
     }
   }

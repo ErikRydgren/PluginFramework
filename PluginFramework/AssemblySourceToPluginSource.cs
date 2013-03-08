@@ -24,7 +24,7 @@ namespace PluginFramework
   using System.Reflection;
 
   /// <summary>
-  /// Utility class for extracting plugins from assemblies provided from an IAssemblySource and exposing them as an IPluginSource
+  /// Utility class for extracting plugins from assemblies provided from an IAssemblySource and exposing them through IPluginSource events
   /// </summary>
   public class AssemblySourceToPluginSource : IPluginSource
   {
@@ -32,12 +32,15 @@ namespace PluginFramework
 
     public AssemblySourceToPluginSource(IAssemblySource assemblySource)
     {
+      if (assemblySource == null)
+        throw new ArgumentNullException("assemblySource");
+
       this.assemblyPlugins = new Dictionary<string, PluginDescriptor[]>();
       assemblySource.AssemblyAdded += new EventHandler<AssemblyAddedEventArgs>(OnAssemblyAdded);
       assemblySource.AssemblyRemoved += new EventHandler<AssemblyRemovedEventArgs>(OnAssemblyRemoved);
     }
 
-    void OnAssemblyAdded(object sender, AssemblyAddedEventArgs e)
+    private void OnAssemblyAdded(object sender, AssemblyAddedEventArgs e)
     {
       var plugins = e.Reflect(assembly =>
         {
@@ -54,70 +57,19 @@ namespace PluginFramework
             Type type = pluginTypes[i];
             IList<CustomAttributeData> attributes = CustomAttributeData.GetCustomAttributes(type);
 
-            PluginDescriptor plugin = new PluginDescriptor();
-            pluginDescriptions[i] = plugin;
-
+            PluginDescriptor plugin = pluginDescriptions[i] = new PluginDescriptor();
             plugin.QualifiedName = type.AssemblyQualifiedName;
-            plugin.InfoValues = new Dictionary<string, string>();
+            plugin.Version = GetPluginVersion(attributes);
 
-            { // Info from PluginAttribute
-              var attribute = attributes.First(x => x.Constructor.DeclaringType.FullName == typeof(PluginAttribute).FullName);
-              var keyValues = attribute.NamedArguments.ToDictionary(x => x.MemberInfo.Name, x => x.TypedValue.Value);
-              object value;
-              if (keyValues.TryGetValue("Name", out value))
-                plugin.Name = value as string;
-            }
+            SetPluginInfoValuesFromAttributes(plugin, attributes);
+            SetPluginAncestors(plugin, type);
+            SetPluginInterfaces(plugin, type);
+            SetPluginSettings(plugin, type);
 
-            { // Version from PluginVersionAttribute
-              var attribute = attributes.FirstOrDefault(x => x.Constructor.DeclaringType.FullName == typeof(PluginVersionAttribute).FullName);
-              if (attribute != null)
-                plugin.Version = new PluginVersion((int)attribute.ConstructorArguments[0].Value, (int)attribute.ConstructorArguments[1].Value);
-            }
-
-            { // InfoValues from PluginInfoAttributes
-              foreach (var attribute in attributes.Where(x => x.Constructor.DeclaringType.FullName == typeof(PluginInfoAttribute).FullName))
-                plugin.InfoValues[attribute.ConstructorArguments[0].Value as string] = attribute.ConstructorArguments[1].Value as string;
-            }
-
-            { // Inherited ancestors
-              List<Type> ancestors = new List<Type>();
-              Type loop = type;
-              while (loop.BaseType != null)
-              {
-                ancestors.Add(loop.BaseType);
-                loop = loop.BaseType;
-              }
-              plugin.Derives = ancestors.Select(x => new QualifiedName(x.AssemblyQualifiedName)).ToArray();
-            }
-
-            { // Implemented interfaces
-              plugin.Interfaces = type.GetInterfaces().Select(x => new QualifiedName(x.AssemblyQualifiedName)).ToArray();
-            }
-
-            { // Fetch plugin settings
-              List<PluginSettingDescriptor> settings = new List<PluginSettingDescriptor>();
-              foreach (var property in type.GetProperties())
-              {
-                CustomAttributeData attribute =  CustomAttributeData.GetCustomAttributes(property).FirstOrDefault(x => x.Constructor.DeclaringType.FullName == typeof(PluginSettingAttribute).FullName);
-                if (attribute == null)
-                  continue;
-
-                PluginSettingDescriptor setting = new PluginSettingDescriptor();
-                foreach (var namedArg in attribute.NamedArguments)
-                {
-                  if (namedArg.MemberInfo.Name == "Name")
-                    setting.Name = (string)namedArg.TypedValue.Value;
-                  else if (namedArg.MemberInfo.Name == "Required")
-                    setting.Required = (bool)namedArg.TypedValue.Value;
-                }
-                if (setting.Name == null)
-                  setting.Name = property.Name;
-                setting.Type = property.PropertyType.AssemblyQualifiedName;
-
-                settings.Add(setting);
-              }
-              plugin.settings = settings.ToArray();
-            }
+            var keyValues = GetPluginAttributeNamedValues(attributes);
+            object value;
+            if (keyValues.TryGetValue("Name", out value))
+              plugin.Name = value as string;
           }
           return pluginDescriptions;
         });
@@ -133,7 +85,7 @@ namespace PluginFramework
       }
     }
 
-    void OnAssemblyRemoved(object sender, AssemblyRemovedEventArgs e)
+    private void OnAssemblyRemoved(object sender, AssemblyRemovedEventArgs e)
     {
       PluginDescriptor[] lostPlugins;
       if (this.assemblyPlugins.TryGetValue(e.AssemblyId, out lostPlugins))
@@ -143,6 +95,67 @@ namespace PluginFramework
             this.PluginRemoved(this, new PluginEventArgs(plugin));
 
         this.assemblyPlugins.Remove(e.AssemblyId);
+      }
+    }
+
+    private static IDictionary<string, object> GetPluginAttributeNamedValues(IList<CustomAttributeData> attributes)
+    {
+      var attribute = attributes.First(x => x.Constructor.DeclaringType.FullName == typeof(PluginAttribute).FullName);
+      return attribute.NamedArguments.ToDictionary(x => x.MemberInfo.Name, x => x.TypedValue.Value);
+    }
+
+    private static PluginVersion GetPluginVersion(IList<CustomAttributeData> attributes)
+    { // Version from PluginVersionAttribute
+      var attribute = attributes.FirstOrDefault(x => x.Constructor.DeclaringType.FullName == typeof(PluginVersionAttribute).FullName);
+      return attribute != null ?
+        new PluginVersion((int)attribute.ConstructorArguments[0].Value, (int)attribute.ConstructorArguments[1].Value) :
+        new PluginVersion();
+    }
+
+    private static void SetPluginInfoValuesFromAttributes(PluginDescriptor plugin, IList<CustomAttributeData> attributes)
+    {
+      foreach (var attribute in attributes.Where(x => x.Constructor.DeclaringType.FullName == typeof(PluginInfoAttribute).FullName))
+        plugin.InfoValues[attribute.ConstructorArguments[0].Value as string] = attribute.ConstructorArguments[1].Value as string;
+    }
+
+    private static void SetPluginAncestors(PluginDescriptor plugin, Type type)
+    {
+      Type loop = type;
+      while (loop.BaseType != null)
+      {
+        plugin.Derives.Add(new QualifiedName(loop.BaseType.AssemblyQualifiedName));
+        loop = loop.BaseType;
+      }
+    }
+
+    private static void SetPluginInterfaces(PluginDescriptor plugin, Type type)
+    {
+      foreach (var interfaceType in type.GetInterfaces())
+        plugin.Interfaces.Add(new QualifiedName(interfaceType.AssemblyQualifiedName));
+    }
+
+    private static void SetPluginSettings(PluginDescriptor plugin, Type type)
+    {
+      // Fetch plugin settings
+      foreach (var property in type.GetProperties())
+      {
+        CustomAttributeData attribute = CustomAttributeData.GetCustomAttributes(property).FirstOrDefault(x => x.Constructor.DeclaringType.FullName == typeof(PluginSettingAttribute).FullName);
+        if (attribute == null)
+          continue;
+
+        PluginSettingDescriptor setting = new PluginSettingDescriptor();
+        setting.Name = property.Name;
+        setting.SettingType = property.PropertyType.AssemblyQualifiedName;
+
+        foreach (var namedArg in attribute.NamedArguments)
+        {
+          if (namedArg.MemberInfo.Name == "Name")
+            setting.Name = (string)namedArg.TypedValue.Value;
+          else if (namedArg.MemberInfo.Name == "Required")
+            setting.Required = (bool)namedArg.TypedValue.Value;
+        }
+
+        plugin.Settings.Add(setting);
       }
     }
 

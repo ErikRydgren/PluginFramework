@@ -64,7 +64,7 @@ namespace PluginFramework.Examples.ClientServer
       throw new PluginException("Endpoint not found WcfHost");
     }
 
-    public byte[] Get(string assemblyFullName)
+    public byte[] Fetch(string assemblyFullName)
     {
       for (int i = 0; i < 30; i++)
         try

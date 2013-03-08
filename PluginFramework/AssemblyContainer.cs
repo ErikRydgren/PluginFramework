@@ -24,10 +24,11 @@ namespace PluginFramework
   using System.IO;
   using System.Linq;
   using System.Security.Permissions;
+  using System.Security;
 
   /// <summary>
   /// Holds and publishes registered assemblies. Also provides functionality for loading from directorytree and react to changes in the tree.
-  /// Implements and exposes <seealso cref="IAssemblySource"/> and <seealso cref="IAssemblyRepository"/>.
+  /// Implements and exposes <seealso cref="IAssemblySource" /> and <seealso cref="IAssemblyRepository" />.
   /// </summary>
   public sealed class AssemblyContainer : MarshalByRefObject, IAssemblySource, IAssemblyRepository, IDisposable
   {
@@ -35,12 +36,29 @@ namespace PluginFramework
     Dictionary<string, string> pathAssembly = new Dictionary<string, string>();
     Dictionary<DirectoryInfo, FileSystemWatcher> watchedDirs = new Dictionary<DirectoryInfo, FileSystemWatcher>();
 
+    /// <summary>
+    /// Occurs when an assembly is added.
+    /// </summary>
     public event EventHandler<AssemblyAddedEventArgs> AssemblyAdded;
+
+    /// <summary>
+    /// Occurs when an assembly removed.
+    /// </summary>
     public event EventHandler<AssemblyRemovedEventArgs> AssemblyRemoved;
 
+    /// <summary>
+    /// Adds the specified assembly file.
+    /// </summary>
+    /// <param name="assemblyFile">The assembly file.</param>
+    /// <returns><c>true</c> if the assembly was added</returns>
+    /// <exception cref="System.ArgumentNullException">assemblyFile</exception>
+    /// <exception cref="System.IO.FileNotFoundException"></exception>
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
-    public bool Add(FileInfo assemblyFile)
+    public bool Add(FileSystemInfo assemblyFile)
     {
+      if (assemblyFile == null)
+        throw new ArgumentNullException("assemblyFile");
+
       if (!assemblyFile.Exists)
         throw new FileNotFoundException();
 
@@ -54,7 +72,7 @@ namespace PluginFramework
               return false;
 
             var assemblyName = reflectionManager.Reflect(assemblyFile.FullName, assembly => assembly.FullName);
-            
+
             List<string> paths;
             if (this.assemblyPaths.TryGetValue(assemblyName, out paths) == false)
             {
@@ -71,15 +89,27 @@ namespace PluginFramework
           }
           return true;
         }
-        catch (Exception)
-        {
-          return false;
-        }
+        catch (TypeLoadException) { return false; }
+        catch (AppDomainUnloadedException) { return false; }
+        catch (BadImageFormatException) { return false; }
+        catch (FileLoadException) { return false; }
+        catch (FileNotFoundException) { return false; }
+        catch (SecurityException) { return false; }
+        catch (ArgumentNullException) { return false; }
       }
     }
 
-    public void Remove(FileInfo assemblyFile)
+
+    /// <summary>
+    /// Removes the specified assembly file.
+    /// </summary>
+    /// <param name="assemblyFile">The assembly file.</param>
+    /// <exception cref="System.ArgumentNullException">assemblyFile</exception>
+    public void Remove(FileSystemInfo assemblyFile)
     {
+      if (assemblyFile == null)
+        throw new ArgumentNullException("assemblyFile");
+
       lock (this.assemblyPaths)
       {
         string assemblyName;
@@ -103,30 +133,53 @@ namespace PluginFramework
       }
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+    /// <summary>
+    /// Setups live sync on a directory and possibly including sub directories.
+    /// </summary>
+    /// <param name="dir">The directory to observe</param>
+    /// <param name="includeSubdirectories">if set to <c>true</c> then subdirectories will also be observed.</param>
+    /// <exception cref="System.ArgumentNullException">dir</exception>
+    /// <exception cref="System.ArgumentException">Directory does not exist</exception>
     [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
     public void SyncWithDirectory(DirectoryInfo dir, bool includeSubdirectories)
     {
+      if (dir == null)
+        throw new ArgumentNullException("dir");
+
       if (!dir.Exists)
         throw new ArgumentException("Directory does not exist");
 
-      FileSystemWatcher watcher = new FileSystemWatcher(dir.FullName, "*.dll");
-      watcher.IncludeSubdirectories = includeSubdirectories;
-      watcher.NotifyFilter = NotifyFilters.FileName;
-      watcher.Created += new FileSystemEventHandler(ModuleAdded);
-      watcher.Changed += new FileSystemEventHandler(ModuleChanged);
-      watcher.Deleted += new FileSystemEventHandler(ModuleRemoved);
-      watcher.Renamed += new RenamedEventHandler(ModuleRenamed);
+      FileSystemWatcher watcher = null;
+      try
+      {
+        watcher = new FileSystemWatcher(dir.FullName, "*.dll");
+        watcher.IncludeSubdirectories = includeSubdirectories;
+        watcher.NotifyFilter = NotifyFilters.FileName;
+        watcher.Created += new FileSystemEventHandler(ModuleAdded);
+        watcher.Changed += new FileSystemEventHandler(ModuleChanged);
+        watcher.Deleted += new FileSystemEventHandler(ModuleRemoved);
+        watcher.Renamed += new RenamedEventHandler(ModuleRenamed);
 
-      foreach (var file in dir.GetFiles("*.dll", SearchOption.AllDirectories))
-        this.Add(file);
+        foreach (var file in dir.GetFiles("*.dll", SearchOption.AllDirectories))
+          this.Add(file);
 
-      watcher.EnableRaisingEvents = true;
+        watcher.EnableRaisingEvents = true;
 
-      watchedDirs.Add(dir, watcher);
+        watchedDirs.Add(dir, watcher);
+      }
+      catch (Exception)
+      {
+        if (watcher != null)
+          watcher.Dispose();
+        throw;
+      }      
     }
 
-    public void UnsyncWithDirectory(DirectoryInfo dir)
+    /// <summary>
+    /// Stops watching a observed directory.
+    /// </summary>
+    /// <param name="dir">The directory.</param>
+    public void StopSyncWithDirectory(DirectoryInfo dir)
     {
       var pair = watchedDirs.FirstOrDefault(x => x.Key.FullName == dir.FullName);
       if (pair.Key == null)
@@ -136,30 +189,57 @@ namespace PluginFramework
       watchedDirs.Remove(pair.Key);
     }
 
-    void ModuleAdded(object sender, FileSystemEventArgs e)
+    /// <summary>
+    /// Called when a <see cref="FileSystemWatcher"/> triggers the Created event.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
+    private void ModuleAdded(object sender, FileSystemEventArgs e)
     {
       this.Add(new FileInfo(e.FullPath));
     }
 
-    void ModuleChanged(object sender, FileSystemEventArgs e)
+    /// <summary>
+    /// Called when a <see cref="FileSystemWatcher"/> triggers the Changed event.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
+    private void ModuleChanged(object sender, FileSystemEventArgs e)
     {
       FileInfo fileInfo = new FileInfo(e.FullPath);
       this.Remove(fileInfo);
       this.Add(fileInfo);
     }
 
-    void ModuleRemoved(object sender, FileSystemEventArgs e)
+    /// <summary>
+    /// Called when a <see cref="FileSystemWatcher"/> triggers the Deleted event.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
+    private void ModuleRemoved(object sender, FileSystemEventArgs e)
     {
       this.Remove(new FileInfo(e.FullPath));
     }
 
-    void ModuleRenamed(object sender, RenamedEventArgs e)
+    /// <summary>
+    /// Called when a <see cref="FileSystemWatcher"/> triggers the Renamed event.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="RenamedEventArgs"/> instance containing the event data.</param>
+    private void ModuleRenamed(object sender, RenamedEventArgs e)
     {
       this.Remove(new FileInfo(e.OldFullPath));
       this.Add(new FileInfo(e.FullPath));
     }
 
-    byte[] IAssemblyRepository.Get(string assemblyFullName)
+    /// <summary>
+    /// Fetches the specified assembly by it's full name.
+    /// </summary>
+    /// <param name="assemblyFullName">Full name of the assembly.</param>
+    /// <returns>
+    /// Assembly as byte array or null if the assembly was not found in the repository.
+    /// </returns>
+    byte[] IAssemblyRepository.Fetch(string assemblyFullName)
     {
       byte[] buffer = null;
       FileInfo assemblyFile = null;
@@ -188,6 +268,9 @@ namespace PluginFramework
       return buffer;
     }
 
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
     public void Dispose()
     {
       foreach (var watcher in this.watchedDirs.Values)

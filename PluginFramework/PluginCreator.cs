@@ -20,12 +20,13 @@ namespace PluginFramework
 {
   using System;
   using System.Collections.Generic;
+  using System.Globalization;
   using System.Linq;
   using System.Reflection;
   using System.Security.Permissions;
 
   /// <summary>
-  /// Implementation of <seealso cref="IPluginCreator"/>.
+  /// Implementation of <see cref="IPluginCreator"/>.
   /// </summary>
   public class PluginCreator : MarshalByRefObject, IPluginCreator
   {
@@ -39,18 +40,29 @@ namespace PluginFramework
     }
 
     /// <summary>
+    /// Fetches or Creates a IPluginCreator located inside the current <see cref="AppDomain"/>.
+    /// </summary>
+    /// <returns>A IPluginCreator instance running inside target <see cref="AppDomain"/></returns>
+    /// <exception cref="PluginException"/>
+    public static IPluginCreator GetCreator()
+    {
+      return GetCreator(AppDomain.CurrentDomain);
+    }
+
+    /// <summary>
     /// Fetches or Creates a IPluginCreator located inside the target <see cref="AppDomain"/>.
     /// </summary>
     /// <param name="domain">The target <see cref="AppDomain"/></param>
     /// <returns>A IPluginCreator instance running inside target <see cref="AppDomain"/></returns>
+    /// <exception cref="ArgumentNullException"/>
     /// <exception cref="PluginException"/>
-    public static IPluginCreator GetCreator(AppDomain domain = null)
+    public static IPluginCreator GetCreator(AppDomain domain)
     {
+      if (domain == null)
+        throw new ArgumentNullException("domain");
+
       try
       {
-        if (domain == null)
-          domain = AppDomain.CurrentDomain;
-
         IPluginCreator creator = domain.GetData(IDKEY) as IPluginCreator;
         if (creator == null)
         {
@@ -65,7 +77,7 @@ namespace PluginFramework
       }
       catch (Exception ex)
       {
-        throw new PluginException(ex, ex.Message);
+        throw new PluginException(ex.Message, ex);
       }
     }
 
@@ -79,7 +91,7 @@ namespace PluginFramework
     /// <returns>The created plugin instance as T</returns>
     /// <exception cref="PluginException"/>
     [SecurityPermission(SecurityAction.LinkDemand, Flags=SecurityPermissionFlag.ControlAppDomain)]
-    public T Create<T>(PluginDescriptor descriptor, IAssemblyRepository assemblyRepository, Dictionary<string, object> settings = null)
+    public T Create<T>(PluginDescriptor descriptor, IAssemblyRepository assemblyRepository, Dictionary<string, object> settings)
       where T : class
     {
       try
@@ -87,12 +99,12 @@ namespace PluginFramework
         ResolveEventHandler resolveHandler = new ResolveEventHandler((s, e) =>
           {
             // Fetch assembly from repository and load it into the appdomain
-            byte[] assemblyBytes = assemblyRepository.Get(e.Name);
+            byte[] assemblyBytes = assemblyRepository.Fetch(e.Name);
             if (assemblyBytes != null)
               return Assembly.Load(assemblyBytes);
 
             // Unable to resolve this assembly
-            throw new PluginException(string.Format("Unable to resolve assembly {0}", e.Name));
+            throw new PluginException("Unable to resolve assembly " + e.Name);
           });
 
         AppDomain.CurrentDomain.AssemblyResolve += resolveHandler;
@@ -101,13 +113,7 @@ namespace PluginFramework
 
         AppDomain.CurrentDomain.AssemblyResolve -= resolveHandler;
 
-        if (plugin == null)
-          return null;
-
-        if (!(plugin is T))
-          throw new InvalidCastException(string.Format("{0} can't be casted to {1}", plugin.GetType().Name, typeof(T).Name));
-
-        return plugin as T;
+        return (T)plugin;
       }
       catch (PluginException)
       {
@@ -115,7 +121,7 @@ namespace PluginFramework
       }
       catch (Exception ex)
       {
-        throw new PluginException(ex, ex.Message);
+        throw new PluginException(ex.Message, ex);
       }
     }
 
@@ -127,6 +133,7 @@ namespace PluginFramework
     /// <param name="settings">A key value storage with settings to apply to propertied defined as PluginSettings on the created instance</param>
     /// <returns>The created plugin instance</returns>
     /// <exception cref="PluginException"/>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")] // Can't be static. We need an MarshalByRefObject instance to get into the target AppDomain.
     private object Create(PluginDescriptor descriptor, Dictionary<string, object> settings)
     {
       object instance = AppDomain.CurrentDomain.CreateInstanceAndUnwrap(descriptor.QualifiedName.AssemblyFullName, descriptor.QualifiedName.TypeFullName);
@@ -153,7 +160,7 @@ namespace PluginFramework
           }
           catch (Exception ex)
           {
-            throw new PluginException(ex, "Exception while applying setting {0} on {1}", name, descriptor.QualifiedName);
+            throw new PluginException(string.Format(CultureInfo.InvariantCulture, "Exception while applying setting {0} on {1}", name, descriptor.QualifiedName), ex);
           }
         }
       }

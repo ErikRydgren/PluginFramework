@@ -20,6 +20,7 @@ namespace PluginFramework
 {
   using System;
   using System.Collections.Generic;
+  using System.Globalization;
 
   /// <summary>
   /// Describes a plugin. Used by a <see cref="IPluginCreator"/> to create instances of the plugin.
@@ -27,34 +28,101 @@ namespace PluginFramework
   [Serializable]
   public class PluginDescriptor : IEquatable<PluginDescriptor>
   {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginDescriptor"/> class.
+    /// </summary>
+    public PluginDescriptor()
+    {
+      this.Derives = new List<QualifiedName>();
+      this.Interfaces = new List<QualifiedName>();
+      this.InfoValues = new Dictionary<string, string>();
+      this.Settings = new List<PluginSettingDescriptor>();
+    }
+
+    /// <summary>
+    /// Gets or sets the fulle assembly qualified name of the plugin class.
+    /// </summary>
+    /// <value>
+    /// The qualified name of the plugin class.
+    /// </value>
     public QualifiedName QualifiedName { get; set; }
-    public QualifiedName[] Derives { get; set; }
-    public QualifiedName[] Interfaces { get; set; }
-    public PluginSettingDescriptor[] settings { get; set; }
 
-    public string Name { get; set; }
-    public PluginVersion Version { get; set; }
-    public IDictionary<string, string> InfoValues { get; set; }
+    /// <summary>
+    /// Gets the classes the plugin inherits as a list of assembly qualified names.
+    /// </summary>
+    /// <value>
+    /// The classnames the plugin inherits.
+    /// </value>
+    public IList<QualifiedName> Derives { get; private set; }
 
+    /// <summary>
+    /// Gets the interfaces the plugin implements as a list of assembly qualified names.
+    /// </summary>
+    /// <value>
+    /// The interfaces.
+    /// </value>
+    public IList<QualifiedName> Interfaces { get; private set; }
+
+    /// <summary>
+    /// Gets the settings the plugin defines.
+    /// </summary>
+    /// <value>
+    /// The plugin settings.
+    /// </value>
+    public IList<PluginSettingDescriptor> Settings { get; private set; }
+
+    /// <summary>
+    /// Gets the plugin name.
+    /// </summary>
+    /// <value>
+    /// The plugin name.
+    /// </value>
+    public string Name { get; internal set; }
+
+    /// <summary>
+    /// Gets the plugin version.
+    /// </summary>
+    /// <value>
+    /// The plugin version.
+    /// </value>
+    public PluginVersion Version { get; internal set; }
+
+    /// <summary>
+    /// Gets the plugin metainfo.
+    /// </summary>
+    /// <value>
+    /// The plugin metainfo.
+    /// </value>
+    public IDictionary<string, string> InfoValues { get; private set; }
+
+    /// <summary>
+    /// Indicates whether the current object is equal to another object of the same type.
+    /// </summary>
+    /// <param name="other">An object to compare with this object.</param>
+    /// <returns>
+    /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+    /// </returns>
     public bool Equals(PluginDescriptor other)
     {
+      if (other == null)
+        return false;
+
       return this.QualifiedName == other.QualifiedName;
     }
-  }
 
-  /// <summary>
-  /// Describes a plugin setting. 
-  /// </summary>
-  [Serializable]
-  public class PluginSettingDescriptor
-  {
-    public string Name { get; set; }
-    public QualifiedName Type { get; set; }
-    public bool Required { get; set; }
-
-    public override string ToString()
+    public override bool Equals(object obj)
     {
-      return string.Format("{0} [{1}] {2}", this.Name, this.Required ? "required" : "optional", this.Type);
+      PluginDescriptor other = obj as PluginDescriptor;
+
+      if (other == null)
+        return false;
+
+      return base.Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+      return this.QualifiedName.GetHashCode();
     }
   }
 }

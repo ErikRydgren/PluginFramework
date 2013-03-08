@@ -9,16 +9,21 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Policy;
 using System.Security.Permissions;
+using System.Security;
 
 namespace PluginFramework
 {
   /// <summary>
-  /// Simplifies assembly loading and reflection inside a remote AppDomain
+  /// Acts as a proxy for loading and reflecting an assembly inside another AppDomain without having to load the assembly inside the current AppDomain.
   /// </summary>
   public class AssemblyReflectionProxy : MarshalByRefObject
   {
     private string _assemblyPath;
 
+    /// <summary>
+    /// Loads the assembly into the current appdomain
+    /// </summary>
+    /// <param name="assemblyPath">The assembly path.</param>
     public void LoadAssembly(String assemblyPath)
     {
       try
@@ -32,9 +37,21 @@ namespace PluginFramework
       }
     }
 
-    [SecurityPermission(SecurityAction.LinkDemand, Flags=SecurityPermissionFlag.ControlAppDomain)]
+    /// <summary>
+    /// Reflects the assembly using the specified func.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <param name="func">The reflection function</param>
+    /// <returns>
+    /// The value returned from func
+    /// </returns>
+    /// <exception cref="System.ArgumentNullException">func</exception>
+    [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
     public TResult Reflect<TResult>(Func<Assembly, TResult> func)
     {
+      if (func == null)
+        throw new ArgumentNullException("func");
+
       DirectoryInfo directory = new FileInfo(_assemblyPath).Directory;
       ResolveEventHandler resolveEventHandler =
           (s, e) =>
@@ -45,7 +62,7 @@ namespace PluginFramework
 
       AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += resolveEventHandler;
 
-      var assembly = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().FirstOrDefault(a => a.Location.CompareTo(_assemblyPath) == 0);
+      var assembly = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().FirstOrDefault(a => StringComparer.InvariantCulture.Compare(a.Location, _assemblyPath) == 0);
 
       var result = func(assembly);
 
@@ -54,7 +71,13 @@ namespace PluginFramework
       return result;
     }
 
-    private Assembly OnReflectionOnlyResolve(ResolveEventArgs args, DirectoryInfo directory)
+    /// <summary>
+    /// Raises the <see cref="E:ReflectionOnlyResolve" /> event.
+    /// </summary>
+    /// <param name="args">The <see cref="ResolveEventArgs"/> instance containing the event data.</param>
+    /// <param name="directory">The directory.</param>
+    /// <returns>The resolved assembly</returns>
+    private static Assembly OnReflectionOnlyResolve(ResolveEventArgs args, DirectoryInfo directory)
     {
       Assembly loadedAssembly =
           AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies()
@@ -82,39 +105,48 @@ namespace PluginFramework
     }
   }
 
+  /// <summary>
+  /// Simplifies assembly loading and reflection inside a remote AppDomain by using proxies inside the remote AppDomain.
+  /// </summary>
   public class AssemblyReflectionManager : IDisposable
   {
     Dictionary<string, AppDomain> _mapDomains = new Dictionary<string, AppDomain>();
     Dictionary<string, AppDomain> _loadedAssemblies = new Dictionary<string, AppDomain>();
     Dictionary<string, AssemblyReflectionProxy> _proxies = new Dictionary<string, AssemblyReflectionProxy>();
 
+    /// <summary>
+    /// Loads the assembly.
+    /// </summary>
+    /// <param name="assemblyPath">The assembly path.</param>
+    /// <param name="domainName">Name of the domain.</param>
+    /// <returns>True if the assembly could be loaded</returns>
     public bool LoadAssembly(string assemblyPath, string domainName)
     {
-      // if the assembly file does not exist then fail
-      if (!File.Exists(assemblyPath))
-        return false;
-
-      // if the assembly was already loaded then fail
-      if (_loadedAssemblies.ContainsKey(assemblyPath))
-      {
-        return false;
-      }
-
-      // check if the appdomain exists, and if not create a new one
-      AppDomain appDomain = null;
-      if (_mapDomains.ContainsKey(domainName))
-      {
-        appDomain = _mapDomains[domainName];
-      }
-      else
-      {
-        appDomain = CreateChildDomain(AppDomain.CurrentDomain, domainName);
-        _mapDomains[domainName] = appDomain;
-      }
-
-      // load the assembly in the specified app domain
       try
       {
+        // if the assembly file does not exist then fail
+        if (!File.Exists(assemblyPath))
+          return false;
+
+        // if the assembly was already loaded then fail
+        if (_loadedAssemblies.ContainsKey(assemblyPath))
+        {
+          return false;
+        }
+
+        // check if the appdomain exists, and if not create a new one
+        AppDomain appDomain = null;
+        if (_mapDomains.ContainsKey(domainName))
+        {
+          appDomain = _mapDomains[domainName];
+        }
+        else
+        {
+          appDomain = CreateChildDomain(AppDomain.CurrentDomain, domainName);
+          _mapDomains[domainName] = appDomain;
+        }
+
+        // load the assembly in the specified app domain
         Type proxyType = typeof(AssemblyReflectionProxy);
         if (proxyType.Assembly != null)
         {
@@ -132,21 +164,34 @@ namespace PluginFramework
           return true;
         }
       }
-      catch
-      { }
+      catch (TypeLoadException) { }
+      catch (AppDomainUnloadedException) { }
+      catch (BadImageFormatException) { }
+      catch (FileLoadException) { }
+      catch (FileNotFoundException) { }
+      catch (SecurityException) { }
 
       return false;
     }
 
+    /// <summary>
+    /// Unloads the assembly.
+    /// </summary>
+    /// <param name="assemblyPath">The assembly path.</param>
+    /// <returns>
+    /// True if the assembly could be unloaded
+    /// </returns>
+    /// <exception cref="System.ArgumentNullException">assemblyPath</exception>
     public bool UnloadAssembly(string assemblyPath)
     {
+      if (assemblyPath == null)
+        throw new ArgumentNullException("assemblyPath");
+
       if (!File.Exists(assemblyPath))
         return false;
 
       // check if the assembly is found in the internal dictionaries
-      if (_loadedAssemblies.ContainsKey(assemblyPath) &&
-
-         _proxies.ContainsKey(assemblyPath))
+      if (_loadedAssemblies.ContainsKey(assemblyPath) && _proxies.ContainsKey(assemblyPath))
       {
         // check if there are more assemblies loaded in the same app domain; in this case fail
         AppDomain appDomain = _loadedAssemblies[assemblyPath];
@@ -166,7 +211,7 @@ namespace PluginFramework
 
           return true;
         }
-        catch
+        catch (CannotUnloadAppDomainException)
         {
         }
       }
@@ -174,6 +219,11 @@ namespace PluginFramework
       return false;
     }
 
+    /// <summary>
+    /// Unloads the domain.
+    /// </summary>
+    /// <param name="domainName">Name of the domain.</param>
+    /// <returns>True if the appdomain was unloaded</returns>
     public bool UnloadDomain(string domainName)
     {
       // check the appdomain name is valid
@@ -210,7 +260,7 @@ namespace PluginFramework
 
           return true;
         }
-        catch
+        catch (CannotUnloadAppDomainException)
         {
         }
       }
@@ -218,6 +268,13 @@ namespace PluginFramework
       return false;
     }
 
+    /// <summary>
+    /// Reflects the specified assembly path.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <param name="assemblyPath">The assembly path.</param>
+    /// <param name="func">The reflection function</param>
+    /// <returns>The returned value from func</returns>
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
     public TResult Reflect<TResult>(string assemblyPath, Func<Assembly, TResult> func)
     {
@@ -231,17 +288,27 @@ namespace PluginFramework
       return default(TResult);
     }
 
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
     public void Dispose()
     {
       Dispose(true);
       GC.SuppressFinalize(this);
     }
 
+    /// <summary>
+    /// Finalizes an instance of the <see cref="AssemblyReflectionManager"/> class.
+    /// </summary>
     ~AssemblyReflectionManager()
     {
       Dispose(false);
     }
 
+    /// <summary>
+    /// Releases unmanaged and - optionally - managed resources.
+    /// </summary>
+    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
     protected virtual void Dispose(bool disposing)
     {
       if (disposing)
@@ -255,7 +322,13 @@ namespace PluginFramework
       }
     }
 
-    private AppDomain CreateChildDomain(AppDomain parentDomain, string domainName)
+    /// <summary>
+    /// Creates the child domain.
+    /// </summary>
+    /// <param name="parentDomain">The parent domain.</param>
+    /// <param name="domainName">Name of the domain.</param>
+    /// <returns>The created appdomain</returns>
+    private static AppDomain CreateChildDomain(AppDomain parentDomain, string domainName)
     {
       Evidence evidence = new Evidence(parentDomain.Evidence);
       AppDomainSetup setup = parentDomain.SetupInformation;

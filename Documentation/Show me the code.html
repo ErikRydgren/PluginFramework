@@ -24,7 +24,7 @@
 <b>assemblyContainer.SyncWithDirectory(SomeDir, IncludeSubdirs);</b><br />
 <br />
 // Create a filter that describes the plugin(s) you are interrested in.<br />
-<b>PluginFilter filter = Plugin.Implements&lt;ITestPlugin&gt;() & Plugin.MinVersion("1.0");</b><br />
+<b>PluginFilter filter = Plugin.Implements(typeof(ITestPlugin)).HasMinVersion("1.0");</b><br />
 <br />
 // Query the plugin repository for plugins that fulfills the requirements.<br />
 <b>IEnumerable&lt;PluginDescriptor&gt; foundPlugins = pluginRepository.Plugins(filter);</b><br />
@@ -55,20 +55,27 @@
 
   <div class="code">// Tag a class as a plugin with a PluginAttribute and mayhaps give it some extra meta information like a name...<br />
 <b>[Plugin(Name = "APluginName"]</b><br />
-// ... and a version<br />
+// ... and maybe a version ...<br />
 <b>[PluginVersion(1, 0)]</b><br />
+// ...&nbsp; or other generic 
+    meta info<br />
+<b>[PluginInfo(&quot;SomeKey&quot;, &quot;SomeValue&quot;)]<br />
+    [PluginInfo(&quot;SomeOtherKey&quot;, &quot;SomeOtherValue&quot;)]</b><br />
 // Declare the class as public. <br />
 // Inherit MarshalByRefObject so the plugin can be created inside another AppDomain. <br />
-// Don't forget to implement an interface shared by the plugin and main program.<br />
+// Don't forget to implement an interface 
+    or inherit a baseclass shared by the plugin and the main program.<br />
 <b>public class APlugin : MarshalByRefObject, ISharedInterface </b><br />
 <b>{</b><br />
 &nbsp;&nbsp;// Tag zero or more public properties as plugin settings. Plugin settings will be exposed in the PluginDescriptor <br />
-&nbsp;&nbsp;// which allows the plugin consumer to dynamicly provide values for the settings upon plugin instanciation.<br />
-&nbsp;&nbsp;// Note that the setting type must be serializable if the plugin is instanciated inside another AppDomain.<br />
+&nbsp;&nbsp;// which allows the plugin consumer to dynamicly provide values for the 
+    properties during plugin instanciation.<br />
+&nbsp;&nbsp;// Note that the setting type must be serializable if the plugin 
+    is instanciated inside another AppDomain.<br />
 &nbsp;&nbsp;<b>[PluginSetting(Name = "Name", Required = true)]</b><br />
 &nbsp;&nbsp;<b>public string MyName { get; set; }</b><br />
 <br />
-&nbsp;&nbsp;// Implement the interface <br />
+&nbsp;&nbsp;// Implement the interface methods<br />
 &nbsp;&nbsp;<b>public void SomeMethod() {}</b> <br />
 <b>}</b>
 </div>

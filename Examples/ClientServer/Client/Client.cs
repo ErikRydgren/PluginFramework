@@ -77,7 +77,7 @@ namespace PluginFramework.Examples.ClientServer
         Dictionary<string, object> settings = new Dictionary<string, object>();
         settings.Add("Name", "SettingName");
 
-        PluginFilter filter = Plugin.Implements<ITestPlugin>() & Plugin.MinVersion("1.0");
+        PluginFilter filter = Plugin.Implements(typeof(ITestPlugin)).HasMinVersion("1.0");
         Console.WriteLine("Querying for plugins satisfying {0}", filter);
         PluginDescriptor[] foundPlugins = this.pluginRepository.Plugins(filter).ToArray();
         Console.WriteLine(string.Format("{0} plugins found", foundPlugins.Length));

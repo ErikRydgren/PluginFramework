@@ -27,10 +27,21 @@ namespace PluginFramework
   /// </summary>
   public interface IAssemblySource
   {
+    /// <summary>
+    /// Occurs when an assembly is added.
+    /// </summary>
     event EventHandler<AssemblyAddedEventArgs> AssemblyAdded;
+
+    /// <summary>
+    /// Occurs when an assembly removed.
+    /// </summary>
     event EventHandler<AssemblyRemovedEventArgs> AssemblyRemoved;
   }
 
+
+  /// <summary>
+  /// IAssemblySource, Assembly added event arguments.
+  /// </summary>
   public class AssemblyAddedEventArgs : EventArgs
   {
     AssemblyReflectionManager reflectionManager;
@@ -41,14 +52,35 @@ namespace PluginFramework
       this.reflectionManager = reflectionManager;
     }
 
+    /// <summary>
+    /// Gets the IAssemblySource identifier for the assembly.
+    /// </summary>
+    /// <value>
+    /// The assembly id.
+    /// </value>
     public string AssemblyId { get; private set; }
 
+    /// <summary>
+    /// Method for performing reflection on the added assembly. 
+    /// <remarks>
+    /// The assembly is loaded as ReflectionOnly.
+    /// The reflector function will be run inside another AppDomain.
+    /// </remarks>
+    /// </summary>
+    /// <typeparam name="T">The return type.</typeparam>
+    /// <param name="reflector">The reflector function.</param>
+    /// <returns>The return value from the reflector function.</returns>
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
     public T Reflect<T>(Func<Assembly, T> reflector)
     {
       return reflectionManager.Reflect(AssemblyId, reflector);
     }
   }
+
+
+  /// <summary>
+  /// IAssemblySource, Assembly removed event arguments.
+  /// </summary>
   public class AssemblyRemovedEventArgs : EventArgs
   {
     public AssemblyRemovedEventArgs(string assemblyId)
@@ -56,6 +88,12 @@ namespace PluginFramework
       this.AssemblyId = assemblyId;
     }
 
+    /// <summary>
+    /// Gets the IAssemblySource identifier for the assembly.
+    /// </summary>
+    /// <value>
+    /// The assembly id.
+    /// </value>
     public string AssemblyId { get; private set; }
   }
 }
