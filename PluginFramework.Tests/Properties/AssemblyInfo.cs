@@ -1,20 +1,18 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PluginRepository")]
-[assembly: AssemblyDescription("Framework for finding and instanciating plugins from a dynamic and possibly remote plugin repository")]
+[assembly: AssemblyTitle("PluginFramework.Tests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Erik Rydgren")]
-[assembly: AssemblyProduct("PluginRepository")]
-[assembly: AssemblyCopyright("Copyright © Erik Rydgren 2013")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("PluginFramework.Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: CLSCompliant(true)]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -22,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3d553cc2-5492-4fae-bafc-01a0e3874e64")]
+[assembly: Guid("142bcc6e-4964-442e-b4dc-55e447f37968")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -33,9 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-// Allow unit tests access to internal stuff
-[assembly: InternalsVisibleTo("PluginFramework.Tests")]

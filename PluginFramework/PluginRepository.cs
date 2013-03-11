@@ -18,6 +18,7 @@
 //
 namespace PluginFramework
 {
+  using System;
   using System.Collections.Generic;
 
   /// <summary>
@@ -25,6 +26,7 @@ namespace PluginFramework
   /// </summary>
   public class PluginRepository : IPluginRepository
   {
+    HashSet<IPluginSource> sources;
     HashSet<PluginDescriptor> plugins;
 
     /// <summary>
@@ -32,6 +34,7 @@ namespace PluginFramework
     /// </summary>
     public PluginRepository()
     {
+      this.sources = new HashSet<IPluginSource>();
       this.plugins = new HashSet<PluginDescriptor>();      
     }
 
@@ -39,13 +42,20 @@ namespace PluginFramework
     /// Adds a plugin source to the repository.
     /// </summary>
     /// <param name="source">The source.</param>
+    /// <exception cref="System.ArgumentNullException">source</exception>
+    /// <exception cref="System.ArgumentException">Source already added</exception>
     public void AddPluginSource(IPluginSource source)
     {
       if (source == null)
-        return;
+        throw new ArgumentNullException("source");
+
+      if (this.sources.Contains(source))
+        throw new ArgumentException("Source already added");
 
       source.PluginAdded += this.OnPluginFound;
       source.PluginRemoved += this.OnPluginLost;
+
+      this.sources.Add(source);
     }
 
     /// <summary>
@@ -55,8 +65,12 @@ namespace PluginFramework
     public void RemovePluginSource(IPluginSource source)
     {
       if (source == null)
-        return;
+        throw new ArgumentNullException("source");
 
+      if (!this.sources.Contains(source))
+        throw new ArgumentException("Unknown source");
+
+      this.sources.Remove(source);
       source.PluginAdded -= this.OnPluginFound;
       source.PluginRemoved -= this.OnPluginLost;
     }
@@ -66,7 +80,7 @@ namespace PluginFramework
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The <see cref="PluginEventArgs"/> instance containing the event data.</param>
-    void OnPluginFound(object sender, PluginEventArgs e)
+    private void OnPluginFound(object sender, PluginEventArgs e)
     {
       this.plugins.Add(e.Plugin);
     }
@@ -76,7 +90,7 @@ namespace PluginFramework
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The <see cref="PluginEventArgs"/> instance containing the event data.</param>
-    void OnPluginLost(object sender, PluginEventArgs e)
+    private void OnPluginLost(object sender, PluginEventArgs e)
     {
       this.plugins.Remove(e.Plugin);
     }

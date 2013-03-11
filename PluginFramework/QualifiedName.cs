@@ -68,7 +68,7 @@ namespace PluginFramework
     /// </returns>
     public override string ToString()
     {
-      return this;
+      return this.TypeFullName + ", " + this.AssemblyFullName;
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ namespace PluginFramework
     /// <returns></returns>
     /// <exception cref="System.ArgumentNullException">qualifiedName</exception>
     /// <exception cref="System.ArgumentException">qualifiedName must be a fully assembly qualified typename</exception>
-    public static string[] Split(string qualifiedName)
+    private static string[] Split(string qualifiedName)
     {
       if (qualifiedName == null)
         throw new ArgumentNullException("qualifiedName");
@@ -140,7 +140,7 @@ namespace PluginFramework
     /// <returns>string</returns>
     public static implicit operator string(QualifiedName name)
     {
-      return name.TypeFullName + ", " + name.AssemblyFullName;
+      return name.ToString();
     }
 
     /// <summary>

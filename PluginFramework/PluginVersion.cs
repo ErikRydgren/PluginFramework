@@ -27,7 +27,7 @@ namespace PluginFramework
   public struct PluginVersion : IComparable<PluginVersion>, IComparable, IEquatable<PluginVersion>
   {
     /// <summary>
-    /// Gets or sets the major version.
+    /// Gets the major version.
     /// </summary>
     /// <value>
     /// The major version.
@@ -169,16 +169,6 @@ namespace PluginFramework
     public override string ToString()
     {
       return string.Format(CultureInfo.InvariantCulture, "{0}.{1}", this.Major, this.Minor);
-    }
-
-    /// <summary>
-    /// Casts string version to <see cref="PluginVersion"/>.
-    /// </summary>
-    /// <param name="version">The version.</param>
-    /// <returns>A PluginVersion</returns>
-    public static explicit operator PluginVersion(string version)
-    {
-      return new PluginVersion(version);
     }
 
     /// <summary>
