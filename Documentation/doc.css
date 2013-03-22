@@ -18,3 +18,15 @@ body
 {
     color: Black;
 }
+
+.code b a
+{
+    color: Black;
+    text-decoration: none;
+}
+
+.code a
+{
+    color: #400000;
+--    text-decoration: none;
+}

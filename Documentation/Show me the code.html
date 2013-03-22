@@ -8,30 +8,30 @@
 
   <p>Impatient are we? Alrighty then. This is how to use PluginFramework in ten simple steps.</p>
   <div class="code">
-// First create a PluginRepository. The plugin repository provides functionality for searching for discovered plugins.<br />
-<b>var pluginRepository = new PluginRepository();</b><br />
+// First create a <a href="Reference/Index.html?topic=html/T_PluginFramework_PluginRepository.htm">PluginRepository</a>. The plugin repository provides functionality for searching for discovered plugins.<br />
+<b>var pluginRepository = new <a href="Reference/Index.html?topic=html/T_PluginFramework_PluginRepository.htm">PluginRepository</a>();</b><br />
 <br />
-// Then create an AssemblyContainer. The assembly container discovers assemblies and exposes them as an IAssemblySource. <br />
-// It also doubles as an IAssemblyRepository. More on those later.<br />
-<b>var assemblyContainer = new AssemblyContainer();</b><br />
+// Then create an <a href="Reference/Index.html?topic=html/T_PluginFramework_AssemblyContainer.htm">AssemblyContainer</a>. The assembly container discovers assemblies and exposes them as an <a href="Reference/Index.html?topic=html/T_PluginFramework_IAssemblySource.htm">IAssemblySource</a>. <br />
+// It also doubles as an <a href="Reference/Index.html?topic=html/T_PluginFramework_IAssemblyRepository.htm">IAssemblyRepository</a>. More on those later.<br />
+<b>var assemblyContainer = new <a href="Reference/Index.html?topic=html/T_PluginFramework_AssemblyContainer.htm">AssemblyContainer</a>();</b><br />
 <br />
 // Add a plugin source to the plugin repository. Here we use an 
-    PluginExtractor which discovers <br />
-// and exposes plugins found in assemblies received through an IAssemblySource.<br />
-    <b>pluginRepository.AddPluginSource(new PluginExtractor(assemblyContainer));</b><br />
+    <a href="Reference/Index.html?topic=html/T_PluginFramework_PluginExtractor.htm">PluginExtractor</a> which discovers <br />
+// and exposes plugins found in assemblies received through an <a href="Reference/Index.html?topic=html/T_PluginFramework_IAssemblySource.htm">IAssemblySource</a>.<br />
+    <b>pluginRepository.<a href="Reference/Index.html?topic=html/M_PluginFramework_PluginRepository_AddPluginSource.htm">AddPluginSource</a>(new <a href="Reference/Index.html?topic=html/T_PluginFramework_PluginExtractor.htm">PluginExtractor</a>(assemblyContainer));</b><br />
 <br />
 // Tell the assembly container to start reading assemblies from SomeDir. Changes to SomeDir will be exposed 'live' on the <br />
-// IAssemblySource. Which allows hotswapping of plugin assemblies.<br />
-<b>assemblyContainer.AddDir(new PluginDirectory(SomeDir, IncludeSubdirs));</b><br />
+// <a href="Reference/Index.html?topic=html/T_PluginFramework_IAssemblySource.htm">IAssemblySource</a>. Which allows hotswapping of plugin assemblies.<br />
+<b>assemblyContainer.AddDir(new <a href="Reference/Index.html?topic=html/T_PluginFramework_PluginDirectory.htm">PluginDirectory</a>(SomeDir, IncludeSubdirs));</b><br />
 <br />
-// Create a filter that describes the plugin(s) you are interrested in.<br />
-<b>PluginFilter filter = PluginFilter.Create.Implements(typeof(ISharedInterface )).HasMinVersion("1.0");</b><br />
+// Create a <a href="Reference/Index.html?topic=html/T_PluginFramework_PluginFilter.htm">PluginFilter</a> that describes the plugin(s) you are interrested in.<br />
+<b><a href="Reference/Index.html?topic=html/T_PluginFramework_PluginFilter.htm">PluginFilter</a> filter = <a href="Reference/Index.html?topic=html/T_PluginFramework_PluginFilter.htm">PluginFilter</a>.Create.Implements(typeof(ISharedInterface )).HasMinVersion("1.0");</b><br />
 <br />
 // Query the plugin repository for plugins that fulfills the requirements.<br />
-<b>IEnumerable&lt;PluginDescriptor&gt; foundPlugins = pluginRepository.Plugins(filter);</b><br />
+<b>IEnumerable&lt;<a href="Reference/Index.html?topic=html/T_PluginFramework_PluginDescriptor.htm">PluginDescriptor</a>&gt; foundPlugins = pluginRepository.<a href="Reference/Index.html?topic=html/M_PluginFramework_IPluginRepository_Plugins.htm">Plugins</a>(filter);</b><br />
 <br />
 // Ask for a plugin creator from a specified AppDomain.<br />
-<b>IPluginCreator pluginCreator = PluginCreator.GetCreator(SomeAppDomain);</b><br />
+<b><a href="Reference/Index.html?topic=html/T_PluginFramework_IPluginCreator.htm">IPluginCreator</a> pluginCreator = <a href="Reference/Index.html?topic=html/T_PluginFramework_PluginCreator.htm">PluginCreator</a>.<a href="Reference/Index.html?topic=html/M_PluginFramework_PluginCreator_GetCreator.htm">GetCreator</a>(SomeAppDomain);</b><br />
 <br />
 // Create a dictionary for the settings the plugin needs.<br />
 <b>Dictionary&lt;string, object&gt; settings = new Dictionary&lt;string, object&gt;()<br />
@@ -39,9 +39,9 @@
 &nbsp;&nbsp;{ "SomeSetting", Value }<br />
 };</b><br />
 <br />
-// Create a plugin instance by providing a PluginDescriptor, an IAssemblyRepository and settings for the plugin. <br />
+// Create a plugin instance by providing a <a href="Reference/Index.html?topic=html/T_PluginFramework_PluginDescriptor.htm">PluginDescriptor</a>, an <a href="Reference/Index.html?topic=html/T_PluginFramework_IAssemblyRepository.htm">IAssemblyRepository</a> and settings for the plugin.<br />
 // The assembly repository will be used to fetch and load missing assemblies.<br />
-     <b>plugin = pluginCreator.Create&lt;ITestPlugin&gt;(foundPlugins.First(), assemblyContainer, settings);</b><br />
+     <b>plugin = pluginCreator.<a href="Reference/Index.html?topic=html/M_PluginFramework_PluginCreator_Create.htm">Create</a>&lt;ITestPlugin&gt;(foundPlugins.First(), assemblyContainer, settings);</b><br />
 <br />
 // Use the plugin instance to your hearts content<br />
 <b>plugin.SomeMethod();</b><br />
@@ -55,13 +55,13 @@
 
 
   <div class="code">// Tag a class as a plugin with a PluginAttribute and mayhaps give it some extra meta information like a name...<br />
-<b>[Plugin(Name = "APluginName"]</b><br />
+<b>[<a href="Reference/Index.html?topic=html/T_PluginFramework_PluginAttribute.htm">Plugin</a>(Name = "APluginName"]</b><br />
 // ... and maybe a version ...<br />
-<b>[PluginVersion(1, 0)]</b><br />
+<b>[<a href="Reference/Index.html?topic=html/T_PluginFramework_PluginVersionAttribute.htm">PluginVersion</a>(1, 0)]</b><br />
 // ...&nbsp; or other generic 
     meta info<br />
-<b>[PluginInfo(&quot;SomeKey&quot;, &quot;SomeValue&quot;)]<br />
-    [PluginInfo(&quot;SomeOtherKey&quot;, &quot;SomeOtherValue&quot;)]</b><br />
+<b>[<a href="Reference/Index.html?topic=html/T_PluginFramework_PluginInfoAttribute.htm">PluginInfo</a>(&quot;SomeKey&quot;, &quot;SomeValue&quot;)]<br />
+    [<a href="Reference/Index.html?topic=html/T_PluginFramework_PluginInfoAttribute.htm">PluginInfo</a>(&quot;SomeOtherKey&quot;, &quot;SomeOtherValue&quot;)]</b><br />
 // Declare the class as public. <br />
 // Inherit MarshalByRefObject so the plugin can be created inside another AppDomain. <br />
 // Don't forget to implement an interface 
@@ -73,7 +73,7 @@
     properties during plugin instanciation.<br />
 &nbsp;&nbsp;// Note that the setting type must be serializable if the plugin 
     is instanciated inside another AppDomain.<br />
-&nbsp;&nbsp;<b>[PluginSetting(Name = "Name", Required = true)]</b><br />
+&nbsp;&nbsp;<b>[<a href="Reference/Index.html?topic=html/T_PluginFramework_PluginSettingAttribute.htm">PluginSetting</a>(Name = "Name", Required = true)]</b><br />
 &nbsp;&nbsp;<b>public string MyName { get; set; }</b><br />
 <br />
 &nbsp;&nbsp;// Implement the interface methods<br />
