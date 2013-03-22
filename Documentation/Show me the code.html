@@ -25,7 +25,7 @@
 <b>assemblyContainer.AddDir(new PluginDirectory(SomeDir, IncludeSubdirs));</b><br />
 <br />
 // Create a filter that describes the plugin(s) you are interrested in.<br />
-<b>PluginFilter filter = PluginFilter.Create.Implements(typeof(ITestPlugin)).HasMinVersion("1.0");</b><br />
+<b>PluginFilter filter = PluginFilter.Create.Implements(typeof(ISharedInterface )).HasMinVersion("1.0");</b><br />
 <br />
 // Query the plugin repository for plugins that fulfills the requirements.<br />
 <b>IEnumerable&lt;PluginDescriptor&gt; foundPlugins = pluginRepository.Plugins(filter);</b><br />
@@ -44,7 +44,7 @@
      <b>plugin = pluginCreator.Create&lt;ITestPlugin&gt;(foundPlugins.First(), assemblyContainer, settings);</b><br />
 <br />
 // Use the plugin instance to your hearts content<br />
-<b>plugin.methodCall();</b><br />
+<b>plugin.SomeMethod();</b><br />
 </div>
 
 
