@@ -85,7 +85,7 @@ namespace PluginFramework
             if (this.pathAssembly.ContainsKey(assemblyPath))
               throw new ArgumentException("Assembly already added");
 
-            if (reflectionManager.LoadAssembly(assemblyFile.FullName, Guid.NewGuid().ToString()))
+            if (reflectionManager.LoadAssembly(assemblyFile.FullName))
             {
               var assemblyName = reflectionManager.Reflect(assemblyFile.FullName, assembly => assembly.FullName);
               AddPathToName(assemblyName, assemblyFile.FullName);

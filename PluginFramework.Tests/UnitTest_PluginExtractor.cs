@@ -38,7 +38,7 @@ namespace PluginFramework.Tests
       using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
       {
         string assemblyPath = GetType().Assembly.Location;
-        manager.LoadAssembly(assemblyPath, Guid.NewGuid().ToString());
+        manager.LoadAssembly(assemblyPath);
         AssemblyAddedEventArgs args = new AssemblyAddedEventArgs(assemblyPath, manager);
         mockSource.RaiseAssemblyAdded(args);
       }
@@ -64,7 +64,7 @@ namespace PluginFramework.Tests
       using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
       {
         string assemblyPath = GetType().Assembly.Location;
-        manager.LoadAssembly(assemblyPath, Guid.NewGuid().ToString());
+        manager.LoadAssembly(assemblyPath);
         mockSource.RaiseAssemblyAdded(new AssemblyAddedEventArgs(assemblyPath, manager));
 
         AssemblyRemovedEventArgs args = new AssemblyRemovedEventArgs(assemblyPath);
@@ -89,7 +89,7 @@ namespace PluginFramework.Tests
       using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
       {
         string assemblyPath = GetType().Assembly.Location;
-        manager.LoadAssembly(assemblyPath, Guid.NewGuid().ToString());
+        manager.LoadAssembly(assemblyPath);
         mockSource.RaiseAssemblyAdded(new AssemblyAddedEventArgs(assemblyPath, manager));
       }
 
@@ -111,7 +111,7 @@ namespace PluginFramework.Tests
       using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
       {
         string assemblyPath = GetType().Assembly.Location;
-        manager.LoadAssembly(assemblyPath, Guid.NewGuid().ToString());
+        manager.LoadAssembly(assemblyPath);
         mockSource.RaiseAssemblyAdded(new AssemblyAddedEventArgs(assemblyPath, manager));
       }
 
@@ -133,7 +133,7 @@ namespace PluginFramework.Tests
       using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
       {
         string assemblyPath = GetType().Assembly.Location;
-        manager.LoadAssembly(assemblyPath, Guid.NewGuid().ToString());
+        manager.LoadAssembly(assemblyPath);
         mockSource.RaiseAssemblyAdded(new AssemblyAddedEventArgs(assemblyPath, manager));
       }
 
@@ -157,7 +157,7 @@ namespace PluginFramework.Tests
       using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
       {
         string assemblyPath = GetType().Assembly.Location;
-        manager.LoadAssembly(assemblyPath, Guid.NewGuid().ToString());
+        manager.LoadAssembly(assemblyPath);
         mockSource.RaiseAssemblyAdded(new AssemblyAddedEventArgs(assemblyPath, manager));
       }
 
@@ -180,7 +180,7 @@ namespace PluginFramework.Tests
       using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
       {
         string assemblyPath = GetType().Assembly.Location;
-        manager.LoadAssembly(assemblyPath, Guid.NewGuid().ToString());
+        manager.LoadAssembly(assemblyPath);
         mockSource.RaiseAssemblyAdded(new AssemblyAddedEventArgs(assemblyPath, manager));
       }
 
@@ -204,7 +204,7 @@ namespace PluginFramework.Tests
       using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
       {
         string assemblyPath = GetType().Assembly.Location;
-        manager.LoadAssembly(assemblyPath, Guid.NewGuid().ToString());
+        manager.LoadAssembly(assemblyPath);
         mockSource.RaiseAssemblyAdded(new AssemblyAddedEventArgs(assemblyPath, manager));
       }
 

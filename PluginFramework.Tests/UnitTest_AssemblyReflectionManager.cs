@@ -15,48 +15,43 @@ namespace PluginFramework.Tests
     public void ShouldBeAbleToLoadExistingAssembly()
     {
       AssemblyReflectionManager tested = new AssemblyReflectionManager();
-      string domainName = Guid.NewGuid().ToString();
-      Assert.IsTrue(tested.LoadAssembly(GetType().Assembly.Location, domainName));
+      Assert.IsTrue(tested.LoadAssembly(GetType().Assembly.Location));
     }
 
     [TestMethod]
     public void ShouldBeAbleToLoadSeveralAssembliesIntoSameDomain()
     {
       AssemblyReflectionManager tested = new AssemblyReflectionManager();
-      string domainName = Guid.NewGuid().ToString();
-      Assert.IsTrue(tested.LoadAssembly(GetType().Assembly.Location, domainName));
-      Assert.IsTrue(tested.LoadAssembly(tested.GetType().Assembly.Location, domainName));
+      Assert.IsTrue(tested.LoadAssembly(GetType().Assembly.Location));
+      Assert.IsTrue(tested.LoadAssembly(tested.GetType().Assembly.Location));
     }
 
     [TestMethod]
     public void ShouldNotBeAbleToLoadSameAssemblyTwiceIntoSameDomain()
     {
       AssemblyReflectionManager tested = new AssemblyReflectionManager();
-      string domainName = Guid.NewGuid().ToString();
-      Assert.IsTrue(tested.LoadAssembly(GetType().Assembly.Location, domainName));
-      Assert.IsFalse(tested.LoadAssembly(GetType().Assembly.Location, domainName));
+      Assert.IsTrue(tested.LoadAssembly(GetType().Assembly.Location));
+      Assert.IsFalse(tested.LoadAssembly(GetType().Assembly.Location));
     }
 
     [TestMethod]
     public void ShouldThrowFileNotFoundOnLoadOfNonExistingAssembly()
     {
       AssemblyReflectionManager tested = new AssemblyReflectionManager();
-      string domainName = Guid.NewGuid().ToString();
-      DoAssert.Throws<FileNotFoundException>(() => tested.LoadAssembly(Guid.NewGuid().ToString() + ".dll", domainName));
+      DoAssert.Throws<FileNotFoundException>(() => tested.LoadAssembly(Guid.NewGuid().ToString() + ".dll"));
     }
 
     [TestMethod]
     public void ShouldThrowBadImageFormatOnLoadOfInvalidAssembly()
     {
       AssemblyReflectionManager tested = new AssemblyReflectionManager();
-      string domainName = Guid.NewGuid().ToString();
       string fileName = Guid.NewGuid().ToString() + ".dll";
       try
       {
         using (var file = System.IO.File.CreateText(fileName))
           file.WriteLine("not assembly data");
 
-        DoAssert.Throws<BadImageFormatException>(() => tested.LoadAssembly(fileName, domainName));
+        DoAssert.Throws<BadImageFormatException>(() => tested.LoadAssembly(fileName));
       }
       finally
       {

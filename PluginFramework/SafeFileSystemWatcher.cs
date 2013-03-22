@@ -183,7 +183,7 @@ namespace PluginFramework
     {
       while (true)
       {
-        gotEvent.WaitOne(250);
+        gotEvent.WaitOne(250, false);
 
         List<WatcherEvent>[] eventsToProcess = GetEventsToProcess();
 
@@ -258,7 +258,7 @@ namespace PluginFramework
       }
     }
 
-    private void Compact(List<WatcherEvent> events)
+    private static void Compact(List<WatcherEvent> events)
     {
       bool gotCreated = events.Any(x => x.Event == WatcherEventType.Created);
       bool gotDeleted = events.Any(x => x.Event == WatcherEventType.Deleted);

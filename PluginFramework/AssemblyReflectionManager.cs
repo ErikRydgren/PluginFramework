@@ -45,9 +45,8 @@ namespace PluginFramework
     /// Loads the assembly.
     /// </summary>
     /// <param name="assemblyPath">The assembly path.</param>
-    /// <param name="domainName">Name of the domain.</param>
     /// <returns>True if the assembly could be loaded</returns>
-    public bool LoadAssembly(string assemblyPath, string domainName)
+    public bool LoadAssembly(string assemblyPath)
     {
       if (this.proxies.ContainsKey(assemblyPath))
         return false;
