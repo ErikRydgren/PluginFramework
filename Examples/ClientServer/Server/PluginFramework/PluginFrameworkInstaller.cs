@@ -29,7 +29,7 @@ namespace PluginFramework.Examples.ClientServer
       AssemblyContainer assemblyContainer = new AssemblyContainer();
 
       PluginRepository pluginRepository = new PluginRepository();
-      pluginRepository.AddPluginSource(new AssemblySourceToPluginSource(assemblyContainer));
+      pluginRepository.AddPluginSource(new PluginExtractor(assemblyContainer));
 
       System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
       string pluginDir = settingsReader.GetValue("PluginPath", typeof(string)) as string;

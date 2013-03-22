@@ -26,229 +26,31 @@ namespace PluginFramework
   using System.Security.Permissions;
 
   /// <summary>
-  /// Static utility class for creating <see cref="PluginFilter"/>s.
-  /// </summary>
-  public static class Plugin
-  {
-    /// <summary>
-    /// Creates a filter that requires that plugins implement or derive from the provided type.
-    /// </summary>
-    /// <param name="type">Type the plugin is required to implement or derive from</param>
-    /// <returns>The created filter</returns>
-    /// <exception cref="System.ArgumentNullException">type</exception>
-    public static PluginFilter IsTypeOf(Type type)
-    {
-      if (type == null)
-        throw new ArgumentNullException("type");
-
-      return Plugin.IsTypeOf(type.AssemblyQualifiedName);
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins implement or derive from the named type.
-    /// </summary>
-    /// <param name="qualifiedTypeName">Qualified name of the type.</param>
-    /// <returns>The created filter</returns>
-    public static PluginFilter IsTypeOf(string qualifiedTypeName)
-    {
-      if (qualifiedTypeName == null)
-        throw new ArgumentNullException("qualifiedTypeName");
-
-      return Plugin.Implements(qualifiedTypeName).Or(Plugin.DerivesFrom(qualifiedTypeName));
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins implements the provided interface type.
-    /// </summary>
-    /// <param name="interfaceType">Type of the interface the plugin is required to implement.</param>
-    /// <returns>The created filter</returns>
-    /// <exception cref="System.ArgumentNullException">interfaceType</exception>
-    public static PluginFilter Implements(Type interfaceType)
-    {
-      if (interfaceType == null)
-        throw new ArgumentNullException("interfaceType");
-
-      return Plugin.Implements(interfaceType.AssemblyQualifiedName);
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins implements the named interface.
-    /// </summary>
-    /// <param name="qualifiedTypeName">Name of the qualified type.</param>
-    /// <returns>The created filter</returns>
-    public static PluginFilter Implements(string qualifiedTypeName)
-    {
-      if (qualifiedTypeName == null)
-        throw new ArgumentNullException("qualifiedTypeName");
-
-      return new PluginFilter(PluginFilter.FilterOperation.Implements, operationData: qualifiedTypeName);
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins derive from the provided type.
-    /// </summary>
-    /// <param name="baseType">Type of the required base.</param>
-    /// <returns>The created filter</returns>
-    /// <exception cref="System.ArgumentNullException">baseType</exception>
-    public static PluginFilter DerivesFrom(Type baseType)
-    {
-      if (baseType == null)
-        throw new ArgumentNullException("baseType");
-
-      return Plugin.DerivesFrom(baseType.AssemblyQualifiedName);
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins derive from the named type.
-    /// </summary>
-    /// <param name="baseType">Qualified name of the required base.</param>
-    /// <returns>The created filter</returns>
-    /// <exception cref="System.ArgumentNullException">baseType</exception>
-    public static PluginFilter DerivesFrom(string baseType)
-    {
-      if (baseType == null)
-        throw new ArgumentNullException("baseType");
-
-      return new PluginFilter(PluginFilter.FilterOperation.DerivesFrom, operationData: baseType);
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that the name of plugins matches name.
-    /// </summary>
-    /// <param name="name">The name.</param>
-    /// <returns>The created filter</returns>
-    public static PluginFilter IsNamed(string name)
-    {
-      if (name == null)
-        throw new ArgumentNullException("name");
-
-      return new PluginFilter(PluginFilter.FilterOperation.IsNamed, operationData: name);
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins have a specified metainfo key.
-    /// </summary>
-    /// <param name="key">The key.</param>
-    /// <returns>
-    /// The created filter
-    /// </returns>
-    public static PluginFilter HasInfo(string key)
-    {
-      if (key == null)
-        throw new ArgumentNullException("key");
-
-      return new PluginFilter(PluginFilter.FilterOperation.HasInfo, operationData: key);
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins have a specified metainfo value.
-    /// </summary>
-    /// <param name="key">The metainfo key.</param>
-    /// <param name="value">The metainfo value.</param>
-    /// <returns>
-    /// The created filter
-    /// </returns>
-    public static PluginFilter HasInfoValue(string key, string value)
-    {
-      if (key == null)
-        throw new ArgumentNullException("key");
-
-      if (value == null)
-        throw new ArgumentNullException("value");
-
-      return new PluginFilter(PluginFilter.FilterOperation.InfoValue, operationData: key + '=' + value);
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins have a specified version.
-    /// </summary>
-    /// <param name="pluginVersion">The plugin version.</param>
-    /// <returns>The created filter</returns>
-    public static PluginFilter HasVersion(PluginVersion pluginVersion)
-    {
-      return Plugin.HasMinVersion(pluginVersion).HasMaxVersion(pluginVersion);
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins have a specified version.
-    /// </summary>
-    /// <param name="version">The plugin version.</param>
-    /// <returns>
-    /// The created version
-    /// </returns>
-    /// <exception cref="System.ArgumentNullException">version</exception>
-    public static PluginFilter HasVersion(string version)
-    {
-      if (version == null)
-        throw new ArgumentNullException("version");
-
-      return Plugin.HasVersion(new PluginVersion(version));
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins have a version greater than or equal to the specified version.
-    /// </summary>
-    /// <param name="pluginVersion">The plugin version.</param>
-    /// <returns>The created filter</returns>
-    public static PluginFilter HasMinVersion(PluginVersion pluginVersion)
-    {
-      return new PluginFilter(PluginFilter.FilterOperation.MinVersion, operationData: string.Format(CultureInfo.InvariantCulture, "{0}.{1}", pluginVersion.Major, pluginVersion.Minor));
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins have a version greater than or equal to the specified version.
-    /// </summary>
-    /// <param name="version">The plugin version.</param>
-    /// <returns>
-    /// The created filter
-    /// </returns>
-    /// <exception cref="System.ArgumentNullException">version</exception>
-    public static PluginFilter HasMinVersion(string version)
-    {
-      if (version == null)
-        throw new ArgumentNullException("version");
-
-      return Plugin.HasMinVersion(new PluginVersion(version));
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins have a version less than or equal to the specified version.
-    /// </summary>
-    /// <param name="pluginVersion">The plugin version.</param>
-    /// <returns>The created filter</returns>
-    public static PluginFilter HasMaxVersion(PluginVersion pluginVersion)
-    {
-      return new PluginFilter(PluginFilter.FilterOperation.MaxVersion, operationData: string.Format(CultureInfo.InvariantCulture, "{0}.{1}", pluginVersion.Major, pluginVersion.Minor));
-    }
-
-    /// <summary>
-    /// Creates a filter that requires that plugins have a version less than or equal to the specified version.
-    /// </summary>
-    /// <param name="version">The plugin version.</param>
-    /// <returns>
-    /// The created filter
-    /// </returns>
-    /// <exception cref="System.ArgumentNullException">version</exception>
-    public static PluginFilter HasMaxVersion(string version)
-    {
-      if (version == null)
-        throw new ArgumentNullException("version");
-
-      return Plugin.HasMaxVersion(new PluginVersion(version));
-    }
-  }
-
-  /// <summary>
   /// Describes the conditions a plugin needs to satisfy to be returned from a <see cref="IPluginRepository" /> search.
   /// </summary>
   [Serializable]
   public sealed class PluginFilter : ISerializable, IEquatable<PluginFilter>
   {
+    private static PluginFilter PASSTHROUGH = new PluginFilter(FilterOperation.PassThrough, null, null);
+
+    /// <summary>
+    /// New filter.
+    /// </summary>
+    /// <value>
+    /// A new filter.
+    /// </value>
+    public static PluginFilter Create { 
+      get { 
+        return PASSTHROUGH; 
+      } 
+    }
+
     /// <summary>
     /// The possible filter operations
     /// </summary>
     internal enum FilterOperation
     {
+      PassThrough,
       Implements,
       DerivesFrom,
       IsNamed,
@@ -323,6 +125,12 @@ namespace PluginFramework
       if (right == null)
         throw new ArgumentNullException("right");
 
+      if (left == PASSTHROUGH)
+        return right;
+
+      if (right == PASSTHROUGH)
+        return left;
+
       PluginFilter[] filters;
       if (left.Operation == op && right.Operation == op)
       {
@@ -353,31 +161,43 @@ namespace PluginFramework
     }
 
     /// <summary>
-    /// Creates a filter that requires that plugins first pass this filter then pass the supplied filter  
+    /// Creates a filter that requires that plugins first pass this filter then pass the supplied filters
     /// </summary>
-    /// <param name="filter">The filter.</param>
-    /// <returns>The created filter</returns>
-    /// <exception cref="System.ArgumentNullException">filter</exception>
-    public PluginFilter And(PluginFilter filter)
+    /// <param name="filters">The filters.</param>
+    /// <returns>
+    /// The created filter
+    /// </returns>
+    /// <exception cref="System.ArgumentNullException">filters</exception>
+    public PluginFilter And(params PluginFilter[] filters)
     {
-      if (filter == null)
-        throw new ArgumentNullException("filter");
+      if (filters == null)
+        throw new ArgumentNullException("filters");
 
-      return Combine(FilterOperation.And, this, filter);
+      var combined = this;
+      foreach (var filter in filters)
+        combined = Combine(FilterOperation.And, combined, filter);
+
+      return combined;
     }
 
     /// <summary>
-    /// Creates a filter that requires that plugins either pass this filter or pass the supplied filter  
+    /// Creates a filter that requires that plugins either pass this filter or pass one of the supplied filters
     /// </summary>
-    /// <param name="filter">The filter.</param>
-    /// <returns>The created filter</returns>
-    /// <exception cref="System.ArgumentNullException">filter</exception>
-    public PluginFilter Or(PluginFilter filter)
+    /// <param name="filters">The filters.</param>
+    /// <returns>
+    /// The created filter
+    /// </returns>
+    /// <exception cref="System.ArgumentNullException">filters</exception>
+    public PluginFilter Or(params PluginFilter[] filters)
     {
-      if (filter == null)
-        throw new ArgumentNullException("filter");
+      if (filters == null)
+        throw new ArgumentNullException("filters");
 
-      return Combine(FilterOperation.Or, this, filter);
+      var combined = this;
+      foreach (var filter in filters)
+        combined = Combine(FilterOperation.Or, combined, filter);
+
+      return combined;
     }
 
     /// <summary>
@@ -404,7 +224,10 @@ namespace PluginFramework
       if (qualifiedTypeName == null)
         throw new ArgumentNullException("qualifiedTypeName");
 
-      return this.And(Plugin.IsTypeOf(qualifiedTypeName));
+      return this.And(
+            new PluginFilter(FilterOperation.DerivesFrom, qualifiedTypeName)
+        .Or(new PluginFilter(FilterOperation.Implements, qualifiedTypeName))
+      );
     }
 
     /// <summary>
@@ -431,7 +254,7 @@ namespace PluginFramework
       if (qualifiedTypeName == null)
         throw new ArgumentNullException("qualifiedTypeName");
 
-      return this.And(Plugin.Implements(qualifiedTypeName));
+      return this.And(new PluginFilter(FilterOperation.Implements, qualifiedTypeName));
     }
 
     /// <summary>
@@ -461,7 +284,7 @@ namespace PluginFramework
       if (baseType == null)
         throw new ArgumentNullException("baseType");
 
-      return this.And(Plugin.DerivesFrom(baseType));
+      return this.And(new PluginFilter(FilterOperation.DerivesFrom, baseType));
     }
 
     /// <summary>
@@ -474,7 +297,7 @@ namespace PluginFramework
       if (name == null)
         throw new ArgumentNullException("name");
 
-      return this.And(Plugin.IsNamed(name));
+      return this.And(new PluginFilter(FilterOperation.IsNamed, name));
     }
 
     /// <summary>
@@ -489,7 +312,7 @@ namespace PluginFramework
       if (key == null)
         throw new ArgumentNullException("key");
 
-      return this.And(Plugin.HasInfo(key));
+      return this.And(new PluginFilter(FilterOperation.HasInfo, key));
     }
 
     /// <summary>
@@ -513,7 +336,7 @@ namespace PluginFramework
       if (value == null)
         throw new ArgumentNullException("value");
 
-      return this.And(Plugin.HasInfoValue(key, value));
+      return this.And(new PluginFilter(FilterOperation.InfoValue, key + "=" + value));
     }
 
     /// <summary>
@@ -525,7 +348,7 @@ namespace PluginFramework
     /// </returns>
     public PluginFilter HasVersion(PluginVersion version)
     {
-      return this.And(Plugin.HasVersion(version));
+      return this.And(new PluginFilter(FilterOperation.MinVersion, version.ToString()), new PluginFilter(FilterOperation.MaxVersion, version.ToString()));
     }
 
     /// <summary>
@@ -553,7 +376,7 @@ namespace PluginFramework
     /// </returns>
     public PluginFilter HasMinVersion(PluginVersion version)
     {
-      return this.And(Plugin.HasMinVersion(version));
+      return this.And(new PluginFilter(FilterOperation.MinVersion, version.ToString()));
     }
 
     /// <summary>
@@ -581,7 +404,7 @@ namespace PluginFramework
     /// </returns>
     public PluginFilter HasMaxVersion(PluginVersion version)
     {
-      return this.And(Plugin.HasMaxVersion(version));
+      return this.And(new PluginFilter(FilterOperation.MaxVersion, version.ToString()));
     }
 
     /// <summary>
@@ -616,6 +439,9 @@ namespace PluginFramework
 
       switch (this.Operation)
       {
+        case FilterOperation.PassThrough:
+          return plugins;
+
         case FilterOperation.Implements:
           return ApplyImplementsFilter(plugins);
 

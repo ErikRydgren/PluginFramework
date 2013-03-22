@@ -144,7 +144,7 @@ namespace PluginFramework.Tests
       pluginSource.RaisePluginAdded(plugin1);
       pluginSource.RaisePluginAdded(plugin2);
 
-      PluginFilter filter = Plugin.IsNamed("plugin1");
+      PluginFilter filter = PluginFilter.Create.IsNamed("plugin1");
       var foundPlugins = tested.Plugins(filter);
 
       Assert.AreEqual(1, foundPlugins.Count());

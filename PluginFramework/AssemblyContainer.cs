@@ -33,9 +33,19 @@ namespace PluginFramework
   /// </summary>
   public sealed class AssemblyContainer : MarshalByRefObject, IAssemblySource, IAssemblyRepository
   {
-    Dictionary<string, List<string>> assemblyPaths = new Dictionary<string, List<string>>();
-    Dictionary<string, string> pathAssembly = new Dictionary<string, string>();
-    HashSet<IPluginDirectory> directories = new HashSet<IPluginDirectory>();
+    Dictionary<string, List<string>> assemblyPaths;
+    Dictionary<string, string> pathAssembly;
+    HashSet<IPluginDirectory> directories;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AssemblyContainer"/> class.
+    /// </summary>
+    public AssemblyContainer()
+    {
+      this.assemblyPaths = new Dictionary<string, List<string>>();
+      this.pathAssembly = new Dictionary<string, string>();
+      this.directories = new HashSet<IPluginDirectory>();
+    }
 
     /// <summary>
     /// Occurs when an assembly is added.

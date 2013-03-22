@@ -25,12 +25,21 @@ using System.Security;
 namespace PluginFramework
 {
   /// <summary>
-  /// Simplifies assembly loading and reflection inside a remote AppDomain by using proxies inside the remote AppDomain.
+  /// Simplifies assembly loading and reflection inside a remote AppDomain by using this.proxies inside the remote AppDomain.
   /// </summary>
   public class AssemblyReflectionManager : IDisposable
   {
-    AppDomain appDomain = null;
-    Dictionary<string, AssemblyReflectionProxy> _proxies = new Dictionary<string, AssemblyReflectionProxy>();
+    AppDomain appDomain;
+    Dictionary<string, AssemblyReflectionProxy> proxies;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AssemblyReflectionManager"/> class.
+    /// </summary>
+    public AssemblyReflectionManager()
+    {
+      this.appDomain = CreateChildDomain(AppDomain.CurrentDomain, Guid.NewGuid().ToString());
+      this.proxies = new Dictionary<string, AssemblyReflectionProxy>();
+    }
 
     /// <summary>
     /// Loads the assembly.
@@ -40,21 +49,18 @@ namespace PluginFramework
     /// <returns>True if the assembly could be loaded</returns>
     public bool LoadAssembly(string assemblyPath, string domainName)
     {
-      if (_proxies.ContainsKey(assemblyPath))
+      if (this.proxies.ContainsKey(assemblyPath))
         return false;
 
-      if (appDomain == null)
-        appDomain = CreateChildDomain(AppDomain.CurrentDomain, Guid.NewGuid().ToString());
-          
       var proxy =
-          (AssemblyReflectionProxy)appDomain.
+          (AssemblyReflectionProxy)this.appDomain.
               CreateInstanceFromAndUnwrap(
               typeof(AssemblyReflectionProxy).Assembly.Location,
               typeof(AssemblyReflectionProxy).FullName);
 
       proxy.LoadAssembly(assemblyPath);
 
-      _proxies[assemblyPath] = proxy;
+      this.proxies[assemblyPath] = proxy;
 
       return true;
     }
@@ -76,7 +82,7 @@ namespace PluginFramework
         throw new ArgumentNullException("func");
 
       AssemblyReflectionProxy proxy;
-      if (!_proxies.TryGetValue(assemblyPath, out proxy))
+      if (!this.proxies.TryGetValue(assemblyPath, out proxy))
         throw new ArgumentException("Unknown assembly");
     
       return proxy.Reflect(func);
@@ -99,16 +105,16 @@ namespace PluginFramework
     {
       if (disposing)
       {
-        if (_proxies != null)
+        if (this.proxies != null)
         {
-          _proxies.Clear();
-          _proxies = null;
+          this.proxies.Clear();
+          this.proxies = null;
         }
 
-        if (appDomain != null)
+        if (this.appDomain != null)
         {
-          AppDomain.Unload(appDomain);
-          appDomain = null;
+          AppDomain.Unload(this.appDomain);
+          this.appDomain = null;
         }
       }
     }

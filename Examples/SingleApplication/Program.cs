@@ -38,7 +38,7 @@ namespace PluginFramework.Examples.SingleApplication
       Console.WriteLine("Creating plugin repository");
       this.pluginRepository = new PluginRepository();
       this.assemblyContainer = new AssemblyContainer();
-      this.pluginRepository.AddPluginSource(new AssemblySourceToPluginSource(this.assemblyContainer));
+      this.pluginRepository.AddPluginSource(new PluginExtractor(this.assemblyContainer));
       
       DirectoryInfo pluginDir = new DirectoryInfo(@"..\..\..\Plugin\Bin");
       Console.WriteLine(@"Adding plugins from {0}", pluginDir.FullName);
@@ -64,7 +64,7 @@ namespace PluginFramework.Examples.SingleApplication
         };
         settings.Add("Name", "SettingName");
 
-        PluginFilter filter = Plugin.Implements(typeof(ITestPlugin)).HasMinVersion("1.0");
+        PluginFilter filter = PluginFilter.Create.Implements(typeof(ITestPlugin)).HasMinVersion("1.0");
         Console.WriteLine("Querying for plugins satisfying {0}", filter);
         PluginDescriptor[] foundPlugins = this.pluginRepository.Plugins(filter).ToArray();
         Console.WriteLine(string.Format("{0} plugins found", foundPlugins.Length));

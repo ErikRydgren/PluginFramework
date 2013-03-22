@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="MockAssemblySource.cs" />
     <Compile Include="UnitTest_AssemblyReflectionManager.cs" />
-    <Compile Include="UnitTest_AssemblySourceToPluginSource.cs" />
+    <Compile Include="UnitTest_PluginExtractor.cs" />
     <Compile Include="UnitTest_FileSystemWatcher.cs" />
     <Compile Include="UnitTest_PluginSettingException.cs" />
     <Compile Include="DoAssert.cs" />

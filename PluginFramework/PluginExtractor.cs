@@ -26,16 +26,16 @@ namespace PluginFramework
   /// <summary>
   /// Utility class for extracting plugins from assemblies provided from an IAssemblySource and exposing them through IPluginSource events
   /// </summary>
-  public class AssemblySourceToPluginSource : IPluginSource
+  public class PluginExtractor : IPluginSource
   {
     Dictionary<string, PluginDescriptor[]> assemblyPlugins;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AssemblySourceToPluginSource"/> class.
+    /// Initializes a new instance of the <see cref="PluginExtractor"/> class.
     /// </summary>
     /// <param name="assemblySource">The assembly source.</param>
     /// <exception cref="System.ArgumentNullException">assemblySource</exception>
-    public AssemblySourceToPluginSource(IAssemblySource assemblySource)
+    public PluginExtractor(IAssemblySource assemblySource)
     {
       if (assemblySource == null)
         throw new ArgumentNullException("assemblySource");

@@ -7,20 +7,20 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace PluginFramework.Tests
 {
   [TestClass]
-  public class UnitTest_AssemblySourceToPluginSource
+  public class UnitTest_PluginExtractor
   {
     #region Construction
     [TestMethod]
     public void ConstructionRequiresIAssemblySource()
     {
-      DoAssert.Throws<ArgumentNullException>(() => new AssemblySourceToPluginSource(null));
+      DoAssert.Throws<ArgumentNullException>(() => new PluginExtractor(null));
     }
 
     [TestMethod]
     public void ConstructionWithIAssemblySource()
     {
       MockAssemblySource mockSource = new MockAssemblySource();
-      AssemblySourceToPluginSource tested = new AssemblySourceToPluginSource(mockSource);
+      PluginExtractor tested = new PluginExtractor(mockSource);
       Assert.IsNotNull(tested);
     }
     #endregion
@@ -30,7 +30,7 @@ namespace PluginFramework.Tests
     public void OnAssemblyAddedShouldRaisePluginFoundForEachPluginInAssembly()
     {
       MockAssemblySource mockSource = new MockAssemblySource();
-      AssemblySourceToPluginSource tested = new AssemblySourceToPluginSource(mockSource);
+      PluginExtractor tested = new PluginExtractor(mockSource);
 
       List<PluginDescriptor> plugins = new List<PluginDescriptor>();
       tested.PluginAdded += (s, e) => plugins.Add(e.Plugin);
@@ -55,7 +55,7 @@ namespace PluginFramework.Tests
     public void OnAssemblyRemovedShouldRaisePluginLostForEachPluginInAssembly()
     {
       MockAssemblySource mockSource = new MockAssemblySource();
-      AssemblySourceToPluginSource tested = new AssemblySourceToPluginSource(mockSource);
+      PluginExtractor tested = new PluginExtractor(mockSource);
 
       List<PluginDescriptor> plugins = new List<PluginDescriptor>();
       tested.PluginAdded += (s, e) => plugins.Add(e.Plugin);
@@ -80,7 +80,7 @@ namespace PluginFramework.Tests
     public void PluginDescriptorShouldContainDefaultName()
     {
       MockAssemblySource mockSource = new MockAssemblySource();
-      AssemblySourceToPluginSource tested = new AssemblySourceToPluginSource(mockSource);
+      PluginExtractor tested = new PluginExtractor(mockSource);
 
       List<PluginDescriptor> plugins = new List<PluginDescriptor>();
       tested.PluginAdded += (s, e) => plugins.Add(e.Plugin);
@@ -102,7 +102,7 @@ namespace PluginFramework.Tests
     public void PluginDescriptorShouldContainSpecifiedName()
     {
       MockAssemblySource mockSource = new MockAssemblySource();
-      AssemblySourceToPluginSource tested = new AssemblySourceToPluginSource(mockSource);
+      PluginExtractor tested = new PluginExtractor(mockSource);
 
       List<PluginDescriptor> plugins = new List<PluginDescriptor>();
       tested.PluginAdded += (s, e) => plugins.Add(e.Plugin);
@@ -124,7 +124,7 @@ namespace PluginFramework.Tests
     public void PluginDescriptorShouldContainDerivedClasses()
     {
       MockAssemblySource mockSource = new MockAssemblySource();
-      AssemblySourceToPluginSource tested = new AssemblySourceToPluginSource(mockSource);
+      PluginExtractor tested = new PluginExtractor(mockSource);
 
       List<PluginDescriptor> plugins = new List<PluginDescriptor>();
       tested.PluginAdded += (s, e) => plugins.Add(e.Plugin);
@@ -148,7 +148,7 @@ namespace PluginFramework.Tests
     public void PluginDescriptorShouldContainImplementedInterfaces()
     {
       MockAssemblySource mockSource = new MockAssemblySource();
-      AssemblySourceToPluginSource tested = new AssemblySourceToPluginSource(mockSource);
+      PluginExtractor tested = new PluginExtractor(mockSource);
 
       List<PluginDescriptor> plugins = new List<PluginDescriptor>();
       tested.PluginAdded += (s, e) => plugins.Add(e.Plugin);
@@ -171,7 +171,7 @@ namespace PluginFramework.Tests
     public void PluginDescriptorShouldContainPluginInfo()
     {
       MockAssemblySource mockSource = new MockAssemblySource();
-      AssemblySourceToPluginSource tested = new AssemblySourceToPluginSource(mockSource);
+      PluginExtractor tested = new PluginExtractor(mockSource);
 
       List<PluginDescriptor> plugins = new List<PluginDescriptor>();
       tested.PluginAdded += (s, e) => plugins.Add(e.Plugin);
@@ -195,7 +195,7 @@ namespace PluginFramework.Tests
     public void PluginDescriptorShouldContainPluginSettings()
     {
       MockAssemblySource mockSource = new MockAssemblySource();
-      AssemblySourceToPluginSource tested = new AssemblySourceToPluginSource(mockSource);
+      PluginExtractor tested = new PluginExtractor(mockSource);
 
       List<PluginDescriptor> plugins = new List<PluginDescriptor>();
       tested.PluginAdded += (s, e) => plugins.Add(e.Plugin);

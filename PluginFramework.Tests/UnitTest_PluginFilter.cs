@@ -75,237 +75,14 @@ namespace PluginFramework.Tests
       Assert.IsNull(tested.SubFilters);
     }
 
-    #region IsTypeOf
-    [TestMethod]
-    public void ConstructingIsTypeOfStatic()
-    {
-      Type type = typeof(UnitTest_PluginFilter);
-      PluginFilter tested = Plugin.IsTypeOf(type);
-
-      Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.Or, tested.Operation);
-      Assert.AreEqual(2, tested.SubFilters.Length);
-
-      var sub = tested.SubFilters;
-      var filterImplements = sub.FirstOrDefault(x => x.Operation == PluginFilter.FilterOperation.Implements);
-      var filterDerivesFrom = sub.FirstOrDefault(x => x.Operation == PluginFilter.FilterOperation.DerivesFrom);
-
-      Assert.IsNotNull(filterImplements);
-      Assert.IsNotNull(filterDerivesFrom);
-
-      Assert.AreEqual(type.AssemblyQualifiedName, filterImplements.OperationData);
-      Assert.AreEqual(type.AssemblyQualifiedName, filterDerivesFrom.OperationData);
-    }
-
-    [TestMethod]
-    public void ConstructionIsTypeOfStaticRejectNullType()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.IsTypeOf((Type)null));
-    }
-
-    [TestMethod]
-    public void ConstructionIsTypeOfStaticRejectNullString()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.IsTypeOf((string)null));
-    }
-    #endregion
-
-    #region Implements
-    [TestMethod]
-    public void ConstructionImplementsStatic()
-    {
-      Type type = typeof(UnitTest_PluginFilter);
-      PluginFilter tested = Plugin.Implements(type);
-
-      Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.Implements, tested.Operation);
-      Assert.AreEqual(type.AssemblyQualifiedName, tested.OperationData);
-      Assert.IsNull(tested.SubFilters);
-    }
-
-    [TestMethod]
-    public void ConstructionImplementsStaticRejectNullType()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.Implements((Type)null));
-    }
-
-    [TestMethod]
-    public void ConstructionImplementsStaticRejectNullString()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.Implements((string)null));
-    }
-    #endregion
-
-    #region DerivesFrom
-    [TestMethod]
-    public void ConstructionDerivesFromStatic()
-    {
-      Type type = typeof(UnitTest_PluginFilter);
-      PluginFilter tested = Plugin.DerivesFrom(type);
-
-      Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.DerivesFrom, tested.Operation);
-      Assert.AreEqual(type.AssemblyQualifiedName, tested.OperationData);
-      Assert.IsNull(tested.SubFilters);
-    }
-
-    [TestMethod]
-    public void ConstructionDerivesFromStaticRejectNullType()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.DerivesFrom((Type)null));
-    }
-
-    [TestMethod]
-    public void ConstructionDerivesFromStaticRejectNullString()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.DerivesFrom((string)null));
-    }
-    #endregion
-
-    #region IsNamed
-    [TestMethod]
-    public void ConstructionIsNamedFromStatic()
-    {
-      var name = "AName";
-      PluginFilter tested = Plugin.IsNamed(name);
-
-      Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.IsNamed, tested.Operation);
-      Assert.AreEqual(name, tested.OperationData);
-      Assert.IsNull(tested.SubFilters);
-    }
-
-    [TestMethod]
-    public void ConstructionIsNamedFromStaticRejectNull()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.IsNamed(null));
-    }
-    #endregion
-
-    #region HasInfo
-    [TestMethod]
-    public void ConstructionHasInfoFromStatic()
-    {
-      var name = "AName";
-      PluginFilter tested = Plugin.HasInfo(name);
-
-      Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.HasInfo, tested.Operation);
-      Assert.AreEqual(name, tested.OperationData);
-      Assert.IsNull(tested.SubFilters);
-    }
-
-    [TestMethod]
-    public void ConstructionHasInfoFromStaticRejectNull()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasInfo(null));
-    }
-    #endregion
-
-    #region HasInfoValue
-    [TestMethod]
-    public void ConstructionHasInfoValueFromStatic()
-    {
-      var key = "AKey";
-      var value = "AValue";
-      PluginFilter tested = Plugin.HasInfoValue(key, value);
-
-      Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.InfoValue, tested.Operation);
-      Assert.AreEqual(key + "=" + value, tested.OperationData);
-      Assert.IsNull(tested.SubFilters);
-    }
-
-    [TestMethod]
-    public void ConstructionHasInfoValueFromStaticRequiresKey()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasInfoValue(null, "Value"));
-    }
-
-    [TestMethod]
-    public void ConstructionHasInfoValueFromStaticRequiresValue()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasInfoValue("Key", null));
-    }
-    #endregion
-
-    #region HasVersion
-    [TestMethod]
-    public void ConstructingHasVersionStatic()
-    {
-      var version = "1.0";
-      PluginFilter tested = Plugin.HasVersion(version);
-
-      Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
-      Assert.AreEqual(2, tested.SubFilters.Length);
-
-      var sub = tested.SubFilters;
-      var filterImplements = sub.FirstOrDefault(x => x.Operation == PluginFilter.FilterOperation.MinVersion);
-      var filterDerivesFrom = sub.FirstOrDefault(x => x.Operation == PluginFilter.FilterOperation.MaxVersion);
-
-      Assert.IsNotNull(filterImplements);
-      Assert.IsNotNull(filterDerivesFrom);
-
-      Assert.AreEqual(version, filterImplements.OperationData);
-      Assert.AreEqual(version, filterDerivesFrom.OperationData);
-    }
-
-    [TestMethod]
-    public void ConstructionHasVersionStaticRejectNullString()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasVersion((string)null));
-    }
-    #endregion
-
-    #region HasMinVersion
-    [TestMethod]
-    public void ConstructingHasMinVersionStatic()
-    {
-      var version = "1.0";
-
-      PluginFilter tested = Plugin.HasMinVersion(version);
-      Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.MinVersion, tested.Operation);
-      Assert.AreEqual(version, tested.OperationData);
-      Assert.IsNull(tested.SubFilters);
-    }
-
-    [TestMethod]
-    public void ConstructingHasMinVersionStaticRejectNullString()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasMinVersion((string)null));
-    }
-    #endregion
-
-    #region HasMaxVersion
-    [TestMethod]
-    public void ConstructingHasMaxVersionStatic()
-    {
-      var version = "1.0";
-
-      PluginFilter tested = Plugin.HasMaxVersion(version);
-      Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.MaxVersion, tested.Operation);
-      Assert.AreEqual(version, tested.OperationData);
-      Assert.IsNull(tested.SubFilters);
-    }
-
-    [TestMethod]
-    public void ConstructingHasMaxVersionStaticRejectNullString()
-    {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasMaxVersion((string)null));
-    }
-    #endregion
-
     #endregion
 
     #region Combine
     [TestMethod]
     public void CombineBecomesSubFilters()
     {
-      var left = Plugin.IsNamed("left");
-      var right = Plugin.IsNamed("right");
+      var left = PluginFilter.Create.IsNamed("left");
+      var right = PluginFilter.Create.IsNamed("right");
 
       PluginFilter tested = PluginFilter.Combine(PluginFilter.FilterOperation.And, left, right);
 
@@ -327,8 +104,8 @@ namespace PluginFramework.Tests
 
       var invalid = Enum.GetValues(typeof(PluginFilter.FilterOperation)).OfType<PluginFilter.FilterOperation>().Except(valid);
 
-      var left = Plugin.IsNamed("left");
-      var right = Plugin.IsNamed("right");
+      var left = PluginFilter.Create.IsNamed("left");
+      var right = PluginFilter.Create.IsNamed("right");
 
       foreach (var value in invalid)
       {
@@ -344,25 +121,25 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void CombineRequiresLeftArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Combine(PluginFilter.FilterOperation.And, null, Plugin.IsNamed("right")));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Combine(PluginFilter.FilterOperation.And, null, PluginFilter.Create.IsNamed("right")));
     }
 
     [TestMethod]
     public void CombineRequiresRightArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Combine(PluginFilter.FilterOperation.And, Plugin.IsNamed("left"), null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Combine(PluginFilter.FilterOperation.And, PluginFilter.Create.IsNamed("left"), null));
     }
 
     [TestMethod]
     public void CombineShouldMergeIfArgsAreSameOperator()
     {
       var op = PluginFilter.FilterOperation.Or;
-      PluginFilter left1 = Plugin.IsNamed("left1");
-      PluginFilter right1 = Plugin.IsNamed("right1");
+      PluginFilter left1 = PluginFilter.Create.IsNamed("left1");
+      PluginFilter right1 = PluginFilter.Create.IsNamed("right1");
       PluginFilter combined1 = PluginFilter.Combine(op, left1, right1);
 
-      PluginFilter left2 = Plugin.IsNamed("left2");
-      PluginFilter right2 = Plugin.IsNamed("right2");
+      PluginFilter left2 = PluginFilter.Create.IsNamed("left2");
+      PluginFilter right2 = PluginFilter.Create.IsNamed("right2");
       PluginFilter combined2 = PluginFilter.Combine(op, left2, right2);
 
       PluginFilter tested = PluginFilter.Combine(op, combined1, combined2);
@@ -379,10 +156,10 @@ namespace PluginFramework.Tests
     public void CombineShouldMergeIfLeftIsSameOperator()
     {
       var op = PluginFilter.FilterOperation.Or;
-      PluginFilter left1 = Plugin.IsNamed("left1");
-      PluginFilter right1 = Plugin.IsNamed("right1");
+      PluginFilter left1 = PluginFilter.Create.IsNamed("left1");
+      PluginFilter right1 = PluginFilter.Create.IsNamed("right1");
       PluginFilter combined1 = PluginFilter.Combine(op, left1, right1);
-      PluginFilter right2 = Plugin.IsNamed("right2");
+      PluginFilter right2 = PluginFilter.Create.IsNamed("right2");
 
       PluginFilter tested = PluginFilter.Combine(op, combined1, right2);
       Assert.AreEqual(op, tested.Operation);
@@ -396,10 +173,10 @@ namespace PluginFramework.Tests
     public void CombineShouldMergeIfRightIsSameOperator()
     {
       var op = PluginFilter.FilterOperation.Or;
-      PluginFilter left1 = Plugin.IsNamed("right2");
+      PluginFilter left1 = PluginFilter.Create.IsNamed("right2");
 
-      PluginFilter left2 = Plugin.IsNamed("left1");
-      PluginFilter right2 = Plugin.IsNamed("right1");
+      PluginFilter left2 = PluginFilter.Create.IsNamed("left1");
+      PluginFilter right2 = PluginFilter.Create.IsNamed("right1");
       PluginFilter combined2 = PluginFilter.Combine(op, left2, right2);
 
       PluginFilter tested = PluginFilter.Combine(op, left1, combined2);
@@ -415,15 +192,15 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void AndRequiresArgument()
     {
-      PluginFilter tested = Plugin.HasVersion("1.0");
+      PluginFilter tested = PluginFilter.Create.HasVersion("1.0");
       DoAssert.Throws<ArgumentNullException>(() => tested.And(null));
     }
 
     [TestMethod]
     public void AndCreatesAndOperatorWithSubFilters()
     {
-      PluginFilter original = Plugin.IsNamed("original");
-      PluginFilter added = Plugin.HasInfo("added");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
+      PluginFilter added = PluginFilter.Create.HasInfo("added");
       PluginFilter tested = original.And(added);
 
       Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
@@ -438,15 +215,15 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void OrRequiresArgument()
     {
-      PluginFilter tested = Plugin.HasVersion("1.0");
+      PluginFilter tested = PluginFilter.Create.HasVersion("1.0");
       DoAssert.Throws<ArgumentNullException>(() => tested.Or(null));
     }
 
     [TestMethod]
     public void OrCreatesOrOperatorWithSubFilters()
     {
-      PluginFilter original = Plugin.IsNamed("original");
-      PluginFilter added = Plugin.HasInfo("added");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
+      PluginFilter added = PluginFilter.Create.HasInfo("added");
       PluginFilter tested = original.Or(added);
 
       Assert.AreEqual(PluginFilter.FilterOperation.Or, tested.Operation);
@@ -461,7 +238,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void IsTypeOfShouldAndCombineWithNewIsTypeOfFilter()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       Type type = typeof(UnitTest_PluginFilter);
       PluginFilter tested = original.IsTypeOf(type);
 
@@ -478,14 +255,14 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void IsTypeOfShouldNotAcceptNullType()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.IsTypeOf((Type)null));
     }
 
     [TestMethod]
     public void IsTypeOfShouldNotAcceptNullString()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.IsTypeOf((String)null));
     }
     #endregion
@@ -494,7 +271,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ImplementsShouldAndCombineWithNewIsTypeOfFilter()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       Type type = typeof(UnitTest_PluginFilter);
       PluginFilter tested = original.Implements(type);
 
@@ -507,14 +284,14 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ImplementsShouldNotAcceptNullType()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.Implements((Type)null));
     }
 
     [TestMethod]
     public void ImplementsShouldNotAcceptNullString()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.Implements((String)null));
     }
     #endregion
@@ -523,7 +300,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void DerivesFromShouldAndCombineWithNewIsTypeOfFilter()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       Type type = typeof(UnitTest_PluginFilter);
       PluginFilter tested = original.DerivesFrom(type);
 
@@ -536,14 +313,14 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void DerivesFromShouldNotAcceptNullType()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.DerivesFrom((Type)null));
     }
 
     [TestMethod]
     public void DerivesFromShouldNotAcceptNullString()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.DerivesFrom((String)null));
     }
     #endregion
@@ -553,7 +330,7 @@ namespace PluginFramework.Tests
     public void IsNamedShouldAndCombineWithNewIsTypeOfFilter()
     {
       var name = "name";
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       PluginFilter tested = original.IsNamed(name);
 
       Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
@@ -565,7 +342,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void IsNamedShouldNotAcceptNull()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.IsNamed((String)null));
     }
     #endregion
@@ -575,7 +352,7 @@ namespace PluginFramework.Tests
     public void HasInfoShouldAndCombineWithNewIsTypeOfFilter()
     {
       var name = "name";
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       PluginFilter tested = original.HasInfo(name);
 
       Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
@@ -587,7 +364,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void HasInfoShouldNotAcceptNull()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.HasInfo((String)null));
     }
     #endregion
@@ -598,7 +375,7 @@ namespace PluginFramework.Tests
     {
       var key = "key";
       var value = "value";
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       PluginFilter tested = original.HasInfoValue(key, value);
 
       Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
@@ -610,14 +387,14 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void HasInfoValueShouldNotAcceptNullKey()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.HasInfoValue(null, "value"));
     }
 
     [TestMethod]
     public void HasInfoValueShouldNotAcceptNullValue()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.HasInfoValue("key", null));
     }
     #endregion
@@ -627,7 +404,7 @@ namespace PluginFramework.Tests
     public void HasVersionShouldAndCombineWithNewIsTypeOfFilter()
     {
       var version = "1.0";
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       PluginFilter tested = original.HasVersion(version);
 
       Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
@@ -640,7 +417,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void HasVersionShouldNotAcceptNullString()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.HasVersion((String)null));
     }
     #endregion
@@ -650,7 +427,7 @@ namespace PluginFramework.Tests
     public void HasMinVersionShouldAndCombineWithNewIsTypeOfFilter()
     {
       var version = "1.0";
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       PluginFilter tested = original.HasMinVersion(version);
 
       Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
@@ -662,7 +439,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void HasMinVersionShouldNotAcceptNullString()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.HasMinVersion((String)null));
     }
     #endregion
@@ -672,7 +449,7 @@ namespace PluginFramework.Tests
     public void HasMaxVersionShouldAndCombineWithNewIsTypeOfFilter()
     {
       var version = "1.0";
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       PluginFilter tested = original.HasMaxVersion(version);
 
       Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
@@ -684,7 +461,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void HasMaxVersionShouldNotAcceptNullString()
     {
-      PluginFilter original = Plugin.IsNamed("original");
+      PluginFilter original = PluginFilter.Create.IsNamed("original");
       DoAssert.Throws<ArgumentNullException>(() => original.HasMaxVersion((String)null));
     }
     #endregion
@@ -694,13 +471,13 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void FilterShouldNotAcceptNull()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.IsNamed("name").Filter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.IsNamed("name").Filter(null));
     }
 
     [TestMethod]
     public void FilterShouldApplyImplements()
     {
-      PluginFilter tested = Plugin.Implements(typeof(IMockPluginInterface1));
+      PluginFilter tested = PluginFilter.Create.Implements(typeof(IMockPluginInterface1));
       PluginDescriptor[] filtered = tested.Filter(this.descriptors).ToArray();
 
       Assert.AreEqual(2, filtered.Length);
@@ -711,7 +488,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void FilterShouldApplyDerivesFrom()
     {
-      PluginFilter tested = Plugin.DerivesFrom(typeof(MockPluginBase));
+      PluginFilter tested = PluginFilter.Create.DerivesFrom(typeof(MockPluginBase));
       PluginDescriptor[] filtered = tested.Filter(this.descriptors).ToArray();
 
       Assert.AreEqual(1, filtered.Length);
@@ -721,7 +498,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void FilterShouldApplyIsNamed()
     {
-      PluginFilter tested = Plugin.IsNamed("MockPlugin1");
+      PluginFilter tested = PluginFilter.Create.IsNamed("MockPlugin1");
       PluginDescriptor[] filtered = tested.Filter(this.descriptors).ToArray();
 
       Assert.AreEqual(1, filtered.Length);
@@ -731,7 +508,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void FilterShouldApplyHasInfo()
     {
-      PluginFilter tested = Plugin.HasInfo("validkey");
+      PluginFilter tested = PluginFilter.Create.HasInfo("validkey");
       PluginDescriptor[] filtered = tested.Filter(this.descriptors).ToArray();
 
       Assert.AreEqual(1, filtered.Length);
@@ -741,7 +518,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void FilterShouldApplyHasInfoValue()
     {
-      PluginFilter tested = Plugin.HasInfoValue("validkey", "validvalue");
+      PluginFilter tested = PluginFilter.Create.HasInfoValue("validkey", "validvalue");
       PluginDescriptor[] filtered = tested.Filter(this.descriptors).ToArray();
 
       Assert.AreEqual(1, filtered.Length);
@@ -751,7 +528,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void FilterShouldApplyHasMinVersion()
     {
-      PluginFilter tested = Plugin.HasMinVersion("55.66");
+      PluginFilter tested = PluginFilter.Create.HasMinVersion("55.66");
       PluginDescriptor[] filtered = tested.Filter(this.descriptors).ToArray();
 
       Assert.AreEqual(2, filtered.Length);
@@ -762,7 +539,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void FilterShouldApplyHasMaxVersion()
     {
-      PluginFilter tested = Plugin.HasMaxVersion("55.66");
+      PluginFilter tested = PluginFilter.Create.HasMaxVersion("55.66");
       PluginDescriptor[] filtered = tested.Filter(this.descriptors).ToArray();
 
       Assert.AreEqual(2, filtered.Length);
@@ -773,7 +550,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void FilterShouldApplyAndOperation()
     {
-      PluginFilter tested = Plugin.HasMaxVersion("55.66").And(Plugin.HasMinVersion("55.66"));
+      PluginFilter tested = PluginFilter.Create.HasMaxVersion("55.66").And(PluginFilter.Create.HasMinVersion("55.66"));
       PluginDescriptor[] filtered = tested.Filter(this.descriptors).ToArray();
 
       Assert.AreEqual(1, filtered.Length);
@@ -783,7 +560,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void FilterShouldApplyOrOperation()
     {
-      PluginFilter tested = Plugin.HasMaxVersion("55.66").Or(Plugin.HasMinVersion("55.66"));
+      PluginFilter tested = PluginFilter.Create.HasMaxVersion("55.66").Or(PluginFilter.Create.HasMinVersion("55.66"));
       PluginDescriptor[] filtered = tested.Filter(this.descriptors).ToArray();
 
       Assert.AreEqual(3, filtered.Length);
@@ -805,7 +582,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ApplyMaxVersionFilterRequiresArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasMaxVersion("1.0").ApplyMaxVersionFilter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.HasMaxVersion("1.0").ApplyMaxVersionFilter(null));
     }
     #endregion
 
@@ -813,7 +590,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ApplyMinVersionFilterRequiresArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasMinVersion("1.0").ApplyMinVersionFilter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.HasMinVersion("1.0").ApplyMinVersionFilter(null));
     }
     #endregion
 
@@ -821,7 +598,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ApplyHasInfoFilterRequiresArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasInfo("key").ApplyHasInfoFilter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.HasInfo("key").ApplyHasInfoFilter(null));
     }
     #endregion
 
@@ -829,7 +606,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ApplyInfoValueFilterRequiresArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.HasInfoValue("key", "value").ApplyInfoValueFilter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.HasInfoValue("key", "value").ApplyInfoValueFilter(null));
     }
     #endregion
 
@@ -837,7 +614,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ApplyIsNamedFilterRequiresArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.IsNamed("name").ApplyIsNamedFilter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.IsNamed("name").ApplyIsNamedFilter(null));
     }
     #endregion
 
@@ -845,7 +622,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ApplyDerivesFromFilterRequiresArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.DerivesFrom(typeof(MockPluginBase)).ApplyDerivesFromFilter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.DerivesFrom(typeof(MockPluginBase)).ApplyDerivesFromFilter(null));
     }
     #endregion
 
@@ -853,7 +630,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ApplyImplementsFilterRequiresArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.Implements(typeof(IMockPluginInterface1)).ApplyImplementsFilter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.Implements(typeof(IMockPluginInterface1)).ApplyImplementsFilter(null));
     }
     #endregion
 
@@ -861,7 +638,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ApplyAndFilterRequiresArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.IsNamed("name").HasInfo("key").ApplyAndFilter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.IsNamed("name").HasInfo("key").ApplyAndFilter(null));
     }
     #endregion
 
@@ -869,7 +646,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ApplyOrFilterRequiresArgument()
     {
-      DoAssert.Throws<ArgumentNullException>(() => Plugin.IsNamed("name").Or(Plugin.HasInfo("key")).ApplyOrFilter(null));
+      DoAssert.Throws<ArgumentNullException>(() => PluginFilter.Create.IsNamed("name").Or(PluginFilter.Create.HasInfo("key")).ApplyOrFilter(null));
     }
     #endregion
 
@@ -894,8 +671,8 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ToStringAndOperatorExpectedValue()
     {
-      var sub1 = Plugin.IsNamed("sub1");
-      var sub2 = Plugin.IsNamed("sub2");
+      var sub1 = PluginFilter.Create.IsNamed("sub1");
+      var sub2 = PluginFilter.Create.IsNamed("sub2");
       string expected = "(" + sub1.ToString() + " & " + sub2.ToString() + ")";
       PluginFilter tested = sub1.And(sub2);
       Assert.AreEqual(expected, tested.ToString());
@@ -904,8 +681,8 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ToStringOrOperatorExpectedValue()
     {
-      var sub1 = Plugin.IsNamed("sub1");
-      var sub2 = Plugin.IsNamed("sub2");
+      var sub1 = PluginFilter.Create.IsNamed("sub1");
+      var sub2 = PluginFilter.Create.IsNamed("sub2");
       string expected = "(" + sub1.ToString() + " | " + sub2.ToString() + ")";
       PluginFilter tested = sub1.Or(sub2);
       Assert.AreEqual(expected, tested.ToString());
@@ -916,31 +693,31 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void EqualsReturnsFalseWhenComparingAgainstNull()
     {
-      PluginFilter left = Plugin.IsNamed("name");
+      PluginFilter left = PluginFilter.Create.IsNamed("name");
       Assert.IsFalse(left.Equals(null));
     }
 
     [TestMethod]
     public void EqualsReturnsFalseForDifferentOperation()
     {
-      PluginFilter left = Plugin.IsNamed("name");
-      PluginFilter right = Plugin.HasInfo("name");
+      PluginFilter left = PluginFilter.Create.IsNamed("name");
+      PluginFilter right = PluginFilter.Create.HasInfo("name");
       Assert.IsFalse(left.Equals(right));
     }
 
     [TestMethod]
     public void EqualsReturnsFalseForDifferentOperationData()
     {
-      PluginFilter left = Plugin.IsNamed("name");
-      PluginFilter right = Plugin.IsNamed("othername");
+      PluginFilter left = PluginFilter.Create.IsNamed("name");
+      PluginFilter right = PluginFilter.Create.IsNamed("othername");
       Assert.IsFalse(left.Equals(right));
     }
 
     [TestMethod]
     public void EqualsReturnFalseForDifferentSubFilter()
     {
-      PluginFilter left = Plugin.IsNamed("name").Implements("type");
-      PluginFilter right = Plugin.IsNamed("name").DerivesFrom("type");
+      PluginFilter left = PluginFilter.Create.IsNamed("name").Implements("type");
+      PluginFilter right = PluginFilter.Create.IsNamed("name").DerivesFrom("type");
       Assert.IsFalse(left.Equals(right));
     }
     #endregion
@@ -949,7 +726,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void CanSerializeDeserialize()
     {
-      PluginFilter toSerialize = Plugin.IsNamed("some name").Implements(typeof(string)).Or(Plugin.DerivesFrom(typeof(int)).IsNamed("a name").HasVersion("1.0"));
+      PluginFilter toSerialize = PluginFilter.Create.IsNamed("some name").Implements(typeof(string)).Or(PluginFilter.Create.DerivesFrom(typeof(int)).IsNamed("a name").HasVersion("1.0"));
       var knownTypes = new Type[] { typeof(PluginFilter.FilterOperation), typeof(PluginFilter[]) };
       PluginFilter deserialized;
 
@@ -971,7 +748,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void SerializationRequiresSerializationInfo()
     {
-      ISerializable tested = Plugin.Implements(typeof(Stream));
+      ISerializable tested = PluginFilter.Create.Implements(typeof(Stream));
       DoAssert.Throws<ArgumentNullException>(() => tested.GetObjectData(null, new StreamingContext()));
     }
 
