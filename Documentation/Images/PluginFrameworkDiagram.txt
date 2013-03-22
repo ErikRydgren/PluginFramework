@@ -2,7 +2,7 @@
 
 alt Added assembly file
 
-FileSystem -> AssemblyContainer : File added
+PluginDirectory -> AssemblyContainer : FileFound
 AssemblyContainer -> AssemblySourceToPluginSource : AssemblyAdded
 
 loop For each plugin in assembly
@@ -11,7 +11,7 @@ end
 
 else Removed assembly file
 
-FileSystem -> AssemblyContainer : File removed
+PluginDirectory -> AssemblyContainer : FileLost 
 AssemblyContainer -> AssemblySourceToPluginSource : AssemblyRemoved
 
 loop For each plugin in assembly
@@ -21,15 +21,18 @@ end
 end
 
 User -> PluginRepository: Find plugins(filter)
-PluginRepository -> User: Found plugins
+PluginRepository -> User: plugin descriptors
 
 User -> PluginCreator : GetCreator
+
+PluginCreator --> AppDomain : Get IPluginCreator
+
 opt
-PluginCreator --> AppDomain : Get/Create IPluginCreator
 AppDomain --> IPluginCreator : CreateInstance
 end
+
 PluginCreator -> User : IPluginCreator
-User -> IPluginCreator : Create(plugin)
+User -> IPluginCreator : Create(plugin descriptor)
 
 IPluginCreator --> Plugin : CreateInstance
 

@@ -15,16 +15,17 @@
 // It also doubles as an IAssemblyRepository. More on those later.<br />
 <b>var assemblyContainer = new AssemblyContainer();</b><br />
 <br />
-// Add a plugin source to the plugin repository. Here we use an IAssemblySource to IPluginSource converter which discovers <br />
-// and exposes plugins found in assemblies received through the IAssemblySource.<br />
-<b>pluginRepository.AddPluginSource(new AssemblySourceToPluginSource(assemblyContainer));</b><br />
+// Add a plugin source to the plugin repository. Here we use an 
+    PluginExtractor which discovers <br />
+// and exposes plugins found in assemblies received through an IAssemblySource.<br />
+    <b>pluginRepository.AddPluginSource(new PluginExtractor(assemblyContainer));</b><br />
 <br />
 // Tell the assembly container to start reading assemblies from SomeDir. Changes to SomeDir will be exposed 'live' on the <br />
 // IAssemblySource. Which allows hotswapping of plugin assemblies.<br />
-<b>assemblyContainer.SyncWithDirectory(SomeDir, IncludeSubdirs);</b><br />
+<b>assemblyContainer.AddDir(new PluginDirectory(SomeDir, IncludeSubdirs));</b><br />
 <br />
 // Create a filter that describes the plugin(s) you are interrested in.<br />
-<b>PluginFilter filter = Plugin.Implements(typeof(ITestPlugin)).HasMinVersion("1.0");</b><br />
+<b>PluginFilter filter = PluginFilter.Create.Implements(typeof(ITestPlugin)).HasMinVersion("1.0");</b><br />
 <br />
 // Query the plugin repository for plugins that fulfills the requirements.<br />
 <b>IEnumerable&lt;PluginDescriptor&gt; foundPlugins = pluginRepository.Plugins(filter);</b><br />

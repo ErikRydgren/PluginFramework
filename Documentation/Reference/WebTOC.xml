@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpTOC>
+
+  <HelpTOCNode Id="42dfea5b-3c7f-46c5-ac2b-86640ef93880" Title="PluginFramework Namespace" Url="html/N_PluginFramework.htm">
+    <HelpTOCNode Id="67490644-0cb8-42c8-ba04-be46182104b8" Title="AssemblyAddedEventArgs Class" Url="html/T_PluginFramework_AssemblyAddedEventArgs.htm">
+      <HelpTOCNode Title="AssemblyAddedEventArgs Members" Url="html/AllMembers_T_PluginFramework_AssemblyAddedEventArgs.htm" />
+      <HelpTOCNode Title="AssemblyAddedEventArgs Constructor " Url="html/M_PluginFramework_AssemblyAddedEventArgs__ctor.htm" />
+      <HelpTOCNode Id="7ef90019-b9f8-4c54-8c63-009268d7ef6e" Title="AssemblyAddedEventArgs Methods" Url="html/Methods_T_PluginFramework_AssemblyAddedEventArgs.htm">
+        <HelpTOCNode Title="Reflect(T) Method " Url="html/M_PluginFramework_AssemblyAddedEventArgs_Reflect__1.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="895e518b-8abb-4b97-adc4-262123e99f0c" Title="AssemblyAddedEventArgs Properties" Url="html/Properties_T_PluginFramework_AssemblyAddedEventArgs.htm">
+        <HelpTOCNode Title="AssemblyId Property " Url="html/P_PluginFramework_AssemblyAddedEventArgs_AssemblyId.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="5dd5e8d2-4dab-43bf-8e81-5e412ba1bf6d" Title="AssemblyContainer Class" Url="html/T_PluginFramework_AssemblyContainer.htm">
+      <HelpTOCNode Title="AssemblyContainer Members" Url="html/AllMembers_T_PluginFramework_AssemblyContainer.htm" />
+      <HelpTOCNode Title="AssemblyContainer Constructor " Url="html/M_PluginFramework_AssemblyContainer__ctor.htm" />
+      <HelpTOCNode Id="b8c9894d-b6a3-438e-aa4f-9b00214dfa03" Title="AssemblyContainer Methods" Url="html/Methods_T_PluginFramework_AssemblyContainer.htm">
+        <HelpTOCNode Title="Add Method " Url="html/M_PluginFramework_AssemblyContainer_Add.htm" />
+        <HelpTOCNode Title="AddDir Method " Url="html/M_PluginFramework_AssemblyContainer_AddDir.htm" />
+        <HelpTOCNode Title="Fetch Method " Url="html/M_PluginFramework_AssemblyContainer_Fetch.htm" />
+        <HelpTOCNode Title="Remove Method " Url="html/M_PluginFramework_AssemblyContainer_Remove.htm" />
+        <HelpTOCNode Title="RemoveDir Method " Url="html/M_PluginFramework_AssemblyContainer_RemoveDir.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="c3f820f2-26e7-492a-af43-6de11413ff64" Title="AssemblyContainer Events" Url="html/Events_T_PluginFramework_AssemblyContainer.htm">
+        <HelpTOCNode Title="AssemblyAdded Event" Url="html/E_PluginFramework_AssemblyContainer_AssemblyAdded.htm" />
+        <HelpTOCNode Title="AssemblyRemoved Event" Url="html/E_PluginFramework_AssemblyContainer_AssemblyRemoved.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="024f9fcf-3eec-42ed-a28f-172212251954" Title="AssemblyReflectionManager Class" Url="html/T_PluginFramework_AssemblyReflectionManager.htm">
+      <HelpTOCNode Title="AssemblyReflectionManager Members" Url="html/AllMembers_T_PluginFramework_AssemblyReflectionManager.htm" />
+      <HelpTOCNode Title="AssemblyReflectionManager Constructor " Url="html/M_PluginFramework_AssemblyReflectionManager__ctor.htm" />
+      <HelpTOCNode Id="61b7ebf4-0f47-4c00-a8b2-c55f5113d970" Title="AssemblyReflectionManager Methods" Url="html/Methods_T_PluginFramework_AssemblyReflectionManager.htm">
+        <HelpTOCNode Id="49256073-d428-40a0-999a-ef61bce8d806" Title="Dispose Method " Url="html/Overload_PluginFramework_AssemblyReflectionManager_Dispose.htm">
+          <HelpTOCNode Title="Dispose Method " Url="html/M_PluginFramework_AssemblyReflectionManager_Dispose.htm" />
+          <HelpTOCNode Title="Dispose Method (Boolean)" Url="html/M_PluginFramework_AssemblyReflectionManager_Dispose_1.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="LoadAssembly Method " Url="html/M_PluginFramework_AssemblyReflectionManager_LoadAssembly.htm" />
+        <HelpTOCNode Title="Reflect(TResult) Method " Url="html/M_PluginFramework_AssemblyReflectionManager_Reflect__1.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="e7485e99-8aca-4a94-b3dc-bd155eadf282" Title="AssemblyRemovedEventArgs Class" Url="html/T_PluginFramework_AssemblyRemovedEventArgs.htm">
+      <HelpTOCNode Title="AssemblyRemovedEventArgs Members" Url="html/AllMembers_T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+      <HelpTOCNode Title="AssemblyRemovedEventArgs Constructor " Url="html/M_PluginFramework_AssemblyRemovedEventArgs__ctor.htm" />
+      <HelpTOCNode Title="AssemblyRemovedEventArgs Methods" Url="html/Methods_T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+      <HelpTOCNode Id="b3e93089-3938-4fd0-b5f6-21ecb502d11e" Title="AssemblyRemovedEventArgs Properties" Url="html/Properties_T_PluginFramework_AssemblyRemovedEventArgs.htm">
+        <HelpTOCNode Title="AssemblyId Property " Url="html/P_PluginFramework_AssemblyRemovedEventArgs_AssemblyId.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="7cd10b8a-abab-4112-bf53-70cd02abb484" Title="FileSystemEventArgs Class" Url="html/T_PluginFramework_FileSystemEventArgs.htm">
+      <HelpTOCNode Title="FileSystemEventArgs Members" Url="html/AllMembers_T_PluginFramework_FileSystemEventArgs.htm" />
+      <HelpTOCNode Title="FileSystemEventArgs Constructor " Url="html/M_PluginFramework_FileSystemEventArgs__ctor.htm" />
+      <HelpTOCNode Title="FileSystemEventArgs Methods" Url="html/Methods_T_PluginFramework_FileSystemEventArgs.htm" />
+      <HelpTOCNode Id="b1c6f602-c3f2-4637-a5fe-59fbd28f2ae6" Title="FileSystemEventArgs Properties" Url="html/Properties_T_PluginFramework_FileSystemEventArgs.htm">
+        <HelpTOCNode Title="ChangeType Property " Url="html/P_PluginFramework_FileSystemEventArgs_ChangeType.htm" />
+        <HelpTOCNode Title="FullPath Property " Url="html/P_PluginFramework_FileSystemEventArgs_FullPath.htm" />
+        <HelpTOCNode Title="Name Property " Url="html/P_PluginFramework_FileSystemEventArgs_Name.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="791c12ac-bc04-44cc-82f8-4a4e415189de" Title="FileSystemWatcher Class" Url="html/T_PluginFramework_FileSystemWatcher.htm">
+      <HelpTOCNode Title="FileSystemWatcher Members" Url="html/AllMembers_T_PluginFramework_FileSystemWatcher.htm" />
+      <HelpTOCNode Id="a733f201-9e62-4a5b-b7a9-d6b32053d045" Title="FileSystemWatcher Constructor " Url="html/Overload_PluginFramework_FileSystemWatcher__ctor.htm">
+        <HelpTOCNode Title="FileSystemWatcher Constructor " Url="html/M_PluginFramework_FileSystemWatcher__ctor.htm" />
+        <HelpTOCNode Title="FileSystemWatcher Constructor (String)" Url="html/M_PluginFramework_FileSystemWatcher__ctor_1.htm" />
+        <HelpTOCNode Title="FileSystemWatcher Constructor (String, String)" Url="html/M_PluginFramework_FileSystemWatcher__ctor_2.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="14f40016-293d-414c-9924-f6205b726b32" Title="FileSystemWatcher Methods" Url="html/Methods_T_PluginFramework_FileSystemWatcher.htm">
+        <HelpTOCNode Title="Dispose Method " Url="html/M_PluginFramework_FileSystemWatcher_Dispose.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="f2823566-39d8-4d1f-80a2-8958ef124934" Title="FileSystemWatcher Properties" Url="html/Properties_T_PluginFramework_FileSystemWatcher.htm">
+        <HelpTOCNode Title="EnableRaisingEvents Property " Url="html/P_PluginFramework_FileSystemWatcher_EnableRaisingEvents.htm" />
+        <HelpTOCNode Title="Filter Property " Url="html/P_PluginFramework_FileSystemWatcher_Filter.htm" />
+        <HelpTOCNode Title="IncludeSubdirectories Property " Url="html/P_PluginFramework_FileSystemWatcher_IncludeSubdirectories.htm" />
+        <HelpTOCNode Title="NotifyFilter Property " Url="html/P_PluginFramework_FileSystemWatcher_NotifyFilter.htm" />
+        <HelpTOCNode Title="Path Property " Url="html/P_PluginFramework_FileSystemWatcher_Path.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="b1368fb1-4581-4f9b-a45f-5ecb63adfd45" Title="FileSystemWatcher Events" Url="html/Events_T_PluginFramework_FileSystemWatcher.htm">
+        <HelpTOCNode Title="Changed Event" Url="html/E_PluginFramework_FileSystemWatcher_Changed.htm" />
+        <HelpTOCNode Title="Created Event" Url="html/E_PluginFramework_FileSystemWatcher_Created.htm" />
+        <HelpTOCNode Title="Deleted Event" Url="html/E_PluginFramework_FileSystemWatcher_Deleted.htm" />
+        <HelpTOCNode Title="Disposed Event" Url="html/E_PluginFramework_FileSystemWatcher_Disposed.htm" />
+        <HelpTOCNode Title="Renamed Event" Url="html/E_PluginFramework_FileSystemWatcher_Renamed.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="945a28e1-730e-4fcc-bfc6-a769c14eb6bf" Title="IAssemblyRepository Interface" Url="html/T_PluginFramework_IAssemblyRepository.htm">
+      <HelpTOCNode Title="IAssemblyRepository Members" Url="html/AllMembers_T_PluginFramework_IAssemblyRepository.htm" />
+      <HelpTOCNode Id="058385a2-284c-4174-8da3-aee199681800" Title="IAssemblyRepository Methods" Url="html/Methods_T_PluginFramework_IAssemblyRepository.htm">
+        <HelpTOCNode Title="Fetch Method " Url="html/M_PluginFramework_IAssemblyRepository_Fetch.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="9e83ec17-b15c-4564-babc-b861e94dbc10" Title="IAssemblySource Interface" Url="html/T_PluginFramework_IAssemblySource.htm">
+      <HelpTOCNode Title="IAssemblySource Members" Url="html/AllMembers_T_PluginFramework_IAssemblySource.htm" />
+      <HelpTOCNode Id="ba6793e8-f998-402d-83eb-00a8aa9b3e1b" Title="IAssemblySource Events" Url="html/Events_T_PluginFramework_IAssemblySource.htm">
+        <HelpTOCNode Title="AssemblyAdded Event" Url="html/E_PluginFramework_IAssemblySource_AssemblyAdded.htm" />
+        <HelpTOCNode Title="AssemblyRemoved Event" Url="html/E_PluginFramework_IAssemblySource_AssemblyRemoved.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="76c8e58e-fb30-46f7-b2ae-8ee972cec4c2" Title="IFileSystemWatcher Interface" Url="html/T_PluginFramework_IFileSystemWatcher.htm">
+      <HelpTOCNode Title="IFileSystemWatcher Members" Url="html/AllMembers_T_PluginFramework_IFileSystemWatcher.htm" />
+      <HelpTOCNode Title="IFileSystemWatcher Methods" Url="html/Methods_T_PluginFramework_IFileSystemWatcher.htm" />
+      <HelpTOCNode Id="0a62a9f1-692a-48bb-ae84-c53e143e63d8" Title="IFileSystemWatcher Properties" Url="html/Properties_T_PluginFramework_IFileSystemWatcher.htm">
+        <HelpTOCNode Title="EnableRaisingEvents Property " Url="html/P_PluginFramework_IFileSystemWatcher_EnableRaisingEvents.htm" />
+        <HelpTOCNode Title="Filter Property " Url="html/P_PluginFramework_IFileSystemWatcher_Filter.htm" />
+        <HelpTOCNode Title="IncludeSubdirectories Property " Url="html/P_PluginFramework_IFileSystemWatcher_IncludeSubdirectories.htm" />
+        <HelpTOCNode Title="NotifyFilter Property " Url="html/P_PluginFramework_IFileSystemWatcher_NotifyFilter.htm" />
+        <HelpTOCNode Title="Path Property " Url="html/P_PluginFramework_IFileSystemWatcher_Path.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="2e3eb6d0-6dec-4635-b6df-8848e344f6e5" Title="IFileSystemWatcher Events" Url="html/Events_T_PluginFramework_IFileSystemWatcher.htm">
+        <HelpTOCNode Title="Changed Event" Url="html/E_PluginFramework_IFileSystemWatcher_Changed.htm" />
+        <HelpTOCNode Title="Created Event" Url="html/E_PluginFramework_IFileSystemWatcher_Created.htm" />
+        <HelpTOCNode Title="Deleted Event" Url="html/E_PluginFramework_IFileSystemWatcher_Deleted.htm" />
+        <HelpTOCNode Title="Disposed Event" Url="html/E_PluginFramework_IFileSystemWatcher_Disposed.htm" />
+        <HelpTOCNode Title="Renamed Event" Url="html/E_PluginFramework_IFileSystemWatcher_Renamed.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="6ea6aa7f-a195-4346-a946-457e713b9c86" Title="IPluginCreator Interface" Url="html/T_PluginFramework_IPluginCreator.htm">
+      <HelpTOCNode Title="IPluginCreator Members" Url="html/AllMembers_T_PluginFramework_IPluginCreator.htm" />
+      <HelpTOCNode Id="c96099a7-8523-4d5d-adf1-16f21b0c8cc9" Title="IPluginCreator Methods" Url="html/Methods_T_PluginFramework_IPluginCreator.htm">
+        <HelpTOCNode Title="Create Method " Url="html/M_PluginFramework_IPluginCreator_Create.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="b45016e7-a05c-401b-8205-764ea19c269d" Title="IPluginDirectory Interface" Url="html/T_PluginFramework_IPluginDirectory.htm">
+      <HelpTOCNode Title="IPluginDirectory Members" Url="html/AllMembers_T_PluginFramework_IPluginDirectory.htm" />
+      <HelpTOCNode Title="IPluginDirectory Methods" Url="html/Methods_T_PluginFramework_IPluginDirectory.htm" />
+      <HelpTOCNode Id="011e0c07-6de3-450b-a484-4159e774f176" Title="IPluginDirectory Events" Url="html/Events_T_PluginFramework_IPluginDirectory.htm">
+        <HelpTOCNode Title="FileFound Event" Url="html/E_PluginFramework_IPluginDirectory_FileFound.htm" />
+        <HelpTOCNode Title="FileLost Event" Url="html/E_PluginFramework_IPluginDirectory_FileLost.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="efd68f9e-9ba9-4dce-aae7-355a08d25901" Title="IPluginRepository Interface" Url="html/T_PluginFramework_IPluginRepository.htm">
+      <HelpTOCNode Title="IPluginRepository Members" Url="html/AllMembers_T_PluginFramework_IPluginRepository.htm" />
+      <HelpTOCNode Id="cfde30d5-00eb-46aa-9bd2-418609d9622d" Title="IPluginRepository Methods" Url="html/Methods_T_PluginFramework_IPluginRepository.htm">
+        <HelpTOCNode Title="Plugins Method " Url="html/M_PluginFramework_IPluginRepository_Plugins.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="95ec6158-f508-4c36-910e-06c4f23da130" Title="IPluginSource Interface" Url="html/T_PluginFramework_IPluginSource.htm">
+      <HelpTOCNode Title="IPluginSource Members" Url="html/AllMembers_T_PluginFramework_IPluginSource.htm" />
+      <HelpTOCNode Id="b4a59358-122a-4758-af85-e9bd1b3d16ac" Title="IPluginSource Events" Url="html/Events_T_PluginFramework_IPluginSource.htm">
+        <HelpTOCNode Title="PluginAdded Event" Url="html/E_PluginFramework_IPluginSource_PluginAdded.htm" />
+        <HelpTOCNode Title="PluginRemoved Event" Url="html/E_PluginFramework_IPluginSource_PluginRemoved.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Title="NotifyFilters Enumeration" Url="html/T_PluginFramework_NotifyFilters.htm" />
+    <HelpTOCNode Id="49091847-92f4-4cb8-8acf-391680f6db53" Title="PluginAttribute Class" Url="html/T_PluginFramework_PluginAttribute.htm">
+      <HelpTOCNode Title="PluginAttribute Members" Url="html/AllMembers_T_PluginFramework_PluginAttribute.htm" />
+      <HelpTOCNode Title="PluginAttribute Constructor " Url="html/M_PluginFramework_PluginAttribute__ctor.htm" />
+      <HelpTOCNode Title="PluginAttribute Methods" Url="html/Methods_T_PluginFramework_PluginAttribute.htm" />
+      <HelpTOCNode Id="2b4113f8-02e1-4e42-858e-67ecea56e28a" Title="PluginAttribute Properties" Url="html/Properties_T_PluginFramework_PluginAttribute.htm">
+        <HelpTOCNode Title="Name Property " Url="html/P_PluginFramework_PluginAttribute_Name.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="0ff6a251-d843-4307-9b40-3ba774248f50" Title="PluginCreator Class" Url="html/T_PluginFramework_PluginCreator.htm">
+      <HelpTOCNode Title="PluginCreator Members" Url="html/AllMembers_T_PluginFramework_PluginCreator.htm" />
+      <HelpTOCNode Id="d550cfc4-af7e-413a-aeac-94fbe5d4ca60" Title="PluginCreator Methods" Url="html/Methods_T_PluginFramework_PluginCreator.htm">
+        <HelpTOCNode Title="Create Method " Url="html/M_PluginFramework_PluginCreator_Create.htm" />
+        <HelpTOCNode Id="93a20b61-9e6a-46c6-a523-a6451eea404c" Title="GetCreator Method " Url="html/Overload_PluginFramework_PluginCreator_GetCreator.htm">
+          <HelpTOCNode Title="GetCreator Method " Url="html/M_PluginFramework_PluginCreator_GetCreator.htm" />
+          <HelpTOCNode Title="GetCreator Method (AppDomain)" Url="html/M_PluginFramework_PluginCreator_GetCreator_1.htm" />
+        </HelpTOCNode>
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="11edb7ce-7970-40cf-b129-9c07520ef724" Title="PluginDescriptor Class" Url="html/T_PluginFramework_PluginDescriptor.htm">
+      <HelpTOCNode Title="PluginDescriptor Members" Url="html/AllMembers_T_PluginFramework_PluginDescriptor.htm" />
+      <HelpTOCNode Title="PluginDescriptor Constructor " Url="html/M_PluginFramework_PluginDescriptor__ctor.htm" />
+      <HelpTOCNode Id="6cc7fed4-0fd3-4255-9ac6-acf49ef6475a" Title="PluginDescriptor Methods" Url="html/Methods_T_PluginFramework_PluginDescriptor.htm">
+        <HelpTOCNode Id="e1a4cc08-2817-409e-9976-cb8164a5b145" Title="Equals Method " Url="html/Overload_PluginFramework_PluginDescriptor_Equals.htm">
+          <HelpTOCNode Title="Equals Method (Object)" Url="html/M_PluginFramework_PluginDescriptor_Equals_1.htm" />
+          <HelpTOCNode Title="Equals Method (PluginDescriptor)" Url="html/M_PluginFramework_PluginDescriptor_Equals.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="GetHashCode Method " Url="html/M_PluginFramework_PluginDescriptor_GetHashCode.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="a434c289-04a1-45c7-87f9-86897b3aac56" Title="PluginDescriptor Properties" Url="html/Properties_T_PluginFramework_PluginDescriptor.htm">
+        <HelpTOCNode Title="Derives Property " Url="html/P_PluginFramework_PluginDescriptor_Derives.htm" />
+        <HelpTOCNode Title="InfoValues Property " Url="html/P_PluginFramework_PluginDescriptor_InfoValues.htm" />
+        <HelpTOCNode Title="Interfaces Property " Url="html/P_PluginFramework_PluginDescriptor_Interfaces.htm" />
+        <HelpTOCNode Title="Name Property " Url="html/P_PluginFramework_PluginDescriptor_Name.htm" />
+        <HelpTOCNode Title="QualifiedName Property " Url="html/P_PluginFramework_PluginDescriptor_QualifiedName.htm" />
+        <HelpTOCNode Title="Settings Property " Url="html/P_PluginFramework_PluginDescriptor_Settings.htm" />
+        <HelpTOCNode Title="Version Property " Url="html/P_PluginFramework_PluginDescriptor_Version.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="071c63f2-1198-4d72-92fa-fb53236c204b" Title="PluginDirectory Class" Url="html/T_PluginFramework_PluginDirectory.htm">
+      <HelpTOCNode Title="PluginDirectory Members" Url="html/AllMembers_T_PluginFramework_PluginDirectory.htm" />
+      <HelpTOCNode Id="28b3cefd-0055-4d2b-a50f-f842701373ad" Title="PluginDirectory Constructor " Url="html/Overload_PluginFramework_PluginDirectory__ctor.htm">
+        <HelpTOCNode Title="PluginDirectory Constructor (IFileSystemWatcher)" Url="html/M_PluginFramework_PluginDirectory__ctor.htm" />
+        <HelpTOCNode Title="PluginDirectory Constructor (String, Boolean)" Url="html/M_PluginFramework_PluginDirectory__ctor_1.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="936bf5b3-e083-45da-8359-7c6d1e5d7a8a" Title="PluginDirectory Methods" Url="html/Methods_T_PluginFramework_PluginDirectory.htm">
+        <HelpTOCNode Title="Dispose Method " Url="html/M_PluginFramework_PluginDirectory_Dispose.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="3320e8bf-3ab9-4535-a0ab-a8468a485544" Title="PluginDirectory Events" Url="html/Events_T_PluginFramework_PluginDirectory.htm">
+        <HelpTOCNode Title="FileFound Event" Url="html/E_PluginFramework_PluginDirectory_FileFound.htm" />
+        <HelpTOCNode Title="FileLost Event" Url="html/E_PluginFramework_PluginDirectory_FileLost.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="11239cb5-0cd5-4e09-9db3-e29c0fcace66" Title="PluginDirectoryEventArgs Class" Url="html/T_PluginFramework_PluginDirectoryEventArgs.htm">
+      <HelpTOCNode Title="PluginDirectoryEventArgs Members" Url="html/AllMembers_T_PluginFramework_PluginDirectoryEventArgs.htm" />
+      <HelpTOCNode Title="PluginDirectoryEventArgs Constructor " Url="html/M_PluginFramework_PluginDirectoryEventArgs__ctor.htm" />
+      <HelpTOCNode Title="PluginDirectoryEventArgs Methods" Url="html/Methods_T_PluginFramework_PluginDirectoryEventArgs.htm" />
+      <HelpTOCNode Id="90859f95-c1e5-4e75-bf49-04c64bdb1d45" Title="PluginDirectoryEventArgs Properties" Url="html/Properties_T_PluginFramework_PluginDirectoryEventArgs.htm">
+        <HelpTOCNode Title="FullName Property " Url="html/P_PluginFramework_PluginDirectoryEventArgs_FullName.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="67336dc4-e064-4a92-84d0-320f03f441ba" Title="PluginEventArgs Class" Url="html/T_PluginFramework_PluginEventArgs.htm">
+      <HelpTOCNode Title="PluginEventArgs Members" Url="html/AllMembers_T_PluginFramework_PluginEventArgs.htm" />
+      <HelpTOCNode Title="PluginEventArgs Constructor " Url="html/M_PluginFramework_PluginEventArgs__ctor.htm" />
+      <HelpTOCNode Title="PluginEventArgs Methods" Url="html/Methods_T_PluginFramework_PluginEventArgs.htm" />
+      <HelpTOCNode Id="b0e01a3a-b382-48f6-8697-506e83bec549" Title="PluginEventArgs Properties" Url="html/Properties_T_PluginFramework_PluginEventArgs.htm">
+        <HelpTOCNode Title="Plugin Property " Url="html/P_PluginFramework_PluginEventArgs_Plugin.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="36507c98-e809-4e7c-b1ca-7c0b965f7533" Title="PluginException Class" Url="html/T_PluginFramework_PluginException.htm">
+      <HelpTOCNode Title="PluginException Members" Url="html/AllMembers_T_PluginFramework_PluginException.htm" />
+      <HelpTOCNode Id="545bb095-b175-4aea-92eb-41258bc03f53" Title="PluginException Constructor " Url="html/Overload_PluginFramework_PluginException__ctor.htm">
+        <HelpTOCNode Title="PluginException Constructor " Url="html/M_PluginFramework_PluginException__ctor.htm" />
+        <HelpTOCNode Title="PluginException Constructor (String)" Url="html/M_PluginFramework_PluginException__ctor_2.htm" />
+        <HelpTOCNode Title="PluginException Constructor (SerializationInfo, StreamingContext)" Url="html/M_PluginFramework_PluginException__ctor_1.htm" />
+        <HelpTOCNode Title="PluginException Constructor (String, Exception)" Url="html/M_PluginFramework_PluginException__ctor_3.htm" />
+        <HelpTOCNode Title="PluginException Constructor (String, Object[])" Url="html/M_PluginFramework_PluginException__ctor_4.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="PluginException Methods" Url="html/Methods_T_PluginFramework_PluginException.htm" />
+      <HelpTOCNode Title="PluginException Properties" Url="html/Properties_T_PluginFramework_PluginException.htm" />
+    </HelpTOCNode>
+    <HelpTOCNode Id="63f5445f-29ad-40b9-ac6e-de76fd361926" Title="PluginExtractor Class" Url="html/T_PluginFramework_PluginExtractor.htm">
+      <HelpTOCNode Title="PluginExtractor Members" Url="html/AllMembers_T_PluginFramework_PluginExtractor.htm" />
+      <HelpTOCNode Title="PluginExtractor Constructor " Url="html/M_PluginFramework_PluginExtractor__ctor.htm" />
+      <HelpTOCNode Title="PluginExtractor Methods" Url="html/Methods_T_PluginFramework_PluginExtractor.htm" />
+      <HelpTOCNode Id="002b4b5e-14fd-4ad3-9447-8a8ace3ebc3e" Title="PluginExtractor Events" Url="html/Events_T_PluginFramework_PluginExtractor.htm">
+        <HelpTOCNode Title="PluginAdded Event" Url="html/E_PluginFramework_PluginExtractor_PluginAdded.htm" />
+        <HelpTOCNode Title="PluginRemoved Event" Url="html/E_PluginFramework_PluginExtractor_PluginRemoved.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="97936052-0bdb-49e3-b012-326504d67474" Title="PluginFilter Class" Url="html/T_PluginFramework_PluginFilter.htm">
+      <HelpTOCNode Title="PluginFilter Members" Url="html/AllMembers_T_PluginFramework_PluginFilter.htm" />
+      <HelpTOCNode Id="e67a3464-e4a5-45a9-9400-a59e709bfa29" Title="PluginFilter Methods" Url="html/Methods_T_PluginFramework_PluginFilter.htm">
+        <HelpTOCNode Title="And Method " Url="html/M_PluginFramework_PluginFilter_And.htm" />
+        <HelpTOCNode Id="534db935-9ca6-4e28-aea8-49c6eb9ad739" Title="DerivesFrom Method " Url="html/Overload_PluginFramework_PluginFilter_DerivesFrom.htm">
+          <HelpTOCNode Title="DerivesFrom Method (String)" Url="html/M_PluginFramework_PluginFilter_DerivesFrom.htm" />
+          <HelpTOCNode Title="DerivesFrom Method (Type)" Url="html/M_PluginFramework_PluginFilter_DerivesFrom_1.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Id="802217a4-87b3-4ca8-9645-cb2c193350f7" Title="Equals Method " Url="html/Overload_PluginFramework_PluginFilter_Equals.htm">
+          <HelpTOCNode Title="Equals Method (PluginFilter)" Url="html/M_PluginFramework_PluginFilter_Equals.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="HasInfo Method " Url="html/M_PluginFramework_PluginFilter_HasInfo.htm" />
+        <HelpTOCNode Title="HasInfoValue Method " Url="html/M_PluginFramework_PluginFilter_HasInfoValue.htm" />
+        <HelpTOCNode Id="ecbde003-3ed4-437d-ae92-8ab0d17ad56b" Title="HasMaxVersion Method " Url="html/Overload_PluginFramework_PluginFilter_HasMaxVersion.htm">
+          <HelpTOCNode Title="HasMaxVersion Method (String)" Url="html/M_PluginFramework_PluginFilter_HasMaxVersion_1.htm" />
+          <HelpTOCNode Title="HasMaxVersion Method (PluginVersion)" Url="html/M_PluginFramework_PluginFilter_HasMaxVersion.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Id="aab7c48c-68e3-460d-a049-e880cabae867" Title="HasMinVersion Method " Url="html/Overload_PluginFramework_PluginFilter_HasMinVersion.htm">
+          <HelpTOCNode Title="HasMinVersion Method (String)" Url="html/M_PluginFramework_PluginFilter_HasMinVersion_1.htm" />
+          <HelpTOCNode Title="HasMinVersion Method (PluginVersion)" Url="html/M_PluginFramework_PluginFilter_HasMinVersion.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Id="78373f0e-8124-40fb-b960-7f0c38f811c6" Title="HasVersion Method " Url="html/Overload_PluginFramework_PluginFilter_HasVersion.htm">
+          <HelpTOCNode Title="HasVersion Method (String)" Url="html/M_PluginFramework_PluginFilter_HasVersion_1.htm" />
+          <HelpTOCNode Title="HasVersion Method (PluginVersion)" Url="html/M_PluginFramework_PluginFilter_HasVersion.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Id="1aff1b5f-8a31-4b13-9845-363175ca05ae" Title="Implements Method " Url="html/Overload_PluginFramework_PluginFilter_Implements.htm">
+          <HelpTOCNode Title="Implements Method (String)" Url="html/M_PluginFramework_PluginFilter_Implements.htm" />
+          <HelpTOCNode Title="Implements Method (Type)" Url="html/M_PluginFramework_PluginFilter_Implements_1.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="IsNamed Method " Url="html/M_PluginFramework_PluginFilter_IsNamed.htm" />
+        <HelpTOCNode Id="9bfe9e78-9808-4567-96a5-1079a2648f25" Title="IsTypeOf Method " Url="html/Overload_PluginFramework_PluginFilter_IsTypeOf.htm">
+          <HelpTOCNode Title="IsTypeOf Method (String)" Url="html/M_PluginFramework_PluginFilter_IsTypeOf.htm" />
+          <HelpTOCNode Title="IsTypeOf Method (Type)" Url="html/M_PluginFramework_PluginFilter_IsTypeOf_1.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="Or Method " Url="html/M_PluginFramework_PluginFilter_Or.htm" />
+        <HelpTOCNode Title="ToString Method " Url="html/M_PluginFramework_PluginFilter_ToString.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="a15ac22f-1ade-4ea4-8f24-1fa5326d655c" Title="PluginFilter Properties" Url="html/Properties_T_PluginFramework_PluginFilter.htm">
+        <HelpTOCNode Title="Create Property " Url="html/P_PluginFramework_PluginFilter_Create.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="d3700c21-b923-4e25-b00a-87201a3fe1de" Title="PluginInfoAttribute Class" Url="html/T_PluginFramework_PluginInfoAttribute.htm">
+      <HelpTOCNode Title="PluginInfoAttribute Members" Url="html/AllMembers_T_PluginFramework_PluginInfoAttribute.htm" />
+      <HelpTOCNode Title="PluginInfoAttribute Constructor " Url="html/M_PluginFramework_PluginInfoAttribute__ctor.htm" />
+      <HelpTOCNode Title="PluginInfoAttribute Methods" Url="html/Methods_T_PluginFramework_PluginInfoAttribute.htm" />
+      <HelpTOCNode Id="a8ec7621-c996-4e32-a2d7-42fc7d2f3990" Title="PluginInfoAttribute Properties" Url="html/Properties_T_PluginFramework_PluginInfoAttribute.htm">
+        <HelpTOCNode Title="Key Property " Url="html/P_PluginFramework_PluginInfoAttribute_Key.htm" />
+        <HelpTOCNode Title="Value Property " Url="html/P_PluginFramework_PluginInfoAttribute_Value.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="905bd31b-0b57-4a6f-8a43-9a3baf2015fb" Title="PluginRepository Class" Url="html/T_PluginFramework_PluginRepository.htm">
+      <HelpTOCNode Title="PluginRepository Members" Url="html/AllMembers_T_PluginFramework_PluginRepository.htm" />
+      <HelpTOCNode Title="PluginRepository Constructor " Url="html/M_PluginFramework_PluginRepository__ctor.htm" />
+      <HelpTOCNode Id="e9f4eea9-75c0-4afe-9d03-0181090154cc" Title="PluginRepository Methods" Url="html/Methods_T_PluginFramework_PluginRepository.htm">
+        <HelpTOCNode Title="AddPluginSource Method " Url="html/M_PluginFramework_PluginRepository_AddPluginSource.htm" />
+        <HelpTOCNode Title="Plugins Method " Url="html/M_PluginFramework_PluginRepository_Plugins.htm" />
+        <HelpTOCNode Title="RemovePluginSource Method " Url="html/M_PluginFramework_PluginRepository_RemovePluginSource.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="cb12c14c-b158-438f-b4ef-e0100c83ab0a" Title="PluginSettingAttribute Class" Url="html/T_PluginFramework_PluginSettingAttribute.htm">
+      <HelpTOCNode Title="PluginSettingAttribute Members" Url="html/AllMembers_T_PluginFramework_PluginSettingAttribute.htm" />
+      <HelpTOCNode Title="PluginSettingAttribute Constructor " Url="html/M_PluginFramework_PluginSettingAttribute__ctor.htm" />
+      <HelpTOCNode Title="PluginSettingAttribute Methods" Url="html/Methods_T_PluginFramework_PluginSettingAttribute.htm" />
+      <HelpTOCNode Id="985a2a2f-88b0-476a-b9d4-c659bfd7e31b" Title="PluginSettingAttribute Properties" Url="html/Properties_T_PluginFramework_PluginSettingAttribute.htm">
+        <HelpTOCNode Title="Name Property " Url="html/P_PluginFramework_PluginSettingAttribute_Name.htm" />
+        <HelpTOCNode Title="Required Property " Url="html/P_PluginFramework_PluginSettingAttribute_Required.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="1a689da0-e59a-480d-ad8a-57a082fa0a47" Title="PluginSettingDescriptor Class" Url="html/T_PluginFramework_PluginSettingDescriptor.htm">
+      <HelpTOCNode Title="PluginSettingDescriptor Members" Url="html/AllMembers_T_PluginFramework_PluginSettingDescriptor.htm" />
+      <HelpTOCNode Title="PluginSettingDescriptor Constructor " Url="html/M_PluginFramework_PluginSettingDescriptor__ctor.htm" />
+      <HelpTOCNode Id="d18cb05f-5567-4000-b1d8-bb395823e102" Title="PluginSettingDescriptor Methods" Url="html/Methods_T_PluginFramework_PluginSettingDescriptor.htm">
+        <HelpTOCNode Title="ToString Method " Url="html/M_PluginFramework_PluginSettingDescriptor_ToString.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="5294649c-0cde-44f4-adb7-4f164f6e3238" Title="PluginSettingDescriptor Properties" Url="html/Properties_T_PluginFramework_PluginSettingDescriptor.htm">
+        <HelpTOCNode Title="Name Property " Url="html/P_PluginFramework_PluginSettingDescriptor_Name.htm" />
+        <HelpTOCNode Title="Required Property " Url="html/P_PluginFramework_PluginSettingDescriptor_Required.htm" />
+        <HelpTOCNode Title="SettingType Property " Url="html/P_PluginFramework_PluginSettingDescriptor_SettingType.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="6290df7a-a7cb-47ef-8906-b08c57cbb247" Title="PluginSettingException Class" Url="html/T_PluginFramework_PluginSettingException.htm">
+      <HelpTOCNode Title="PluginSettingException Members" Url="html/AllMembers_T_PluginFramework_PluginSettingException.htm" />
+      <HelpTOCNode Id="f09097a4-998c-45bb-8aa5-abcb7c92cf22" Title="PluginSettingException Constructor " Url="html/Overload_PluginFramework_PluginSettingException__ctor.htm">
+        <HelpTOCNode Title="PluginSettingException Constructor " Url="html/M_PluginFramework_PluginSettingException__ctor.htm" />
+        <HelpTOCNode Title="PluginSettingException Constructor (String)" Url="html/M_PluginFramework_PluginSettingException__ctor_2.htm" />
+        <HelpTOCNode Title="PluginSettingException Constructor (SerializationInfo, StreamingContext)" Url="html/M_PluginFramework_PluginSettingException__ctor_1.htm" />
+        <HelpTOCNode Title="PluginSettingException Constructor (String, Exception)" Url="html/M_PluginFramework_PluginSettingException__ctor_3.htm" />
+        <HelpTOCNode Title="PluginSettingException Constructor (String, Object[])" Url="html/M_PluginFramework_PluginSettingException__ctor_4.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="PluginSettingException Methods" Url="html/Methods_T_PluginFramework_PluginSettingException.htm" />
+      <HelpTOCNode Title="PluginSettingException Properties" Url="html/Properties_T_PluginFramework_PluginSettingException.htm" />
+    </HelpTOCNode>
+    <HelpTOCNode Id="993d0322-1931-42d9-8db3-3d593763fabc" Title="PluginVersion Structure" Url="html/T_PluginFramework_PluginVersion.htm">
+      <HelpTOCNode Title="PluginVersion Members" Url="html/AllMembers_T_PluginFramework_PluginVersion.htm" />
+      <HelpTOCNode Id="cc354918-8754-4a73-a754-18c46eb6dd2c" Title="PluginVersion Constructor " Url="html/Overload_PluginFramework_PluginVersion__ctor.htm">
+        <HelpTOCNode Title="PluginVersion Constructor (String)" Url="html/M_PluginFramework_PluginVersion__ctor_1.htm" />
+        <HelpTOCNode Title="PluginVersion Constructor (Int32, Int32)" Url="html/M_PluginFramework_PluginVersion__ctor.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="9b7d912f-a226-4885-b9c8-91610dc29a4d" Title="PluginVersion Methods" Url="html/Methods_T_PluginFramework_PluginVersion.htm">
+        <HelpTOCNode Title="CompareTo Method " Url="html/M_PluginFramework_PluginVersion_CompareTo.htm" />
+        <HelpTOCNode Id="52095362-124c-4d40-ad79-4bfea9f1fd94" Title="Equals Method " Url="html/Overload_PluginFramework_PluginVersion_Equals.htm">
+          <HelpTOCNode Title="Equals Method (Object)" Url="html/M_PluginFramework_PluginVersion_Equals_1.htm" />
+          <HelpTOCNode Title="Equals Method (PluginVersion)" Url="html/M_PluginFramework_PluginVersion_Equals.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="GetHashCode Method " Url="html/M_PluginFramework_PluginVersion_GetHashCode.htm" />
+        <HelpTOCNode Title="ToString Method " Url="html/M_PluginFramework_PluginVersion_ToString.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="1ef641bd-0b85-49e5-9c7d-02c6751fd82c" Title="PluginVersion Operators" Url="html/Operators_T_PluginFramework_PluginVersion.htm">
+        <HelpTOCNode Title="Equality Operator " Url="html/M_PluginFramework_PluginVersion_op_Equality.htm" />
+        <HelpTOCNode Title="GreaterThan Operator " Url="html/M_PluginFramework_PluginVersion_op_GreaterThan.htm" />
+        <HelpTOCNode Title="GreaterThanOrEqual Operator " Url="html/M_PluginFramework_PluginVersion_op_GreaterThanOrEqual.htm" />
+        <HelpTOCNode Title="Inequality Operator " Url="html/M_PluginFramework_PluginVersion_op_Inequality.htm" />
+        <HelpTOCNode Title="LessThan Operator " Url="html/M_PluginFramework_PluginVersion_op_LessThan.htm" />
+        <HelpTOCNode Title="LessThanOrEqual Operator " Url="html/M_PluginFramework_PluginVersion_op_LessThanOrEqual.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="bfbae24c-5dae-4f15-ba03-e76a2f2b69ae" Title="PluginVersion Properties" Url="html/Properties_T_PluginFramework_PluginVersion.htm">
+        <HelpTOCNode Title="Major Property " Url="html/P_PluginFramework_PluginVersion_Major.htm" />
+        <HelpTOCNode Title="Minor Property " Url="html/P_PluginFramework_PluginVersion_Minor.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="25ece479-2d91-42e4-99bc-93e2d6e6f493" Title="PluginVersionAttribute Class" Url="html/T_PluginFramework_PluginVersionAttribute.htm">
+      <HelpTOCNode Title="PluginVersionAttribute Members" Url="html/AllMembers_T_PluginFramework_PluginVersionAttribute.htm" />
+      <HelpTOCNode Title="PluginVersionAttribute Constructor " Url="html/M_PluginFramework_PluginVersionAttribute__ctor.htm" />
+      <HelpTOCNode Title="PluginVersionAttribute Methods" Url="html/Methods_T_PluginFramework_PluginVersionAttribute.htm" />
+      <HelpTOCNode Id="290fd7a8-1d55-4592-8d52-fe17ca40a63e" Title="PluginVersionAttribute Properties" Url="html/Properties_T_PluginFramework_PluginVersionAttribute.htm">
+        <HelpTOCNode Title="Major Property " Url="html/P_PluginFramework_PluginVersionAttribute_Major.htm" />
+        <HelpTOCNode Title="Minor Property " Url="html/P_PluginFramework_PluginVersionAttribute_Minor.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="a342cbe0-c50f-45e1-a190-7e5a8aaefcb1" Title="QualifiedName Structure" Url="html/T_PluginFramework_QualifiedName.htm">
+      <HelpTOCNode Title="QualifiedName Members" Url="html/AllMembers_T_PluginFramework_QualifiedName.htm" />
+      <HelpTOCNode Id="ddf8cbf1-b0cd-4bc3-9142-b02859d4669c" Title="QualifiedName Constructor " Url="html/Overload_PluginFramework_QualifiedName__ctor.htm">
+        <HelpTOCNode Title="QualifiedName Constructor (Type)" Url="html/M_PluginFramework_QualifiedName__ctor_1.htm" />
+        <HelpTOCNode Title="QualifiedName Constructor (String, String)" Url="html/M_PluginFramework_QualifiedName__ctor.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="d63631aa-85a6-4c18-b7cf-e119bc002969" Title="QualifiedName Methods" Url="html/Methods_T_PluginFramework_QualifiedName.htm">
+        <HelpTOCNode Title="Equals Method " Url="html/M_PluginFramework_QualifiedName_Equals.htm" />
+        <HelpTOCNode Title="GetHashCode Method " Url="html/M_PluginFramework_QualifiedName_GetHashCode.htm" />
+        <HelpTOCNode Title="ToString Method " Url="html/M_PluginFramework_QualifiedName_ToString.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="0a5265fd-fcc8-4e95-82a1-c234a145bf27" Title="QualifiedName Operators and Type Conversions" Url="html/Operators_T_PluginFramework_QualifiedName.htm">
+        <HelpTOCNode Title="Equality Operator " Url="html/M_PluginFramework_QualifiedName_op_Equality.htm" />
+        <HelpTOCNode Id="e6e5970a-7892-49ae-8d25-59619c5ecec8" Title="Implicit Conversion Operators" Url="html/Overload_PluginFramework_QualifiedName_op_Implicit.htm">
+          <HelpTOCNode Title="Implicit Conversion (Type to QualifiedName)" Url="html/M_PluginFramework_QualifiedName_op_Implicit_1.htm" />
+          <HelpTOCNode Title="Implicit Conversion (QualifiedName to String)" Url="html/M_PluginFramework_QualifiedName_op_Implicit.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="Inequality Operator " Url="html/M_PluginFramework_QualifiedName_op_Inequality.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="90c6aed3-100d-439d-b135-40ad1ad35959" Title="QualifiedName Properties" Url="html/Properties_T_PluginFramework_QualifiedName.htm">
+        <HelpTOCNode Title="AssemblyFullName Property " Url="html/P_PluginFramework_QualifiedName_AssemblyFullName.htm" />
+        <HelpTOCNode Title="TypeFullName Property " Url="html/P_PluginFramework_QualifiedName_TypeFullName.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="5715ba16-0359-417d-8712-69c5482ba157" Title="RenamedEventArgs Class" Url="html/T_PluginFramework_RenamedEventArgs.htm">
+      <HelpTOCNode Title="RenamedEventArgs Members" Url="html/AllMembers_T_PluginFramework_RenamedEventArgs.htm" />
+      <HelpTOCNode Title="RenamedEventArgs Constructor " Url="html/M_PluginFramework_RenamedEventArgs__ctor.htm" />
+      <HelpTOCNode Title="RenamedEventArgs Methods" Url="html/Methods_T_PluginFramework_RenamedEventArgs.htm" />
+      <HelpTOCNode Id="e40429e7-8fc2-4263-8f14-163f6745ab33" Title="RenamedEventArgs Properties" Url="html/Properties_T_PluginFramework_RenamedEventArgs.htm">
+        <HelpTOCNode Title="OldFullPath Property " Url="html/P_PluginFramework_RenamedEventArgs_OldFullPath.htm" />
+        <HelpTOCNode Title="OldName Property " Url="html/P_PluginFramework_RenamedEventArgs_OldName.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="d9f84092-1ba4-41fb-b9d5-e56ce223aec4" Title="SafeEventFileSystemWatcher Class" Url="html/T_PluginFramework_SafeEventFileSystemWatcher.htm">
+      <HelpTOCNode Title="SafeEventFileSystemWatcher Members" Url="html/AllMembers_T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+      <HelpTOCNode Title="SafeEventFileSystemWatcher Constructor " Url="html/M_PluginFramework_SafeEventFileSystemWatcher__ctor.htm" />
+      <HelpTOCNode Id="ef943698-b960-4ba7-a327-cc20719cfd82" Title="SafeEventFileSystemWatcher Methods" Url="html/Methods_T_PluginFramework_SafeEventFileSystemWatcher.htm">
+        <HelpTOCNode Id="32884f2f-157a-4778-a961-6be30ac78658" Title="Dispose Method " Url="html/Overload_PluginFramework_SafeEventFileSystemWatcher_Dispose.htm">
+          <HelpTOCNode Title="Dispose Method " Url="html/M_PluginFramework_SafeEventFileSystemWatcher_Dispose.htm" />
+          <HelpTOCNode Title="Dispose Method (Boolean)" Url="html/M_PluginFramework_SafeEventFileSystemWatcher_Dispose_1.htm" />
+        </HelpTOCNode>
+      </HelpTOCNode>
+      <HelpTOCNode Id="6789dcbd-1c56-4e72-b34b-baa36fce1805" Title="SafeEventFileSystemWatcher Properties" Url="html/Properties_T_PluginFramework_SafeEventFileSystemWatcher.htm">
+        <HelpTOCNode Title="EnableRaisingEvents Property " Url="html/P_PluginFramework_SafeEventFileSystemWatcher_EnableRaisingEvents.htm" />
+        <HelpTOCNode Title="Filter Property " Url="html/P_PluginFramework_SafeEventFileSystemWatcher_Filter.htm" />
+        <HelpTOCNode Title="IncludeSubdirectories Property " Url="html/P_PluginFramework_SafeEventFileSystemWatcher_IncludeSubdirectories.htm" />
+        <HelpTOCNode Title="NotifyFilter Property " Url="html/P_PluginFramework_SafeEventFileSystemWatcher_NotifyFilter.htm" />
+        <HelpTOCNode Title="Path Property " Url="html/P_PluginFramework_SafeEventFileSystemWatcher_Path.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="1cb25806-ea88-4261-82bb-202f79dc24d0" Title="SafeEventFileSystemWatcher Events" Url="html/Events_T_PluginFramework_SafeEventFileSystemWatcher.htm">
+        <HelpTOCNode Title="Changed Event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Changed.htm" />
+        <HelpTOCNode Title="Created Event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Created.htm" />
+        <HelpTOCNode Title="Deleted Event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Deleted.htm" />
+        <HelpTOCNode Title="Disposed Event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Disposed.htm" />
+        <HelpTOCNode Title="Renamed Event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Renamed.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Title="WatcherChangeTypes Enumeration" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
+  </HelpTOCNode>
+</HelpTOC>

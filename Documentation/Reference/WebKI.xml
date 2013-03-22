@@ -1,0 +1,639 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+
+  <HelpKINode Title="Add method" Url="html/M_PluginFramework_AssemblyContainer_Add.htm" />
+  <HelpKINode Title="AddDir method" Url="html/M_PluginFramework_AssemblyContainer_AddDir.htm" />
+  <HelpKINode Title="AddPluginSource method" Url="html/M_PluginFramework_PluginRepository_AddPluginSource.htm" />
+  <HelpKINode Title="All enumeration member" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
+  <HelpKINode Title="And method" Url="html/M_PluginFramework_PluginFilter_And.htm" />
+  <HelpKINode Title="AssemblyAdded event" Url="html/E_PluginFramework_AssemblyContainer_AssemblyAdded.htm" />
+  <HelpKINode Title="AssemblyAdded event" Url="html/E_PluginFramework_IAssemblySource_AssemblyAdded.htm" />
+  <HelpKINode Title="AssemblyAddedEventArgs class" Url="html/AllMembers_T_PluginFramework_AssemblyAddedEventArgs.htm" />
+  <HelpKINode Title="AssemblyAddedEventArgs class" Url="html/T_PluginFramework_AssemblyAddedEventArgs.htm" />
+  <HelpKINode Title="AssemblyAddedEventArgs class">
+    <HelpKINode Title="about AssemblyAddedEventArgs class" Url="html/T_PluginFramework_AssemblyAddedEventArgs.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_AssemblyAddedEventArgs.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_AssemblyAddedEventArgs__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_AssemblyAddedEventArgs.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_AssemblyAddedEventArgs.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AssemblyAddedEventArgs.AssemblyAddedEventArgs constructor" Url="html/M_PluginFramework_AssemblyAddedEventArgs__ctor.htm" />
+  <HelpKINode Title="AssemblyAddedEventArgs.AssemblyId property" Url="html/P_PluginFramework_AssemblyAddedEventArgs_AssemblyId.htm" />
+  <HelpKINode Title="AssemblyAddedEventArgs.Reflect(Of T) method" Url="html/M_PluginFramework_AssemblyAddedEventArgs_Reflect__1.htm" />
+  <HelpKINode Title="AssemblyAddedEventArgs.Reflect&lt;T&gt; method" Url="html/M_PluginFramework_AssemblyAddedEventArgs_Reflect__1.htm" />
+  <HelpKINode Title="AssemblyContainer class" Url="html/AllMembers_T_PluginFramework_AssemblyContainer.htm" />
+  <HelpKINode Title="AssemblyContainer class" Url="html/T_PluginFramework_AssemblyContainer.htm" />
+  <HelpKINode Title="AssemblyContainer class">
+    <HelpKINode Title="about AssemblyContainer class" Url="html/T_PluginFramework_AssemblyContainer.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_AssemblyContainer.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_AssemblyContainer__ctor.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PluginFramework_AssemblyContainer.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_AssemblyContainer.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AssemblyContainer.Add method" Url="html/M_PluginFramework_AssemblyContainer_Add.htm" />
+  <HelpKINode Title="AssemblyContainer.AddDir method" Url="html/M_PluginFramework_AssemblyContainer_AddDir.htm" />
+  <HelpKINode Title="AssemblyContainer.AssemblyAdded event" Url="html/E_PluginFramework_AssemblyContainer_AssemblyAdded.htm" />
+  <HelpKINode Title="AssemblyContainer.AssemblyContainer constructor" Url="html/M_PluginFramework_AssemblyContainer__ctor.htm" />
+  <HelpKINode Title="AssemblyContainer.AssemblyRemoved event" Url="html/E_PluginFramework_AssemblyContainer_AssemblyRemoved.htm" />
+  <HelpKINode Title="AssemblyContainer.Fetch method" Url="html/M_PluginFramework_AssemblyContainer_Fetch.htm" />
+  <HelpKINode Title="AssemblyContainer.Remove method" Url="html/M_PluginFramework_AssemblyContainer_Remove.htm" />
+  <HelpKINode Title="AssemblyContainer.RemoveDir method" Url="html/M_PluginFramework_AssemblyContainer_RemoveDir.htm" />
+  <HelpKINode Title="AssemblyFullName property" Url="html/P_PluginFramework_QualifiedName_AssemblyFullName.htm" />
+  <HelpKINode Title="AssemblyId property" Url="html/P_PluginFramework_AssemblyAddedEventArgs_AssemblyId.htm" />
+  <HelpKINode Title="AssemblyId property" Url="html/P_PluginFramework_AssemblyRemovedEventArgs_AssemblyId.htm" />
+  <HelpKINode Title="AssemblyReflectionManager class" Url="html/AllMembers_T_PluginFramework_AssemblyReflectionManager.htm" />
+  <HelpKINode Title="AssemblyReflectionManager class" Url="html/T_PluginFramework_AssemblyReflectionManager.htm" />
+  <HelpKINode Title="AssemblyReflectionManager class">
+    <HelpKINode Title="about AssemblyReflectionManager class" Url="html/T_PluginFramework_AssemblyReflectionManager.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_AssemblyReflectionManager.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_AssemblyReflectionManager__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_AssemblyReflectionManager.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AssemblyReflectionManager.AssemblyReflectionManager constructor" Url="html/M_PluginFramework_AssemblyReflectionManager__ctor.htm" />
+  <HelpKINode Title="AssemblyReflectionManager.Dispose method" Url="html/Overload_PluginFramework_AssemblyReflectionManager_Dispose.htm" />
+  <HelpKINode Title="AssemblyReflectionManager.LoadAssembly method" Url="html/M_PluginFramework_AssemblyReflectionManager_LoadAssembly.htm" />
+  <HelpKINode Title="AssemblyReflectionManager.Reflect(Of TResult) method" Url="html/M_PluginFramework_AssemblyReflectionManager_Reflect__1.htm" />
+  <HelpKINode Title="AssemblyReflectionManager.Reflect&lt;TResult&gt; method" Url="html/M_PluginFramework_AssemblyReflectionManager_Reflect__1.htm" />
+  <HelpKINode Title="AssemblyRemoved event" Url="html/E_PluginFramework_AssemblyContainer_AssemblyRemoved.htm" />
+  <HelpKINode Title="AssemblyRemoved event" Url="html/E_PluginFramework_IAssemblySource_AssemblyRemoved.htm" />
+  <HelpKINode Title="AssemblyRemovedEventArgs class" Url="html/AllMembers_T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+  <HelpKINode Title="AssemblyRemovedEventArgs class" Url="html/T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+  <HelpKINode Title="AssemblyRemovedEventArgs class">
+    <HelpKINode Title="about AssemblyRemovedEventArgs class" Url="html/T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_AssemblyRemovedEventArgs__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AssemblyRemovedEventArgs.AssemblyId property" Url="html/P_PluginFramework_AssemblyRemovedEventArgs_AssemblyId.htm" />
+  <HelpKINode Title="AssemblyRemovedEventArgs.AssemblyRemovedEventArgs constructor" Url="html/M_PluginFramework_AssemblyRemovedEventArgs__ctor.htm" />
+  <HelpKINode Title="Attributes enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="Changed enumeration member" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
+  <HelpKINode Title="Changed event" Url="html/E_PluginFramework_FileSystemWatcher_Changed.htm" />
+  <HelpKINode Title="Changed event" Url="html/E_PluginFramework_IFileSystemWatcher_Changed.htm" />
+  <HelpKINode Title="Changed event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Changed.htm" />
+  <HelpKINode Title="ChangeType property" Url="html/P_PluginFramework_FileSystemEventArgs_ChangeType.htm" />
+  <HelpKINode Title="CompareTo method" Url="html/M_PluginFramework_PluginVersion_CompareTo.htm" />
+  <HelpKINode Title="Create method" Url="html/M_PluginFramework_IPluginCreator_Create.htm" />
+  <HelpKINode Title="Create method" Url="html/M_PluginFramework_PluginCreator_Create.htm" />
+  <HelpKINode Title="Create property" Url="html/P_PluginFramework_PluginFilter_Create.htm" />
+  <HelpKINode Title="Created enumeration member" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
+  <HelpKINode Title="Created event" Url="html/E_PluginFramework_FileSystemWatcher_Created.htm" />
+  <HelpKINode Title="Created event" Url="html/E_PluginFramework_IFileSystemWatcher_Created.htm" />
+  <HelpKINode Title="Created event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Created.htm" />
+  <HelpKINode Title="CreationTime enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="Deleted enumeration member" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
+  <HelpKINode Title="Deleted event" Url="html/E_PluginFramework_FileSystemWatcher_Deleted.htm" />
+  <HelpKINode Title="Deleted event" Url="html/E_PluginFramework_IFileSystemWatcher_Deleted.htm" />
+  <HelpKINode Title="Deleted event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Deleted.htm" />
+  <HelpKINode Title="Derives property" Url="html/P_PluginFramework_PluginDescriptor_Derives.htm" />
+  <HelpKINode Title="DerivesFrom method" Url="html/Overload_PluginFramework_PluginFilter_DerivesFrom.htm" />
+  <HelpKINode Title="DirectoryName enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="Dispose method" Url="html/M_PluginFramework_FileSystemWatcher_Dispose.htm" />
+  <HelpKINode Title="Dispose method" Url="html/M_PluginFramework_PluginDirectory_Dispose.htm" />
+  <HelpKINode Title="Dispose method" Url="html/Overload_PluginFramework_AssemblyReflectionManager_Dispose.htm" />
+  <HelpKINode Title="Dispose method" Url="html/Overload_PluginFramework_SafeEventFileSystemWatcher_Dispose.htm" />
+  <HelpKINode Title="Disposed event" Url="html/E_PluginFramework_FileSystemWatcher_Disposed.htm" />
+  <HelpKINode Title="Disposed event" Url="html/E_PluginFramework_IFileSystemWatcher_Disposed.htm" />
+  <HelpKINode Title="Disposed event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Disposed.htm" />
+  <HelpKINode Title="EnableRaisingEvents property" Url="html/P_PluginFramework_FileSystemWatcher_EnableRaisingEvents.htm" />
+  <HelpKINode Title="EnableRaisingEvents property" Url="html/P_PluginFramework_IFileSystemWatcher_EnableRaisingEvents.htm" />
+  <HelpKINode Title="EnableRaisingEvents property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_EnableRaisingEvents.htm" />
+  <HelpKINode Title="Equality operator" Url="html/M_PluginFramework_PluginVersion_op_Equality.htm" />
+  <HelpKINode Title="Equality operator" Url="html/M_PluginFramework_QualifiedName_op_Equality.htm" />
+  <HelpKINode Title="Equals method" Url="html/M_PluginFramework_QualifiedName_Equals.htm" />
+  <HelpKINode Title="Equals method" Url="html/Overload_PluginFramework_PluginDescriptor_Equals.htm" />
+  <HelpKINode Title="Equals method" Url="html/Overload_PluginFramework_PluginFilter_Equals.htm" />
+  <HelpKINode Title="Equals method" Url="html/Overload_PluginFramework_PluginVersion_Equals.htm" />
+  <HelpKINode Title="Fetch method" Url="html/M_PluginFramework_AssemblyContainer_Fetch.htm" />
+  <HelpKINode Title="Fetch method" Url="html/M_PluginFramework_IAssemblyRepository_Fetch.htm" />
+  <HelpKINode Title="FileFound event" Url="html/E_PluginFramework_IPluginDirectory_FileFound.htm" />
+  <HelpKINode Title="FileFound event" Url="html/E_PluginFramework_PluginDirectory_FileFound.htm" />
+  <HelpKINode Title="FileLost event" Url="html/E_PluginFramework_IPluginDirectory_FileLost.htm" />
+  <HelpKINode Title="FileLost event" Url="html/E_PluginFramework_PluginDirectory_FileLost.htm" />
+  <HelpKINode Title="FileName enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="FileSystemEventArgs class" Url="html/AllMembers_T_PluginFramework_FileSystemEventArgs.htm" />
+  <HelpKINode Title="FileSystemEventArgs class" Url="html/T_PluginFramework_FileSystemEventArgs.htm" />
+  <HelpKINode Title="FileSystemEventArgs class">
+    <HelpKINode Title="about FileSystemEventArgs class" Url="html/T_PluginFramework_FileSystemEventArgs.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_FileSystemEventArgs.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_FileSystemEventArgs__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_FileSystemEventArgs.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_FileSystemEventArgs.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FileSystemEventArgs.ChangeType property" Url="html/P_PluginFramework_FileSystemEventArgs_ChangeType.htm" />
+  <HelpKINode Title="FileSystemEventArgs.FileSystemEventArgs constructor" Url="html/M_PluginFramework_FileSystemEventArgs__ctor.htm" />
+  <HelpKINode Title="FileSystemEventArgs.FullPath property" Url="html/P_PluginFramework_FileSystemEventArgs_FullPath.htm" />
+  <HelpKINode Title="FileSystemEventArgs.Name property" Url="html/P_PluginFramework_FileSystemEventArgs_Name.htm" />
+  <HelpKINode Title="FileSystemWatcher class" Url="html/AllMembers_T_PluginFramework_FileSystemWatcher.htm" />
+  <HelpKINode Title="FileSystemWatcher class" Url="html/T_PluginFramework_FileSystemWatcher.htm" />
+  <HelpKINode Title="FileSystemWatcher class">
+    <HelpKINode Title="about FileSystemWatcher class" Url="html/T_PluginFramework_FileSystemWatcher.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_FileSystemWatcher.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_PluginFramework_FileSystemWatcher__ctor.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PluginFramework_FileSystemWatcher.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_FileSystemWatcher.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_FileSystemWatcher.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FileSystemWatcher.Changed event" Url="html/E_PluginFramework_FileSystemWatcher_Changed.htm" />
+  <HelpKINode Title="FileSystemWatcher.Created event" Url="html/E_PluginFramework_FileSystemWatcher_Created.htm" />
+  <HelpKINode Title="FileSystemWatcher.Deleted event" Url="html/E_PluginFramework_FileSystemWatcher_Deleted.htm" />
+  <HelpKINode Title="FileSystemWatcher.Dispose method" Url="html/M_PluginFramework_FileSystemWatcher_Dispose.htm" />
+  <HelpKINode Title="FileSystemWatcher.Disposed event" Url="html/E_PluginFramework_FileSystemWatcher_Disposed.htm" />
+  <HelpKINode Title="FileSystemWatcher.EnableRaisingEvents property" Url="html/P_PluginFramework_FileSystemWatcher_EnableRaisingEvents.htm" />
+  <HelpKINode Title="FileSystemWatcher.FileSystemWatcher constructor" Url="html/Overload_PluginFramework_FileSystemWatcher__ctor.htm" />
+  <HelpKINode Title="FileSystemWatcher.Filter property" Url="html/P_PluginFramework_FileSystemWatcher_Filter.htm" />
+  <HelpKINode Title="FileSystemWatcher.IncludeSubdirectories property" Url="html/P_PluginFramework_FileSystemWatcher_IncludeSubdirectories.htm" />
+  <HelpKINode Title="FileSystemWatcher.NotifyFilter property" Url="html/P_PluginFramework_FileSystemWatcher_NotifyFilter.htm" />
+  <HelpKINode Title="FileSystemWatcher.Path property" Url="html/P_PluginFramework_FileSystemWatcher_Path.htm" />
+  <HelpKINode Title="FileSystemWatcher.Renamed event" Url="html/E_PluginFramework_FileSystemWatcher_Renamed.htm" />
+  <HelpKINode Title="Filter property" Url="html/P_PluginFramework_FileSystemWatcher_Filter.htm" />
+  <HelpKINode Title="Filter property" Url="html/P_PluginFramework_IFileSystemWatcher_Filter.htm" />
+  <HelpKINode Title="Filter property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_Filter.htm" />
+  <HelpKINode Title="FullName property" Url="html/P_PluginFramework_PluginDirectoryEventArgs_FullName.htm" />
+  <HelpKINode Title="FullPath property" Url="html/P_PluginFramework_FileSystemEventArgs_FullPath.htm" />
+  <HelpKINode Title="GetCreator method" Url="html/Overload_PluginFramework_PluginCreator_GetCreator.htm" />
+  <HelpKINode Title="GetHashCode method" Url="html/M_PluginFramework_PluginDescriptor_GetHashCode.htm" />
+  <HelpKINode Title="GetHashCode method" Url="html/M_PluginFramework_PluginVersion_GetHashCode.htm" />
+  <HelpKINode Title="GetHashCode method" Url="html/M_PluginFramework_QualifiedName_GetHashCode.htm" />
+  <HelpKINode Title="GreaterThan operator" Url="html/M_PluginFramework_PluginVersion_op_GreaterThan.htm" />
+  <HelpKINode Title="GreaterThanOrEqual operator" Url="html/M_PluginFramework_PluginVersion_op_GreaterThanOrEqual.htm" />
+  <HelpKINode Title="HasInfo method" Url="html/M_PluginFramework_PluginFilter_HasInfo.htm" />
+  <HelpKINode Title="HasInfoValue method" Url="html/M_PluginFramework_PluginFilter_HasInfoValue.htm" />
+  <HelpKINode Title="HasMaxVersion method" Url="html/Overload_PluginFramework_PluginFilter_HasMaxVersion.htm" />
+  <HelpKINode Title="HasMinVersion method" Url="html/Overload_PluginFramework_PluginFilter_HasMinVersion.htm" />
+  <HelpKINode Title="HasVersion method" Url="html/Overload_PluginFramework_PluginFilter_HasVersion.htm" />
+  <HelpKINode Title="IAssemblyRepository interface" Url="html/AllMembers_T_PluginFramework_IAssemblyRepository.htm" />
+  <HelpKINode Title="IAssemblyRepository interface" Url="html/T_PluginFramework_IAssemblyRepository.htm" />
+  <HelpKINode Title="IAssemblyRepository interface">
+    <HelpKINode Title="about IAssemblyRepository interface" Url="html/T_PluginFramework_IAssemblyRepository.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_IAssemblyRepository.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_IAssemblyRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IAssemblyRepository.Fetch method" Url="html/M_PluginFramework_IAssemblyRepository_Fetch.htm" />
+  <HelpKINode Title="IAssemblySource interface" Url="html/AllMembers_T_PluginFramework_IAssemblySource.htm" />
+  <HelpKINode Title="IAssemblySource interface" Url="html/T_PluginFramework_IAssemblySource.htm" />
+  <HelpKINode Title="IAssemblySource interface">
+    <HelpKINode Title="about IAssemblySource interface" Url="html/T_PluginFramework_IAssemblySource.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_IAssemblySource.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PluginFramework_IAssemblySource.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IAssemblySource.AssemblyAdded event" Url="html/E_PluginFramework_IAssemblySource_AssemblyAdded.htm" />
+  <HelpKINode Title="IAssemblySource.AssemblyRemoved event" Url="html/E_PluginFramework_IAssemblySource_AssemblyRemoved.htm" />
+  <HelpKINode Title="IFileSystemWatcher interface" Url="html/AllMembers_T_PluginFramework_IFileSystemWatcher.htm" />
+  <HelpKINode Title="IFileSystemWatcher interface" Url="html/T_PluginFramework_IFileSystemWatcher.htm" />
+  <HelpKINode Title="IFileSystemWatcher interface">
+    <HelpKINode Title="about IFileSystemWatcher interface" Url="html/T_PluginFramework_IFileSystemWatcher.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_IFileSystemWatcher.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PluginFramework_IFileSystemWatcher.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_IFileSystemWatcher.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_IFileSystemWatcher.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IFileSystemWatcher.Changed event" Url="html/E_PluginFramework_IFileSystemWatcher_Changed.htm" />
+  <HelpKINode Title="IFileSystemWatcher.Created event" Url="html/E_PluginFramework_IFileSystemWatcher_Created.htm" />
+  <HelpKINode Title="IFileSystemWatcher.Deleted event" Url="html/E_PluginFramework_IFileSystemWatcher_Deleted.htm" />
+  <HelpKINode Title="IFileSystemWatcher.Disposed event" Url="html/E_PluginFramework_IFileSystemWatcher_Disposed.htm" />
+  <HelpKINode Title="IFileSystemWatcher.EnableRaisingEvents property" Url="html/P_PluginFramework_IFileSystemWatcher_EnableRaisingEvents.htm" />
+  <HelpKINode Title="IFileSystemWatcher.Filter property" Url="html/P_PluginFramework_IFileSystemWatcher_Filter.htm" />
+  <HelpKINode Title="IFileSystemWatcher.IncludeSubdirectories property" Url="html/P_PluginFramework_IFileSystemWatcher_IncludeSubdirectories.htm" />
+  <HelpKINode Title="IFileSystemWatcher.NotifyFilter property" Url="html/P_PluginFramework_IFileSystemWatcher_NotifyFilter.htm" />
+  <HelpKINode Title="IFileSystemWatcher.Path property" Url="html/P_PluginFramework_IFileSystemWatcher_Path.htm" />
+  <HelpKINode Title="IFileSystemWatcher.Renamed event" Url="html/E_PluginFramework_IFileSystemWatcher_Renamed.htm" />
+  <HelpKINode Title="Implements method" Url="html/Overload_PluginFramework_PluginFilter_Implements.htm" />
+  <HelpKINode Title="IncludeSubdirectories property" Url="html/P_PluginFramework_FileSystemWatcher_IncludeSubdirectories.htm" />
+  <HelpKINode Title="IncludeSubdirectories property" Url="html/P_PluginFramework_IFileSystemWatcher_IncludeSubdirectories.htm" />
+  <HelpKINode Title="IncludeSubdirectories property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_IncludeSubdirectories.htm" />
+  <HelpKINode Title="Inequality operator" Url="html/M_PluginFramework_PluginVersion_op_Inequality.htm" />
+  <HelpKINode Title="Inequality operator" Url="html/M_PluginFramework_QualifiedName_op_Inequality.htm" />
+  <HelpKINode Title="InfoValues property" Url="html/P_PluginFramework_PluginDescriptor_InfoValues.htm" />
+  <HelpKINode Title="Interfaces property" Url="html/P_PluginFramework_PluginDescriptor_Interfaces.htm" />
+  <HelpKINode Title="IPluginCreator interface" Url="html/AllMembers_T_PluginFramework_IPluginCreator.htm" />
+  <HelpKINode Title="IPluginCreator interface" Url="html/T_PluginFramework_IPluginCreator.htm" />
+  <HelpKINode Title="IPluginCreator interface">
+    <HelpKINode Title="about IPluginCreator interface" Url="html/T_PluginFramework_IPluginCreator.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_IPluginCreator.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_IPluginCreator.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IPluginCreator.Create method" Url="html/M_PluginFramework_IPluginCreator_Create.htm" />
+  <HelpKINode Title="IPluginDirectory interface" Url="html/AllMembers_T_PluginFramework_IPluginDirectory.htm" />
+  <HelpKINode Title="IPluginDirectory interface" Url="html/T_PluginFramework_IPluginDirectory.htm" />
+  <HelpKINode Title="IPluginDirectory interface">
+    <HelpKINode Title="about IPluginDirectory interface" Url="html/T_PluginFramework_IPluginDirectory.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_IPluginDirectory.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PluginFramework_IPluginDirectory.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_IPluginDirectory.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IPluginDirectory.FileFound event" Url="html/E_PluginFramework_IPluginDirectory_FileFound.htm" />
+  <HelpKINode Title="IPluginDirectory.FileLost event" Url="html/E_PluginFramework_IPluginDirectory_FileLost.htm" />
+  <HelpKINode Title="IPluginRepository interface" Url="html/AllMembers_T_PluginFramework_IPluginRepository.htm" />
+  <HelpKINode Title="IPluginRepository interface" Url="html/T_PluginFramework_IPluginRepository.htm" />
+  <HelpKINode Title="IPluginRepository interface">
+    <HelpKINode Title="about IPluginRepository interface" Url="html/T_PluginFramework_IPluginRepository.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_IPluginRepository.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_IPluginRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IPluginRepository.Plugins method" Url="html/M_PluginFramework_IPluginRepository_Plugins.htm" />
+  <HelpKINode Title="IPluginSource interface" Url="html/AllMembers_T_PluginFramework_IPluginSource.htm" />
+  <HelpKINode Title="IPluginSource interface" Url="html/T_PluginFramework_IPluginSource.htm" />
+  <HelpKINode Title="IPluginSource interface">
+    <HelpKINode Title="about IPluginSource interface" Url="html/T_PluginFramework_IPluginSource.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_IPluginSource.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PluginFramework_IPluginSource.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IPluginSource.PluginAdded event" Url="html/E_PluginFramework_IPluginSource_PluginAdded.htm" />
+  <HelpKINode Title="IPluginSource.PluginRemoved event" Url="html/E_PluginFramework_IPluginSource_PluginRemoved.htm" />
+  <HelpKINode Title="IsNamed method" Url="html/M_PluginFramework_PluginFilter_IsNamed.htm" />
+  <HelpKINode Title="IsTypeOf method" Url="html/Overload_PluginFramework_PluginFilter_IsTypeOf.htm" />
+  <HelpKINode Title="Key property" Url="html/P_PluginFramework_PluginInfoAttribute_Key.htm" />
+  <HelpKINode Title="LastAccess enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="LastWrite enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="LessThan operator" Url="html/M_PluginFramework_PluginVersion_op_LessThan.htm" />
+  <HelpKINode Title="LessThanOrEqual operator" Url="html/M_PluginFramework_PluginVersion_op_LessThanOrEqual.htm" />
+  <HelpKINode Title="LoadAssembly method" Url="html/M_PluginFramework_AssemblyReflectionManager_LoadAssembly.htm" />
+  <HelpKINode Title="Major property" Url="html/P_PluginFramework_PluginVersionAttribute_Major.htm" />
+  <HelpKINode Title="Major property" Url="html/P_PluginFramework_PluginVersion_Major.htm" />
+  <HelpKINode Title="Minor property" Url="html/P_PluginFramework_PluginVersionAttribute_Minor.htm" />
+  <HelpKINode Title="Minor property" Url="html/P_PluginFramework_PluginVersion_Minor.htm" />
+  <HelpKINode Title="Name property" Url="html/P_PluginFramework_FileSystemEventArgs_Name.htm" />
+  <HelpKINode Title="Name property" Url="html/P_PluginFramework_PluginAttribute_Name.htm" />
+  <HelpKINode Title="Name property" Url="html/P_PluginFramework_PluginDescriptor_Name.htm" />
+  <HelpKINode Title="Name property" Url="html/P_PluginFramework_PluginSettingAttribute_Name.htm" />
+  <HelpKINode Title="Name property" Url="html/P_PluginFramework_PluginSettingDescriptor_Name.htm" />
+  <HelpKINode Title="NotifyFilter property" Url="html/P_PluginFramework_FileSystemWatcher_NotifyFilter.htm" />
+  <HelpKINode Title="NotifyFilter property" Url="html/P_PluginFramework_IFileSystemWatcher_NotifyFilter.htm" />
+  <HelpKINode Title="NotifyFilter property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_NotifyFilter.htm" />
+  <HelpKINode Title="NotifyFilters enumeration" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="OldFullPath property" Url="html/P_PluginFramework_RenamedEventArgs_OldFullPath.htm" />
+  <HelpKINode Title="OldName property" Url="html/P_PluginFramework_RenamedEventArgs_OldName.htm" />
+  <HelpKINode Title="Or method" Url="html/M_PluginFramework_PluginFilter_Or.htm" />
+  <HelpKINode Title="Path property" Url="html/P_PluginFramework_FileSystemWatcher_Path.htm" />
+  <HelpKINode Title="Path property" Url="html/P_PluginFramework_IFileSystemWatcher_Path.htm" />
+  <HelpKINode Title="Path property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_Path.htm" />
+  <HelpKINode Title="Plugin property" Url="html/P_PluginFramework_PluginEventArgs_Plugin.htm" />
+  <HelpKINode Title="PluginAdded event" Url="html/E_PluginFramework_IPluginSource_PluginAdded.htm" />
+  <HelpKINode Title="PluginAdded event" Url="html/E_PluginFramework_PluginExtractor_PluginAdded.htm" />
+  <HelpKINode Title="PluginAttribute class" Url="html/AllMembers_T_PluginFramework_PluginAttribute.htm" />
+  <HelpKINode Title="PluginAttribute class" Url="html/T_PluginFramework_PluginAttribute.htm" />
+  <HelpKINode Title="PluginAttribute class">
+    <HelpKINode Title="about PluginAttribute class" Url="html/T_PluginFramework_PluginAttribute.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginAttribute.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginAttribute__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginAttribute.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginAttribute.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginAttribute.Name property" Url="html/P_PluginFramework_PluginAttribute_Name.htm" />
+  <HelpKINode Title="PluginAttribute.PluginAttribute constructor" Url="html/M_PluginFramework_PluginAttribute__ctor.htm" />
+  <HelpKINode Title="PluginCreator class" Url="html/AllMembers_T_PluginFramework_PluginCreator.htm" />
+  <HelpKINode Title="PluginCreator class" Url="html/T_PluginFramework_PluginCreator.htm" />
+  <HelpKINode Title="PluginCreator class">
+    <HelpKINode Title="about PluginCreator class" Url="html/T_PluginFramework_PluginCreator.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginCreator.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginCreator.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginCreator.Create method" Url="html/M_PluginFramework_PluginCreator_Create.htm" />
+  <HelpKINode Title="PluginCreator.GetCreator method" Url="html/Overload_PluginFramework_PluginCreator_GetCreator.htm" />
+  <HelpKINode Title="PluginDescriptor class" Url="html/AllMembers_T_PluginFramework_PluginDescriptor.htm" />
+  <HelpKINode Title="PluginDescriptor class" Url="html/T_PluginFramework_PluginDescriptor.htm" />
+  <HelpKINode Title="PluginDescriptor class">
+    <HelpKINode Title="about PluginDescriptor class" Url="html/T_PluginFramework_PluginDescriptor.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginDescriptor.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginDescriptor__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginDescriptor.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginDescriptor.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginDescriptor.Derives property" Url="html/P_PluginFramework_PluginDescriptor_Derives.htm" />
+  <HelpKINode Title="PluginDescriptor.Equals method" Url="html/Overload_PluginFramework_PluginDescriptor_Equals.htm" />
+  <HelpKINode Title="PluginDescriptor.GetHashCode method" Url="html/M_PluginFramework_PluginDescriptor_GetHashCode.htm" />
+  <HelpKINode Title="PluginDescriptor.InfoValues property" Url="html/P_PluginFramework_PluginDescriptor_InfoValues.htm" />
+  <HelpKINode Title="PluginDescriptor.Interfaces property" Url="html/P_PluginFramework_PluginDescriptor_Interfaces.htm" />
+  <HelpKINode Title="PluginDescriptor.Name property" Url="html/P_PluginFramework_PluginDescriptor_Name.htm" />
+  <HelpKINode Title="PluginDescriptor.PluginDescriptor constructor" Url="html/M_PluginFramework_PluginDescriptor__ctor.htm" />
+  <HelpKINode Title="PluginDescriptor.QualifiedName property" Url="html/P_PluginFramework_PluginDescriptor_QualifiedName.htm" />
+  <HelpKINode Title="PluginDescriptor.Settings property" Url="html/P_PluginFramework_PluginDescriptor_Settings.htm" />
+  <HelpKINode Title="PluginDescriptor.Version property" Url="html/P_PluginFramework_PluginDescriptor_Version.htm" />
+  <HelpKINode Title="PluginDirectory class" Url="html/AllMembers_T_PluginFramework_PluginDirectory.htm" />
+  <HelpKINode Title="PluginDirectory class" Url="html/T_PluginFramework_PluginDirectory.htm" />
+  <HelpKINode Title="PluginDirectory class">
+    <HelpKINode Title="about PluginDirectory class" Url="html/T_PluginFramework_PluginDirectory.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginDirectory.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_PluginFramework_PluginDirectory__ctor.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PluginFramework_PluginDirectory.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginDirectory.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginDirectory.Dispose method" Url="html/M_PluginFramework_PluginDirectory_Dispose.htm" />
+  <HelpKINode Title="PluginDirectory.FileFound event" Url="html/E_PluginFramework_PluginDirectory_FileFound.htm" />
+  <HelpKINode Title="PluginDirectory.FileLost event" Url="html/E_PluginFramework_PluginDirectory_FileLost.htm" />
+  <HelpKINode Title="PluginDirectory.PluginDirectory constructor" Url="html/Overload_PluginFramework_PluginDirectory__ctor.htm" />
+  <HelpKINode Title="PluginDirectoryEventArgs class" Url="html/AllMembers_T_PluginFramework_PluginDirectoryEventArgs.htm" />
+  <HelpKINode Title="PluginDirectoryEventArgs class" Url="html/T_PluginFramework_PluginDirectoryEventArgs.htm" />
+  <HelpKINode Title="PluginDirectoryEventArgs class">
+    <HelpKINode Title="about PluginDirectoryEventArgs class" Url="html/T_PluginFramework_PluginDirectoryEventArgs.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginDirectoryEventArgs.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginDirectoryEventArgs__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginDirectoryEventArgs.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginDirectoryEventArgs.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginDirectoryEventArgs.FullName property" Url="html/P_PluginFramework_PluginDirectoryEventArgs_FullName.htm" />
+  <HelpKINode Title="PluginDirectoryEventArgs.PluginDirectoryEventArgs constructor" Url="html/M_PluginFramework_PluginDirectoryEventArgs__ctor.htm" />
+  <HelpKINode Title="PluginEventArgs class" Url="html/AllMembers_T_PluginFramework_PluginEventArgs.htm" />
+  <HelpKINode Title="PluginEventArgs class" Url="html/T_PluginFramework_PluginEventArgs.htm" />
+  <HelpKINode Title="PluginEventArgs class">
+    <HelpKINode Title="about PluginEventArgs class" Url="html/T_PluginFramework_PluginEventArgs.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginEventArgs.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginEventArgs__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginEventArgs.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginEventArgs.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginEventArgs.Plugin property" Url="html/P_PluginFramework_PluginEventArgs_Plugin.htm" />
+  <HelpKINode Title="PluginEventArgs.PluginEventArgs constructor" Url="html/M_PluginFramework_PluginEventArgs__ctor.htm" />
+  <HelpKINode Title="PluginException class" Url="html/AllMembers_T_PluginFramework_PluginException.htm" />
+  <HelpKINode Title="PluginException class" Url="html/T_PluginFramework_PluginException.htm" />
+  <HelpKINode Title="PluginException class">
+    <HelpKINode Title="about PluginException class" Url="html/T_PluginFramework_PluginException.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginException.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_PluginFramework_PluginException__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginException.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginException.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginException.PluginException constructor" Url="html/Overload_PluginFramework_PluginException__ctor.htm" />
+  <HelpKINode Title="PluginExtractor class" Url="html/AllMembers_T_PluginFramework_PluginExtractor.htm" />
+  <HelpKINode Title="PluginExtractor class" Url="html/T_PluginFramework_PluginExtractor.htm" />
+  <HelpKINode Title="PluginExtractor class">
+    <HelpKINode Title="about PluginExtractor class" Url="html/T_PluginFramework_PluginExtractor.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginExtractor.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginExtractor__ctor.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PluginFramework_PluginExtractor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginExtractor.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginExtractor.PluginAdded event" Url="html/E_PluginFramework_PluginExtractor_PluginAdded.htm" />
+  <HelpKINode Title="PluginExtractor.PluginExtractor constructor" Url="html/M_PluginFramework_PluginExtractor__ctor.htm" />
+  <HelpKINode Title="PluginExtractor.PluginRemoved event" Url="html/E_PluginFramework_PluginExtractor_PluginRemoved.htm" />
+  <HelpKINode Title="PluginFilter class" Url="html/AllMembers_T_PluginFramework_PluginFilter.htm" />
+  <HelpKINode Title="PluginFilter class" Url="html/T_PluginFramework_PluginFilter.htm" />
+  <HelpKINode Title="PluginFilter class">
+    <HelpKINode Title="about PluginFilter class" Url="html/T_PluginFramework_PluginFilter.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginFilter.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginFilter.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginFilter.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginFilter.And method" Url="html/M_PluginFramework_PluginFilter_And.htm" />
+  <HelpKINode Title="PluginFilter.Create property" Url="html/P_PluginFramework_PluginFilter_Create.htm" />
+  <HelpKINode Title="PluginFilter.DerivesFrom method" Url="html/Overload_PluginFramework_PluginFilter_DerivesFrom.htm" />
+  <HelpKINode Title="PluginFilter.Equals method" Url="html/Overload_PluginFramework_PluginFilter_Equals.htm" />
+  <HelpKINode Title="PluginFilter.HasInfo method" Url="html/M_PluginFramework_PluginFilter_HasInfo.htm" />
+  <HelpKINode Title="PluginFilter.HasInfoValue method" Url="html/M_PluginFramework_PluginFilter_HasInfoValue.htm" />
+  <HelpKINode Title="PluginFilter.HasMaxVersion method" Url="html/Overload_PluginFramework_PluginFilter_HasMaxVersion.htm" />
+  <HelpKINode Title="PluginFilter.HasMinVersion method" Url="html/Overload_PluginFramework_PluginFilter_HasMinVersion.htm" />
+  <HelpKINode Title="PluginFilter.HasVersion method" Url="html/Overload_PluginFramework_PluginFilter_HasVersion.htm" />
+  <HelpKINode Title="PluginFilter.Implements method" Url="html/Overload_PluginFramework_PluginFilter_Implements.htm" />
+  <HelpKINode Title="PluginFilter.IsNamed method" Url="html/M_PluginFramework_PluginFilter_IsNamed.htm" />
+  <HelpKINode Title="PluginFilter.IsTypeOf method" Url="html/Overload_PluginFramework_PluginFilter_IsTypeOf.htm" />
+  <HelpKINode Title="PluginFilter.Or method" Url="html/M_PluginFramework_PluginFilter_Or.htm" />
+  <HelpKINode Title="PluginFilter.ToString method" Url="html/M_PluginFramework_PluginFilter_ToString.htm" />
+  <HelpKINode Title="PluginFramework namespace" Url="html/N_PluginFramework.htm" />
+  <HelpKINode Title="PluginFramework.AssemblyAddedEventArgs class" Url="html/AllMembers_T_PluginFramework_AssemblyAddedEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.AssemblyAddedEventArgs class" Url="html/T_PluginFramework_AssemblyAddedEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.AssemblyContainer class" Url="html/AllMembers_T_PluginFramework_AssemblyContainer.htm" />
+  <HelpKINode Title="PluginFramework.AssemblyContainer class" Url="html/T_PluginFramework_AssemblyContainer.htm" />
+  <HelpKINode Title="PluginFramework.AssemblyReflectionManager class" Url="html/AllMembers_T_PluginFramework_AssemblyReflectionManager.htm" />
+  <HelpKINode Title="PluginFramework.AssemblyReflectionManager class" Url="html/T_PluginFramework_AssemblyReflectionManager.htm" />
+  <HelpKINode Title="PluginFramework.AssemblyRemovedEventArgs class" Url="html/AllMembers_T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.AssemblyRemovedEventArgs class" Url="html/T_PluginFramework_AssemblyRemovedEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.FileSystemEventArgs class" Url="html/AllMembers_T_PluginFramework_FileSystemEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.FileSystemEventArgs class" Url="html/T_PluginFramework_FileSystemEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.FileSystemWatcher class" Url="html/AllMembers_T_PluginFramework_FileSystemWatcher.htm" />
+  <HelpKINode Title="PluginFramework.FileSystemWatcher class" Url="html/T_PluginFramework_FileSystemWatcher.htm" />
+  <HelpKINode Title="PluginFramework.IAssemblyRepository interface" Url="html/AllMembers_T_PluginFramework_IAssemblyRepository.htm" />
+  <HelpKINode Title="PluginFramework.IAssemblyRepository interface" Url="html/T_PluginFramework_IAssemblyRepository.htm" />
+  <HelpKINode Title="PluginFramework.IAssemblySource interface" Url="html/AllMembers_T_PluginFramework_IAssemblySource.htm" />
+  <HelpKINode Title="PluginFramework.IAssemblySource interface" Url="html/T_PluginFramework_IAssemblySource.htm" />
+  <HelpKINode Title="PluginFramework.IFileSystemWatcher interface" Url="html/AllMembers_T_PluginFramework_IFileSystemWatcher.htm" />
+  <HelpKINode Title="PluginFramework.IFileSystemWatcher interface" Url="html/T_PluginFramework_IFileSystemWatcher.htm" />
+  <HelpKINode Title="PluginFramework.IPluginCreator interface" Url="html/AllMembers_T_PluginFramework_IPluginCreator.htm" />
+  <HelpKINode Title="PluginFramework.IPluginCreator interface" Url="html/T_PluginFramework_IPluginCreator.htm" />
+  <HelpKINode Title="PluginFramework.IPluginDirectory interface" Url="html/AllMembers_T_PluginFramework_IPluginDirectory.htm" />
+  <HelpKINode Title="PluginFramework.IPluginDirectory interface" Url="html/T_PluginFramework_IPluginDirectory.htm" />
+  <HelpKINode Title="PluginFramework.IPluginRepository interface" Url="html/AllMembers_T_PluginFramework_IPluginRepository.htm" />
+  <HelpKINode Title="PluginFramework.IPluginRepository interface" Url="html/T_PluginFramework_IPluginRepository.htm" />
+  <HelpKINode Title="PluginFramework.IPluginSource interface" Url="html/AllMembers_T_PluginFramework_IPluginSource.htm" />
+  <HelpKINode Title="PluginFramework.IPluginSource interface" Url="html/T_PluginFramework_IPluginSource.htm" />
+  <HelpKINode Title="PluginFramework.NotifyFilters enumeration" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="PluginFramework.PluginAttribute class" Url="html/AllMembers_T_PluginFramework_PluginAttribute.htm" />
+  <HelpKINode Title="PluginFramework.PluginAttribute class" Url="html/T_PluginFramework_PluginAttribute.htm" />
+  <HelpKINode Title="PluginFramework.PluginCreator class" Url="html/AllMembers_T_PluginFramework_PluginCreator.htm" />
+  <HelpKINode Title="PluginFramework.PluginCreator class" Url="html/T_PluginFramework_PluginCreator.htm" />
+  <HelpKINode Title="PluginFramework.PluginDescriptor class" Url="html/AllMembers_T_PluginFramework_PluginDescriptor.htm" />
+  <HelpKINode Title="PluginFramework.PluginDescriptor class" Url="html/T_PluginFramework_PluginDescriptor.htm" />
+  <HelpKINode Title="PluginFramework.PluginDirectory class" Url="html/AllMembers_T_PluginFramework_PluginDirectory.htm" />
+  <HelpKINode Title="PluginFramework.PluginDirectory class" Url="html/T_PluginFramework_PluginDirectory.htm" />
+  <HelpKINode Title="PluginFramework.PluginDirectoryEventArgs class" Url="html/AllMembers_T_PluginFramework_PluginDirectoryEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.PluginDirectoryEventArgs class" Url="html/T_PluginFramework_PluginDirectoryEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.PluginEventArgs class" Url="html/AllMembers_T_PluginFramework_PluginEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.PluginEventArgs class" Url="html/T_PluginFramework_PluginEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.PluginException class" Url="html/AllMembers_T_PluginFramework_PluginException.htm" />
+  <HelpKINode Title="PluginFramework.PluginException class" Url="html/T_PluginFramework_PluginException.htm" />
+  <HelpKINode Title="PluginFramework.PluginExtractor class" Url="html/AllMembers_T_PluginFramework_PluginExtractor.htm" />
+  <HelpKINode Title="PluginFramework.PluginExtractor class" Url="html/T_PluginFramework_PluginExtractor.htm" />
+  <HelpKINode Title="PluginFramework.PluginFilter class" Url="html/AllMembers_T_PluginFramework_PluginFilter.htm" />
+  <HelpKINode Title="PluginFramework.PluginFilter class" Url="html/T_PluginFramework_PluginFilter.htm" />
+  <HelpKINode Title="PluginFramework.PluginInfoAttribute class" Url="html/AllMembers_T_PluginFramework_PluginInfoAttribute.htm" />
+  <HelpKINode Title="PluginFramework.PluginInfoAttribute class" Url="html/T_PluginFramework_PluginInfoAttribute.htm" />
+  <HelpKINode Title="PluginFramework.PluginRepository class" Url="html/AllMembers_T_PluginFramework_PluginRepository.htm" />
+  <HelpKINode Title="PluginFramework.PluginRepository class" Url="html/T_PluginFramework_PluginRepository.htm" />
+  <HelpKINode Title="PluginFramework.PluginSettingAttribute class" Url="html/AllMembers_T_PluginFramework_PluginSettingAttribute.htm" />
+  <HelpKINode Title="PluginFramework.PluginSettingAttribute class" Url="html/T_PluginFramework_PluginSettingAttribute.htm" />
+  <HelpKINode Title="PluginFramework.PluginSettingDescriptor class" Url="html/AllMembers_T_PluginFramework_PluginSettingDescriptor.htm" />
+  <HelpKINode Title="PluginFramework.PluginSettingDescriptor class" Url="html/T_PluginFramework_PluginSettingDescriptor.htm" />
+  <HelpKINode Title="PluginFramework.PluginSettingException class" Url="html/AllMembers_T_PluginFramework_PluginSettingException.htm" />
+  <HelpKINode Title="PluginFramework.PluginSettingException class" Url="html/T_PluginFramework_PluginSettingException.htm" />
+  <HelpKINode Title="PluginFramework.PluginVersion structure" Url="html/AllMembers_T_PluginFramework_PluginVersion.htm" />
+  <HelpKINode Title="PluginFramework.PluginVersion structure" Url="html/T_PluginFramework_PluginVersion.htm" />
+  <HelpKINode Title="PluginFramework.PluginVersionAttribute class" Url="html/AllMembers_T_PluginFramework_PluginVersionAttribute.htm" />
+  <HelpKINode Title="PluginFramework.PluginVersionAttribute class" Url="html/T_PluginFramework_PluginVersionAttribute.htm" />
+  <HelpKINode Title="PluginFramework.QualifiedName structure" Url="html/AllMembers_T_PluginFramework_QualifiedName.htm" />
+  <HelpKINode Title="PluginFramework.QualifiedName structure" Url="html/T_PluginFramework_QualifiedName.htm" />
+  <HelpKINode Title="PluginFramework.RenamedEventArgs class" Url="html/AllMembers_T_PluginFramework_RenamedEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.RenamedEventArgs class" Url="html/T_PluginFramework_RenamedEventArgs.htm" />
+  <HelpKINode Title="PluginFramework.SafeEventFileSystemWatcher class" Url="html/AllMembers_T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+  <HelpKINode Title="PluginFramework.SafeEventFileSystemWatcher class" Url="html/T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+  <HelpKINode Title="PluginFramework.WatcherChangeTypes enumeration" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
+  <HelpKINode Title="PluginInfoAttribute class" Url="html/AllMembers_T_PluginFramework_PluginInfoAttribute.htm" />
+  <HelpKINode Title="PluginInfoAttribute class" Url="html/T_PluginFramework_PluginInfoAttribute.htm" />
+  <HelpKINode Title="PluginInfoAttribute class">
+    <HelpKINode Title="about PluginInfoAttribute class" Url="html/T_PluginFramework_PluginInfoAttribute.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginInfoAttribute.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginInfoAttribute__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginInfoAttribute.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginInfoAttribute.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginInfoAttribute.Key property" Url="html/P_PluginFramework_PluginInfoAttribute_Key.htm" />
+  <HelpKINode Title="PluginInfoAttribute.PluginInfoAttribute constructor" Url="html/M_PluginFramework_PluginInfoAttribute__ctor.htm" />
+  <HelpKINode Title="PluginInfoAttribute.Value property" Url="html/P_PluginFramework_PluginInfoAttribute_Value.htm" />
+  <HelpKINode Title="PluginRemoved event" Url="html/E_PluginFramework_IPluginSource_PluginRemoved.htm" />
+  <HelpKINode Title="PluginRemoved event" Url="html/E_PluginFramework_PluginExtractor_PluginRemoved.htm" />
+  <HelpKINode Title="PluginRepository class" Url="html/AllMembers_T_PluginFramework_PluginRepository.htm" />
+  <HelpKINode Title="PluginRepository class" Url="html/T_PluginFramework_PluginRepository.htm" />
+  <HelpKINode Title="PluginRepository class">
+    <HelpKINode Title="about PluginRepository class" Url="html/T_PluginFramework_PluginRepository.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginRepository.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginRepository__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginRepository.AddPluginSource method" Url="html/M_PluginFramework_PluginRepository_AddPluginSource.htm" />
+  <HelpKINode Title="PluginRepository.PluginRepository constructor" Url="html/M_PluginFramework_PluginRepository__ctor.htm" />
+  <HelpKINode Title="PluginRepository.Plugins method" Url="html/M_PluginFramework_PluginRepository_Plugins.htm" />
+  <HelpKINode Title="PluginRepository.RemovePluginSource method" Url="html/M_PluginFramework_PluginRepository_RemovePluginSource.htm" />
+  <HelpKINode Title="Plugins method" Url="html/M_PluginFramework_IPluginRepository_Plugins.htm" />
+  <HelpKINode Title="Plugins method" Url="html/M_PluginFramework_PluginRepository_Plugins.htm" />
+  <HelpKINode Title="PluginSettingAttribute class" Url="html/AllMembers_T_PluginFramework_PluginSettingAttribute.htm" />
+  <HelpKINode Title="PluginSettingAttribute class" Url="html/T_PluginFramework_PluginSettingAttribute.htm" />
+  <HelpKINode Title="PluginSettingAttribute class">
+    <HelpKINode Title="about PluginSettingAttribute class" Url="html/T_PluginFramework_PluginSettingAttribute.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginSettingAttribute.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginSettingAttribute__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginSettingAttribute.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginSettingAttribute.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginSettingAttribute.Name property" Url="html/P_PluginFramework_PluginSettingAttribute_Name.htm" />
+  <HelpKINode Title="PluginSettingAttribute.PluginSettingAttribute constructor" Url="html/M_PluginFramework_PluginSettingAttribute__ctor.htm" />
+  <HelpKINode Title="PluginSettingAttribute.Required property" Url="html/P_PluginFramework_PluginSettingAttribute_Required.htm" />
+  <HelpKINode Title="PluginSettingDescriptor class" Url="html/AllMembers_T_PluginFramework_PluginSettingDescriptor.htm" />
+  <HelpKINode Title="PluginSettingDescriptor class" Url="html/T_PluginFramework_PluginSettingDescriptor.htm" />
+  <HelpKINode Title="PluginSettingDescriptor class">
+    <HelpKINode Title="about PluginSettingDescriptor class" Url="html/T_PluginFramework_PluginSettingDescriptor.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginSettingDescriptor.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginSettingDescriptor__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginSettingDescriptor.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginSettingDescriptor.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginSettingDescriptor.Name property" Url="html/P_PluginFramework_PluginSettingDescriptor_Name.htm" />
+  <HelpKINode Title="PluginSettingDescriptor.PluginSettingDescriptor constructor" Url="html/M_PluginFramework_PluginSettingDescriptor__ctor.htm" />
+  <HelpKINode Title="PluginSettingDescriptor.Required property" Url="html/P_PluginFramework_PluginSettingDescriptor_Required.htm" />
+  <HelpKINode Title="PluginSettingDescriptor.SettingType property" Url="html/P_PluginFramework_PluginSettingDescriptor_SettingType.htm" />
+  <HelpKINode Title="PluginSettingDescriptor.ToString method" Url="html/M_PluginFramework_PluginSettingDescriptor_ToString.htm" />
+  <HelpKINode Title="PluginSettingException class" Url="html/AllMembers_T_PluginFramework_PluginSettingException.htm" />
+  <HelpKINode Title="PluginSettingException class" Url="html/T_PluginFramework_PluginSettingException.htm" />
+  <HelpKINode Title="PluginSettingException class">
+    <HelpKINode Title="about PluginSettingException class" Url="html/T_PluginFramework_PluginSettingException.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginSettingException.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_PluginFramework_PluginSettingException__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginSettingException.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginSettingException.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginSettingException.PluginSettingException constructor" Url="html/Overload_PluginFramework_PluginSettingException__ctor.htm" />
+  <HelpKINode Title="PluginVersion structure" Url="html/AllMembers_T_PluginFramework_PluginVersion.htm" />
+  <HelpKINode Title="PluginVersion structure" Url="html/T_PluginFramework_PluginVersion.htm" />
+  <HelpKINode Title="PluginVersion structure">
+    <HelpKINode Title="about PluginVersion structure" Url="html/T_PluginFramework_PluginVersion.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginVersion.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_PluginFramework_PluginVersion__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginVersion.htm" />
+    <HelpKINode Title="operators" Url="html/Operators_T_PluginFramework_PluginVersion.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginVersion.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginVersion.CompareTo method" Url="html/M_PluginFramework_PluginVersion_CompareTo.htm" />
+  <HelpKINode Title="PluginVersion.Equality operator" Url="html/M_PluginFramework_PluginVersion_op_Equality.htm" />
+  <HelpKINode Title="PluginVersion.Equals method" Url="html/Overload_PluginFramework_PluginVersion_Equals.htm" />
+  <HelpKINode Title="PluginVersion.GetHashCode method" Url="html/M_PluginFramework_PluginVersion_GetHashCode.htm" />
+  <HelpKINode Title="PluginVersion.GreaterThan operator" Url="html/M_PluginFramework_PluginVersion_op_GreaterThan.htm" />
+  <HelpKINode Title="PluginVersion.GreaterThanOrEqual operator" Url="html/M_PluginFramework_PluginVersion_op_GreaterThanOrEqual.htm" />
+  <HelpKINode Title="PluginVersion.Inequality operator" Url="html/M_PluginFramework_PluginVersion_op_Inequality.htm" />
+  <HelpKINode Title="PluginVersion.LessThan operator" Url="html/M_PluginFramework_PluginVersion_op_LessThan.htm" />
+  <HelpKINode Title="PluginVersion.LessThanOrEqual operator" Url="html/M_PluginFramework_PluginVersion_op_LessThanOrEqual.htm" />
+  <HelpKINode Title="PluginVersion.Major property" Url="html/P_PluginFramework_PluginVersion_Major.htm" />
+  <HelpKINode Title="PluginVersion.Minor property" Url="html/P_PluginFramework_PluginVersion_Minor.htm" />
+  <HelpKINode Title="PluginVersion.PluginVersion constructor" Url="html/Overload_PluginFramework_PluginVersion__ctor.htm" />
+  <HelpKINode Title="PluginVersion.ToString method" Url="html/M_PluginFramework_PluginVersion_ToString.htm" />
+  <HelpKINode Title="PluginVersionAttribute class" Url="html/AllMembers_T_PluginFramework_PluginVersionAttribute.htm" />
+  <HelpKINode Title="PluginVersionAttribute class" Url="html/T_PluginFramework_PluginVersionAttribute.htm" />
+  <HelpKINode Title="PluginVersionAttribute class">
+    <HelpKINode Title="about PluginVersionAttribute class" Url="html/T_PluginFramework_PluginVersionAttribute.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_PluginVersionAttribute.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_PluginVersionAttribute__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginVersionAttribute.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginVersionAttribute.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PluginVersionAttribute.Major property" Url="html/P_PluginFramework_PluginVersionAttribute_Major.htm" />
+  <HelpKINode Title="PluginVersionAttribute.Minor property" Url="html/P_PluginFramework_PluginVersionAttribute_Minor.htm" />
+  <HelpKINode Title="PluginVersionAttribute.PluginVersionAttribute constructor" Url="html/M_PluginFramework_PluginVersionAttribute__ctor.htm" />
+  <HelpKINode Title="QualifiedName property" Url="html/P_PluginFramework_PluginDescriptor_QualifiedName.htm" />
+  <HelpKINode Title="QualifiedName structure" Url="html/AllMembers_T_PluginFramework_QualifiedName.htm" />
+  <HelpKINode Title="QualifiedName structure" Url="html/T_PluginFramework_QualifiedName.htm" />
+  <HelpKINode Title="QualifiedName structure">
+    <HelpKINode Title="about QualifiedName structure" Url="html/T_PluginFramework_QualifiedName.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_QualifiedName.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_PluginFramework_QualifiedName__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_QualifiedName.htm" />
+    <HelpKINode Title="operators and type conversions" Url="html/Operators_T_PluginFramework_QualifiedName.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_QualifiedName.htm" />
+  </HelpKINode>
+  <HelpKINode Title="QualifiedName to String conversion" Url="html/M_PluginFramework_QualifiedName_op_Implicit.htm" />
+  <HelpKINode Title="QualifiedName.AssemblyFullName property" Url="html/P_PluginFramework_QualifiedName_AssemblyFullName.htm" />
+  <HelpKINode Title="QualifiedName.Equality operator" Url="html/M_PluginFramework_QualifiedName_op_Equality.htm" />
+  <HelpKINode Title="QualifiedName.Equals method" Url="html/M_PluginFramework_QualifiedName_Equals.htm" />
+  <HelpKINode Title="QualifiedName.GetHashCode method" Url="html/M_PluginFramework_QualifiedName_GetHashCode.htm" />
+  <HelpKINode Title="QualifiedName.Inequality operator" Url="html/M_PluginFramework_QualifiedName_op_Inequality.htm" />
+  <HelpKINode Title="QualifiedName.QualifiedName constructor" Url="html/Overload_PluginFramework_QualifiedName__ctor.htm" />
+  <HelpKINode Title="QualifiedName.ToString method" Url="html/M_PluginFramework_QualifiedName_ToString.htm" />
+  <HelpKINode Title="QualifiedName.TypeFullName property" Url="html/P_PluginFramework_QualifiedName_TypeFullName.htm" />
+  <HelpKINode Title="Reflect(Of T) method" Url="html/M_PluginFramework_AssemblyAddedEventArgs_Reflect__1.htm" />
+  <HelpKINode Title="Reflect(Of TResult) method" Url="html/M_PluginFramework_AssemblyReflectionManager_Reflect__1.htm" />
+  <HelpKINode Title="Reflect&lt;T&gt; method" Url="html/M_PluginFramework_AssemblyAddedEventArgs_Reflect__1.htm" />
+  <HelpKINode Title="Reflect&lt;TResult&gt; method" Url="html/M_PluginFramework_AssemblyReflectionManager_Reflect__1.htm" />
+  <HelpKINode Title="Remove method" Url="html/M_PluginFramework_AssemblyContainer_Remove.htm" />
+  <HelpKINode Title="RemoveDir method" Url="html/M_PluginFramework_AssemblyContainer_RemoveDir.htm" />
+  <HelpKINode Title="RemovePluginSource method" Url="html/M_PluginFramework_PluginRepository_RemovePluginSource.htm" />
+  <HelpKINode Title="Renamed enumeration member" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
+  <HelpKINode Title="Renamed event" Url="html/E_PluginFramework_FileSystemWatcher_Renamed.htm" />
+  <HelpKINode Title="Renamed event" Url="html/E_PluginFramework_IFileSystemWatcher_Renamed.htm" />
+  <HelpKINode Title="Renamed event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Renamed.htm" />
+  <HelpKINode Title="RenamedEventArgs class" Url="html/AllMembers_T_PluginFramework_RenamedEventArgs.htm" />
+  <HelpKINode Title="RenamedEventArgs class" Url="html/T_PluginFramework_RenamedEventArgs.htm" />
+  <HelpKINode Title="RenamedEventArgs class">
+    <HelpKINode Title="about RenamedEventArgs class" Url="html/T_PluginFramework_RenamedEventArgs.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_RenamedEventArgs.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_RenamedEventArgs__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_RenamedEventArgs.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_RenamedEventArgs.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RenamedEventArgs.OldFullPath property" Url="html/P_PluginFramework_RenamedEventArgs_OldFullPath.htm" />
+  <HelpKINode Title="RenamedEventArgs.OldName property" Url="html/P_PluginFramework_RenamedEventArgs_OldName.htm" />
+  <HelpKINode Title="RenamedEventArgs.RenamedEventArgs constructor" Url="html/M_PluginFramework_RenamedEventArgs__ctor.htm" />
+  <HelpKINode Title="Required property" Url="html/P_PluginFramework_PluginSettingAttribute_Required.htm" />
+  <HelpKINode Title="Required property" Url="html/P_PluginFramework_PluginSettingDescriptor_Required.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher class" Url="html/AllMembers_T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher class" Url="html/T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher class">
+    <HelpKINode Title="about SafeEventFileSystemWatcher class" Url="html/T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_SafeEventFileSystemWatcher__ctor.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_SafeEventFileSystemWatcher.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SafeEventFileSystemWatcher.Changed event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Changed.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.Created event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Created.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.Deleted event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Deleted.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.Dispose method" Url="html/Overload_PluginFramework_SafeEventFileSystemWatcher_Dispose.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.Disposed event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Disposed.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.EnableRaisingEvents property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_EnableRaisingEvents.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.Filter property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_Filter.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.IncludeSubdirectories property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_IncludeSubdirectories.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.NotifyFilter property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_NotifyFilter.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.Path property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_Path.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.Renamed event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Renamed.htm" />
+  <HelpKINode Title="SafeEventFileSystemWatcher.SafeEventFileSystemWatcher constructor" Url="html/M_PluginFramework_SafeEventFileSystemWatcher__ctor.htm" />
+  <HelpKINode Title="Security enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="Settings property" Url="html/P_PluginFramework_PluginDescriptor_Settings.htm" />
+  <HelpKINode Title="SettingType property" Url="html/P_PluginFramework_PluginSettingDescriptor_SettingType.htm" />
+  <HelpKINode Title="Size enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="ToString method" Url="html/M_PluginFramework_PluginFilter_ToString.htm" />
+  <HelpKINode Title="ToString method" Url="html/M_PluginFramework_PluginSettingDescriptor_ToString.htm" />
+  <HelpKINode Title="ToString method" Url="html/M_PluginFramework_PluginVersion_ToString.htm" />
+  <HelpKINode Title="ToString method" Url="html/M_PluginFramework_QualifiedName_ToString.htm" />
+  <HelpKINode Title="Type to QualifiedName conversion" Url="html/M_PluginFramework_QualifiedName_op_Implicit_1.htm" />
+  <HelpKINode Title="TypeFullName property" Url="html/P_PluginFramework_QualifiedName_TypeFullName.htm" />
+  <HelpKINode Title="Value property" Url="html/P_PluginFramework_PluginInfoAttribute_Value.htm" />
+  <HelpKINode Title="Version property" Url="html/P_PluginFramework_PluginDescriptor_Version.htm" />
+  <HelpKINode Title="WatcherChangeTypes enumeration" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
+</HelpKI>
