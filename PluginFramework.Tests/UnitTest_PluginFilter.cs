@@ -3,6 +3,9 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
+using System.Xml;
+using System.Runtime.Serialization;
 
 namespace PluginFramework.Tests
 {
@@ -21,40 +24,40 @@ namespace PluginFramework.Tests
 
       plugin1 = new PluginDescriptor()
       {
-        QualifiedName = typeof(MockPlugin1).AssemblyQualifiedName,
+        QualifiedName = typeof(MockPlugin1),
         Name = "MockPlugin1",
         Version = new PluginVersion("55.66")
       };
-      plugin1.Derives.Add(typeof(MockPluginBase).AssemblyQualifiedName);
-      plugin1.Derives.Add(typeof(MarshalByRefObject).AssemblyQualifiedName);
-      plugin1.Derives.Add(typeof(object).AssemblyQualifiedName);
-      plugin1.Interfaces.Add(typeof(IMockPluginInterface1).AssemblyQualifiedName);
+      plugin1.Derives.Add(typeof(MockPluginBase));
+      plugin1.Derives.Add(typeof(MarshalByRefObject));
+      plugin1.Derives.Add(typeof(object));
+      plugin1.Interfaces.Add(typeof(IMockPluginInterface1));
       plugin1.InfoValues.Add("validkey", "validvalue");
-      plugin1.Settings.Add(new PluginSettingDescriptor() { Name = "SettingName", Required = false, SettingType = typeof(int).AssemblyQualifiedName });
+      plugin1.Settings.Add(new PluginSettingDescriptor() { Name = "SettingName", Required = false, SettingType = typeof(int) });
 
       plugin2 = new PluginDescriptor()
       {
-        QualifiedName = typeof(MockPlugin2).AssemblyQualifiedName,
+        QualifiedName = typeof(MockPlugin2),
         Name = "MockPlugin2",
         Version = new PluginVersion("33.88")
       };
-      plugin2.Derives.Add(typeof(MarshalByRefObject).AssemblyQualifiedName);
-      plugin2.Derives.Add(typeof(object).AssemblyQualifiedName);
-      plugin2.Interfaces.Add(typeof(IMockPluginInterface2).AssemblyQualifiedName);
+      plugin2.Derives.Add(typeof(MarshalByRefObject));
+      plugin2.Derives.Add(typeof(object));
+      plugin2.Interfaces.Add(typeof(IMockPluginInterface2));
       plugin2.InfoValues.Add("invalidkey", "invalidvalue");
-      plugin2.Settings.Add(new PluginSettingDescriptor() { Name = "InvalidSettingName", Required = false, SettingType = typeof(int).AssemblyQualifiedName });
+      plugin2.Settings.Add(new PluginSettingDescriptor() { Name = "InvalidSettingName", Required = false, SettingType = typeof(int) });
 
       plugin3 = new PluginDescriptor()
       {
-        QualifiedName = typeof(MockPlugin3).AssemblyQualifiedName,
+        QualifiedName = typeof(MockPlugin3),
         Name = "MockPlugin3",
         Version = new PluginVersion("77.88")
       };
-      plugin3.Derives.Add(typeof(MarshalByRefObject).AssemblyQualifiedName);
-      plugin3.Derives.Add(typeof(object).AssemblyQualifiedName);
-      plugin3.Interfaces.Add(typeof(IMockPluginInterface1).AssemblyQualifiedName);
+      plugin3.Derives.Add(typeof(MarshalByRefObject));
+      plugin3.Derives.Add(typeof(object));
+      plugin3.Interfaces.Add(typeof(IMockPluginInterface1));
       plugin3.InfoValues.Add("invalidkey", "invalidvalue");
-      plugin3.Settings.Add(new PluginSettingDescriptor() { Name = "InvalidSettingName", Required = false, SettingType = typeof(int).AssemblyQualifiedName });
+      plugin3.Settings.Add(new PluginSettingDescriptor() { Name = "InvalidSettingName", Required = false, SettingType = typeof(int) });
 
       descriptors.Add(plugin2);
       descriptors.Add(plugin1);
@@ -62,6 +65,15 @@ namespace PluginFramework.Tests
     }
 
     #region Constructing
+
+    [TestMethod]
+    public void ConstructingDefault()
+    {
+      PluginFilter tested = new PluginFilter();
+      Assert.AreEqual((PluginFilter.FilterOperation)0, tested.Operation);
+      Assert.IsNull(tested.OperationData);
+      Assert.IsNull(tested.SubFilters);
+    }
 
     #region IsTypeOf
     [TestMethod]
@@ -71,18 +83,18 @@ namespace PluginFramework.Tests
       PluginFilter tested = Plugin.IsTypeOf(type);
 
       Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.Or, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
+      Assert.AreEqual(PluginFilter.FilterOperation.Or, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
 
-      var sub = tested.subFilters;
-      var filterImplements = sub.FirstOrDefault(x => x.operation == PluginFilter.FilterOperation.Implements);
-      var filterDerivesFrom = sub.FirstOrDefault(x => x.operation == PluginFilter.FilterOperation.DerivesFrom);
+      var sub = tested.SubFilters;
+      var filterImplements = sub.FirstOrDefault(x => x.Operation == PluginFilter.FilterOperation.Implements);
+      var filterDerivesFrom = sub.FirstOrDefault(x => x.Operation == PluginFilter.FilterOperation.DerivesFrom);
 
       Assert.IsNotNull(filterImplements);
       Assert.IsNotNull(filterDerivesFrom);
 
-      Assert.AreEqual(type.AssemblyQualifiedName, filterImplements.operationData);
-      Assert.AreEqual(type.AssemblyQualifiedName, filterDerivesFrom.operationData);
+      Assert.AreEqual(type.AssemblyQualifiedName, filterImplements.OperationData);
+      Assert.AreEqual(type.AssemblyQualifiedName, filterDerivesFrom.OperationData);
     }
 
     [TestMethod]
@@ -106,9 +118,9 @@ namespace PluginFramework.Tests
       PluginFilter tested = Plugin.Implements(type);
 
       Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.Implements, tested.operation);
-      Assert.AreEqual(type.AssemblyQualifiedName, tested.operationData);
-      Assert.IsNull(tested.subFilters);
+      Assert.AreEqual(PluginFilter.FilterOperation.Implements, tested.Operation);
+      Assert.AreEqual(type.AssemblyQualifiedName, tested.OperationData);
+      Assert.IsNull(tested.SubFilters);
     }
 
     [TestMethod]
@@ -132,9 +144,9 @@ namespace PluginFramework.Tests
       PluginFilter tested = Plugin.DerivesFrom(type);
 
       Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.DerivesFrom, tested.operation);
-      Assert.AreEqual(type.AssemblyQualifiedName, tested.operationData);
-      Assert.IsNull(tested.subFilters);
+      Assert.AreEqual(PluginFilter.FilterOperation.DerivesFrom, tested.Operation);
+      Assert.AreEqual(type.AssemblyQualifiedName, tested.OperationData);
+      Assert.IsNull(tested.SubFilters);
     }
 
     [TestMethod]
@@ -158,9 +170,9 @@ namespace PluginFramework.Tests
       PluginFilter tested = Plugin.IsNamed(name);
 
       Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.IsNamed, tested.operation);
-      Assert.AreEqual(name, tested.operationData);
-      Assert.IsNull(tested.subFilters);
+      Assert.AreEqual(PluginFilter.FilterOperation.IsNamed, tested.Operation);
+      Assert.AreEqual(name, tested.OperationData);
+      Assert.IsNull(tested.SubFilters);
     }
 
     [TestMethod]
@@ -178,9 +190,9 @@ namespace PluginFramework.Tests
       PluginFilter tested = Plugin.HasInfo(name);
 
       Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.HasInfo, tested.operation);
-      Assert.AreEqual(name, tested.operationData);
-      Assert.IsNull(tested.subFilters);
+      Assert.AreEqual(PluginFilter.FilterOperation.HasInfo, tested.Operation);
+      Assert.AreEqual(name, tested.OperationData);
+      Assert.IsNull(tested.SubFilters);
     }
 
     [TestMethod]
@@ -199,9 +211,9 @@ namespace PluginFramework.Tests
       PluginFilter tested = Plugin.HasInfoValue(key, value);
 
       Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.InfoValue, tested.operation);
-      Assert.AreEqual(key + "=" + value, tested.operationData);
-      Assert.IsNull(tested.subFilters);
+      Assert.AreEqual(PluginFilter.FilterOperation.InfoValue, tested.Operation);
+      Assert.AreEqual(key + "=" + value, tested.OperationData);
+      Assert.IsNull(tested.SubFilters);
     }
 
     [TestMethod]
@@ -225,18 +237,18 @@ namespace PluginFramework.Tests
       PluginFilter tested = Plugin.HasVersion(version);
 
       Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
 
-      var sub = tested.subFilters;
-      var filterImplements = sub.FirstOrDefault(x => x.operation == PluginFilter.FilterOperation.MinVersion);
-      var filterDerivesFrom = sub.FirstOrDefault(x => x.operation == PluginFilter.FilterOperation.MaxVersion);
+      var sub = tested.SubFilters;
+      var filterImplements = sub.FirstOrDefault(x => x.Operation == PluginFilter.FilterOperation.MinVersion);
+      var filterDerivesFrom = sub.FirstOrDefault(x => x.Operation == PluginFilter.FilterOperation.MaxVersion);
 
       Assert.IsNotNull(filterImplements);
       Assert.IsNotNull(filterDerivesFrom);
 
-      Assert.AreEqual(version, filterImplements.operationData);
-      Assert.AreEqual(version, filterDerivesFrom.operationData);
+      Assert.AreEqual(version, filterImplements.OperationData);
+      Assert.AreEqual(version, filterDerivesFrom.OperationData);
     }
 
     [TestMethod]
@@ -254,9 +266,9 @@ namespace PluginFramework.Tests
 
       PluginFilter tested = Plugin.HasMinVersion(version);
       Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.MinVersion, tested.operation);
-      Assert.AreEqual(version, tested.operationData);
-      Assert.IsNull(tested.subFilters);
+      Assert.AreEqual(PluginFilter.FilterOperation.MinVersion, tested.Operation);
+      Assert.AreEqual(version, tested.OperationData);
+      Assert.IsNull(tested.SubFilters);
     }
 
     [TestMethod]
@@ -274,9 +286,9 @@ namespace PluginFramework.Tests
 
       PluginFilter tested = Plugin.HasMaxVersion(version);
       Assert.IsNotNull(tested);
-      Assert.AreEqual(PluginFilter.FilterOperation.MaxVersion, tested.operation);
-      Assert.AreEqual(version, tested.operationData);
-      Assert.IsNull(tested.subFilters);
+      Assert.AreEqual(PluginFilter.FilterOperation.MaxVersion, tested.Operation);
+      Assert.AreEqual(version, tested.OperationData);
+      Assert.IsNull(tested.SubFilters);
     }
 
     [TestMethod]
@@ -297,12 +309,12 @@ namespace PluginFramework.Tests
 
       PluginFilter tested = PluginFilter.Combine(PluginFilter.FilterOperation.And, left, right);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.IsNull(tested.operationData);
-      Assert.IsNotNull(tested.subFilters);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.AreSame(left, tested.subFilters[0]);
-      Assert.AreSame(right, tested.subFilters[1]);
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.IsNull(tested.OperationData);
+      Assert.IsNotNull(tested.SubFilters);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.AreSame(left, tested.SubFilters[0]);
+      Assert.AreSame(right, tested.SubFilters[1]);
     }
 
     [TestMethod]
@@ -355,12 +367,12 @@ namespace PluginFramework.Tests
 
       PluginFilter tested = PluginFilter.Combine(op, combined1, combined2);
 
-      Assert.AreEqual(op, tested.operation);
-      Assert.AreEqual(4, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(left1));
-      Assert.IsTrue(tested.subFilters.Contains(right1));
-      Assert.IsTrue(tested.subFilters.Contains(left2));
-      Assert.IsTrue(tested.subFilters.Contains(right2));
+      Assert.AreEqual(op, tested.Operation);
+      Assert.AreEqual(4, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(left1));
+      Assert.IsTrue(tested.SubFilters.Contains(right1));
+      Assert.IsTrue(tested.SubFilters.Contains(left2));
+      Assert.IsTrue(tested.SubFilters.Contains(right2));
     }
 
     [TestMethod]
@@ -373,11 +385,11 @@ namespace PluginFramework.Tests
       PluginFilter right2 = Plugin.IsNamed("right2");
 
       PluginFilter tested = PluginFilter.Combine(op, combined1, right2);
-      Assert.AreEqual(op, tested.operation);
-      Assert.AreEqual(3, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(left1));
-      Assert.IsTrue(tested.subFilters.Contains(right1));
-      Assert.IsTrue(tested.subFilters.Contains(right2));
+      Assert.AreEqual(op, tested.Operation);
+      Assert.AreEqual(3, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(left1));
+      Assert.IsTrue(tested.SubFilters.Contains(right1));
+      Assert.IsTrue(tested.SubFilters.Contains(right2));
     }
 
     [TestMethod]
@@ -391,11 +403,11 @@ namespace PluginFramework.Tests
       PluginFilter combined2 = PluginFilter.Combine(op, left2, right2);
 
       PluginFilter tested = PluginFilter.Combine(op, left1, combined2);
-      Assert.AreEqual(op, tested.operation);
-      Assert.AreEqual(3, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(left1));
-      Assert.IsTrue(tested.subFilters.Contains(left2));
-      Assert.IsTrue(tested.subFilters.Contains(right2));
+      Assert.AreEqual(op, tested.Operation);
+      Assert.AreEqual(3, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(left1));
+      Assert.IsTrue(tested.SubFilters.Contains(left2));
+      Assert.IsTrue(tested.SubFilters.Contains(right2));
     }
     #endregion
 
@@ -414,11 +426,11 @@ namespace PluginFramework.Tests
       PluginFilter added = Plugin.HasInfo("added");
       PluginFilter tested = original.And(added);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.IsNull(tested.operationData);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Contains(added));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.IsNull(tested.OperationData);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Contains(added));
     }
     #endregion
 
@@ -437,11 +449,11 @@ namespace PluginFramework.Tests
       PluginFilter added = Plugin.HasInfo("added");
       PluginFilter tested = original.Or(added);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.Or, tested.operation);
-      Assert.IsNull(tested.operationData);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Contains(added));
+      Assert.AreEqual(PluginFilter.FilterOperation.Or, tested.Operation);
+      Assert.IsNull(tested.OperationData);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Contains(added));
     }
     #endregion
 
@@ -453,14 +465,14 @@ namespace PluginFramework.Tests
       Type type = typeof(UnitTest_PluginFilter);
       PluginFilter tested = original.IsTypeOf(type);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Any(x =>
-             x.operation == PluginFilter.FilterOperation.Or
-          && x.subFilters.Length == 2
-          && x.subFilters.Any(y => y.operation == PluginFilter.FilterOperation.DerivesFrom && y.operationData == type.AssemblyQualifiedName)
-          && x.subFilters.Any(y => y.operation == PluginFilter.FilterOperation.Implements && y.operationData == type.AssemblyQualifiedName)));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Any(x =>
+             x.Operation == PluginFilter.FilterOperation.Or
+          && x.SubFilters.Length == 2
+          && x.SubFilters.Any(y => y.Operation == PluginFilter.FilterOperation.DerivesFrom && y.OperationData == type.AssemblyQualifiedName)
+          && x.SubFilters.Any(y => y.Operation == PluginFilter.FilterOperation.Implements && y.OperationData == type.AssemblyQualifiedName)));
     }
 
     [TestMethod]
@@ -486,10 +498,10 @@ namespace PluginFramework.Tests
       Type type = typeof(UnitTest_PluginFilter);
       PluginFilter tested = original.Implements(type);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Any(x => x.operation == PluginFilter.FilterOperation.Implements && x.operationData == type.AssemblyQualifiedName));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Any(x => x.Operation == PluginFilter.FilterOperation.Implements && x.OperationData == type.AssemblyQualifiedName));
     }
 
     [TestMethod]
@@ -515,10 +527,10 @@ namespace PluginFramework.Tests
       Type type = typeof(UnitTest_PluginFilter);
       PluginFilter tested = original.DerivesFrom(type);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Any(x => x.operation == PluginFilter.FilterOperation.DerivesFrom && x.operationData == type.AssemblyQualifiedName));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Any(x => x.Operation == PluginFilter.FilterOperation.DerivesFrom && x.OperationData == type.AssemblyQualifiedName));
     }
 
     [TestMethod]
@@ -544,10 +556,10 @@ namespace PluginFramework.Tests
       PluginFilter original = Plugin.IsNamed("original");
       PluginFilter tested = original.IsNamed(name);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Any(x => x.operation == PluginFilter.FilterOperation.IsNamed && x.operationData == name));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Any(x => x.Operation == PluginFilter.FilterOperation.IsNamed && x.OperationData == name));
     }
 
     [TestMethod]
@@ -566,10 +578,10 @@ namespace PluginFramework.Tests
       PluginFilter original = Plugin.IsNamed("original");
       PluginFilter tested = original.HasInfo(name);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Any(x => x.operation == PluginFilter.FilterOperation.HasInfo && x.operationData == name));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Any(x => x.Operation == PluginFilter.FilterOperation.HasInfo && x.OperationData == name));
     }
 
     [TestMethod]
@@ -589,10 +601,10 @@ namespace PluginFramework.Tests
       PluginFilter original = Plugin.IsNamed("original");
       PluginFilter tested = original.HasInfoValue(key, value);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Any(x => x.operation == PluginFilter.FilterOperation.InfoValue && x.operationData == key + "=" + value));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Any(x => x.Operation == PluginFilter.FilterOperation.InfoValue && x.OperationData == key + "=" + value));
     }
 
     [TestMethod]
@@ -618,11 +630,11 @@ namespace PluginFramework.Tests
       PluginFilter original = Plugin.IsNamed("original");
       PluginFilter tested = original.HasVersion(version);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(3, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Any(y => y.operation == PluginFilter.FilterOperation.MinVersion && y.operationData == version));
-      Assert.IsTrue(tested.subFilters.Any(y => y.operation == PluginFilter.FilterOperation.MaxVersion && y.operationData == version));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(3, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Any(y => y.Operation == PluginFilter.FilterOperation.MinVersion && y.OperationData == version));
+      Assert.IsTrue(tested.SubFilters.Any(y => y.Operation == PluginFilter.FilterOperation.MaxVersion && y.OperationData == version));
     }
 
     [TestMethod]
@@ -641,10 +653,10 @@ namespace PluginFramework.Tests
       PluginFilter original = Plugin.IsNamed("original");
       PluginFilter tested = original.HasMinVersion(version);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Any(y => y.operation == PluginFilter.FilterOperation.MinVersion && y.operationData == version));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Any(y => y.Operation == PluginFilter.FilterOperation.MinVersion && y.OperationData == version));
     }
 
     [TestMethod]
@@ -663,10 +675,10 @@ namespace PluginFramework.Tests
       PluginFilter original = Plugin.IsNamed("original");
       PluginFilter tested = original.HasMaxVersion(version);
 
-      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.operation);
-      Assert.AreEqual(2, tested.subFilters.Length);
-      Assert.IsTrue(tested.subFilters.Contains(original));
-      Assert.IsTrue(tested.subFilters.Any(y => y.operation == PluginFilter.FilterOperation.MaxVersion && y.operationData == version));
+      Assert.AreEqual(PluginFilter.FilterOperation.And, tested.Operation);
+      Assert.AreEqual(2, tested.SubFilters.Length);
+      Assert.IsTrue(tested.SubFilters.Contains(original));
+      Assert.IsTrue(tested.SubFilters.Any(y => y.Operation == PluginFilter.FilterOperation.MaxVersion && y.OperationData == version));
     }
 
     [TestMethod]
@@ -899,5 +911,76 @@ namespace PluginFramework.Tests
       Assert.AreEqual(expected, tested.ToString());
     }
     #endregion
+
+    #region Equals
+    [TestMethod]
+    public void EqualsReturnsFalseWhenComparingAgainstNull()
+    {
+      PluginFilter left = Plugin.IsNamed("name");
+      Assert.IsFalse(left.Equals(null));
+    }
+
+    [TestMethod]
+    public void EqualsReturnsFalseForDifferentOperation()
+    {
+      PluginFilter left = Plugin.IsNamed("name");
+      PluginFilter right = Plugin.HasInfo("name");
+      Assert.IsFalse(left.Equals(right));
+    }
+
+    [TestMethod]
+    public void EqualsReturnsFalseForDifferentOperationData()
+    {
+      PluginFilter left = Plugin.IsNamed("name");
+      PluginFilter right = Plugin.IsNamed("othername");
+      Assert.IsFalse(left.Equals(right));
+    }
+
+    [TestMethod]
+    public void EqualsReturnFalseForDifferentSubFilter()
+    {
+      PluginFilter left = Plugin.IsNamed("name").Implements("type");
+      PluginFilter right = Plugin.IsNamed("name").DerivesFrom("type");
+      Assert.IsFalse(left.Equals(right));
+    }
+    #endregion
+
+    #region Serialization
+    [TestMethod]
+    public void CanSerializeDeserialize()
+    {
+      PluginFilter toSerialize = Plugin.IsNamed("some name").Implements(typeof(string)).Or(Plugin.DerivesFrom(typeof(int)).IsNamed("a name").HasVersion("1.0"));
+      var knownTypes = new Type[] { typeof(PluginFilter.FilterOperation), typeof(PluginFilter[]) };
+      PluginFilter deserialized;
+
+      using (var memstream = new MemoryStream())
+      {
+        XmlTextWriter writer = new XmlTextWriter(memstream, Encoding.UTF8);
+        var serializer = new DataContractSerializer(toSerialize.GetType(), knownTypes);
+        serializer.WriteObject(writer, toSerialize);
+        writer.Flush();
+
+        memstream.Seek(0, SeekOrigin.Begin);
+        XmlTextReader reader = new XmlTextReader(memstream);
+        deserialized = serializer.ReadObject(reader) as PluginFilter;
+      }
+
+      Assert.IsTrue(deserialized.Equals(toSerialize));
+    }
+
+    [TestMethod]
+    public void SerializationRequiresSerializationInfo()
+    {
+      ISerializable tested = Plugin.Implements(typeof(Stream));
+      DoAssert.Throws<ArgumentNullException>(() => tested.GetObjectData(null, new StreamingContext()));
+    }
+
+    [TestMethod]
+    public void DeserializationRequiresSerializationInfo()
+    {      
+      DoAssert.Throws<ArgumentNullException>(() => new PluginFilter(null, new StreamingContext()));
+    }
+    #endregion
+
   }
 }

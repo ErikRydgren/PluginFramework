@@ -85,7 +85,7 @@ namespace PluginFramework.Tests
       var pluginsBefore = tested.Plugins(null).ToArray();
       PluginDescriptor thePlugin = new PluginDescriptor()
       {
-        QualifiedName = typeof(UnitTest_PluginRepository).AssemblyQualifiedName
+        QualifiedName = typeof(UnitTest_PluginRepository)
       };
       
       pluginSource.RaisePluginAdded(thePlugin);
@@ -107,7 +107,7 @@ namespace PluginFramework.Tests
 
       PluginDescriptor thePlugin = new PluginDescriptor()
       {
-        QualifiedName = typeof(UnitTest_PluginRepository).AssemblyQualifiedName
+        QualifiedName = typeof(UnitTest_PluginRepository)
       };
       
       pluginSource.RaisePluginAdded(thePlugin);
@@ -131,13 +131,13 @@ namespace PluginFramework.Tests
 
       PluginDescriptor plugin1 = new PluginDescriptor()
       {
-        QualifiedName = typeof(MockPlugin1).AssemblyQualifiedName,
+        QualifiedName = typeof(MockPlugin1),
         Name = "plugin1"
       };
 
       PluginDescriptor plugin2 = new PluginDescriptor()
       {
-        QualifiedName = typeof(MockPlugin2).AssemblyQualifiedName,
+        QualifiedName = typeof(MockPlugin2),
         Name = "plugin2"
       };
 

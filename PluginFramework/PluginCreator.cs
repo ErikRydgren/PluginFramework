@@ -61,61 +61,54 @@ namespace PluginFramework
       if (domain == null)
         throw new ArgumentNullException("domain");
 
-      try
+      IPluginCreator creator = domain.GetData(IDKEY) as IPluginCreator;
+      if (creator == null)
       {
-        IPluginCreator creator = domain.GetData(IDKEY) as IPluginCreator;
-        if (creator == null)
-        {
-          domain.DoCallBack(() => AppDomain.CurrentDomain.SetData(IDKEY, new PluginCreator()));
-          creator = domain.GetData(IDKEY) as IPluginCreator;
-        }
-        return creator;
-      }        
-      catch (PluginException)
-      {
-        throw;
+        domain.DoCallBack(() => AppDomain.CurrentDomain.SetData(IDKEY, new PluginCreator()));
+        creator = domain.GetData(IDKEY) as IPluginCreator;
       }
-      catch (Exception ex)
-      {
-        throw new PluginException(ex.Message, ex);
-      }
+      return creator;
     }
 
     /// <summary>
     /// Creates an instance of the plugin described by a <see cref="PluginDescriptor" /> inside a target <see cref="AppDomain" /> and then applying the provided settings.
     /// </summary>
-    /// <typeparam name="T">The type the created plugin instance will returned as</typeparam>
-    /// <param name="descriptor">A descriptor that identifies and describes the plugin to create</param>
-    /// <param name="assemblyRepository">The assembly repository used for resolving missing assemblies.</param>
-    /// <param name="settings">A key value storage with settings to apply to properties defined as PluginSettings on the created instance</param>
+    /// <param name="descriptor">A descriptor that identifies and describes the plugin to create. Required.</param>
+    /// <param name="assemblies">The assembly repository used for resolving missing assemblies. Required.</param>
+    /// <param name="settings">A key value storage with settings to apply to properties defined as PluginSettings on the created instance. Not required.</param>
     /// <returns>
-    /// The created plugin instance as T
+    /// The created plugin
     /// </returns>
     /// <exception cref="PluginException"></exception>
     [SecurityPermission(SecurityAction.LinkDemand, Flags=SecurityPermissionFlag.ControlAppDomain)]
-    public T Create<T>(PluginDescriptor descriptor, IAssemblyRepository assemblyRepository, Dictionary<string, object> settings)
-      where T : class
+    public object Create(PluginDescriptor descriptor, IAssemblyRepository assemblies, IDictionary<string, object> settings)
     {
+      if (descriptor == null)
+        throw new ArgumentNullException("descriptor");
+
+      if (assemblies == null)
+        throw new ArgumentNullException("assemblies");
+
       try
       {
         ResolveEventHandler resolveHandler = new ResolveEventHandler((s, e) =>
           {
             // Fetch assembly from repository and load it into the appdomain
-            byte[] assemblyBytes = assemblyRepository.Fetch(e.Name);
+            byte[] assemblyBytes = assemblies.Fetch(e.Name);
             if (assemblyBytes != null)
               return Assembly.Load(assemblyBytes);
 
             // Unable to resolve this assembly
-            throw new PluginException("Unable to resolve assembly " + e.Name);
+            return null;
           });
 
-        AppDomain.CurrentDomain.AssemblyResolve += resolveHandler;
-
-        object plugin = this.Create(descriptor, settings);
-
+        AppDomain.CurrentDomain.AssemblyResolve += resolveHandler;        
+        object plugin = AppDomain.CurrentDomain.CreateInstanceAndUnwrap(descriptor.QualifiedName.AssemblyFullName, descriptor.QualifiedName.TypeFullName);
         AppDomain.CurrentDomain.AssemblyResolve -= resolveHandler;
 
-        return (T)plugin;
+        ApplySettings(plugin, settings);
+
+        return plugin;
       }
       catch (PluginException)
       {
@@ -128,18 +121,20 @@ namespace PluginFramework
     }
 
     /// <summary>
-    /// Creates an instance of a plugin described by a descriptor. 
+    /// Applies settings to a plugin instance.
     /// </summary>
-    /// <remarks>This function is run inside the target <see cref="AppDomain"/></remarks>
-    /// <param name="descriptor">Descriptor of the plugin to create</param>
+    /// <param name="instance">The plugin instance to apply settings to</param>
     /// <param name="settings">A key value storage with settings to apply to propertied defined as PluginSettings on the created instance</param>
-    /// <returns>The created plugin instance</returns>
-    /// <exception cref="PluginException"/>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")] // Can't be static. We need an MarshalByRefObject instance to get into the target AppDomain.
-    private object Create(PluginDescriptor descriptor, Dictionary<string, object> settings)
+    /// <exception cref="PluginFramework.PluginSettingException">
+    /// Required setting {0} not supplied while creating {1}
+    /// or
+    /// </exception>
+    /// <exception cref="PluginException"></exception>
+    /// <remarks>
+    /// This function is run inside the target <see cref="AppDomain" />
+    /// </remarks>
+    private static void ApplySettings(object instance, IDictionary<string, object> settings)
     {
-      object instance = AppDomain.CurrentDomain.CreateInstanceAndUnwrap(descriptor.QualifiedName.AssemblyFullName, descriptor.QualifiedName.TypeFullName);
-
       foreach (var property in instance.GetType().GetProperties())
       {
         PluginSettingAttribute pluginSetting = property.GetCustomAttributes(typeof(PluginSettingAttribute), true).OfType<PluginSettingAttribute>().FirstOrDefault();
@@ -152,7 +147,7 @@ namespace PluginFramework
           settings.TryGetValue(name, out setting);
 
         if (setting == null && pluginSetting.Required)
-          throw new PluginException("Required setting {0} not supplied while creating {1}", name, descriptor.QualifiedName);
+          throw new PluginSettingException("Required setting {0} not supplied while creating {1}", name, instance.GetType().AssemblyQualifiedName);
 
         if (setting != null)
         {
@@ -162,12 +157,10 @@ namespace PluginFramework
           }
           catch (Exception ex)
           {
-            throw new PluginException(string.Format(CultureInfo.InvariantCulture, "Exception while applying setting {0} on {1}", name, descriptor.QualifiedName), ex);
+            throw new PluginSettingException(string.Format(CultureInfo.InvariantCulture, "Exception while applying setting {0} on {1}", name, instance.GetType().AssemblyQualifiedName), ex);
           }
         }
       }
-
-      return instance;
     }
   }
 }

@@ -27,15 +27,41 @@ namespace PluginFramework
   public struct QualifiedName
   {
     /// <summary>
-    /// Initializes a new instance of the <see cref="QualifiedName"/> struct.
+    /// Initializes a new instance of the <see cref="QualifiedName" /> struct.
     /// </summary>
-    /// <param name="qualifiedName">An assembly qualified typename</param>
-    public QualifiedName(string qualifiedName)
+    /// <param name="typeFullName">Full name of the type.</param>
+    /// <param name="assemblyFullName">Full name of the assembly.</param>
+    /// <exception cref="System.ArgumentNullException">
+    /// typeFullName
+    /// or
+    /// assemblyFullName
+    /// </exception>
+    public QualifiedName(string typeFullName, string assemblyFullName)
       : this()
     {
-      var parts = Split(qualifiedName);
-      this.TypeFullName = parts[0];
-      this.AssemblyFullName = parts[1];
+      if (typeFullName == null)
+        throw new ArgumentNullException("typeFullName");
+
+      if (assemblyFullName == null)
+        throw new ArgumentNullException("assemblyFullName");
+
+      this.TypeFullName = typeFullName;
+      this.AssemblyFullName = assemblyFullName;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QualifiedName" /> struct.
+    /// </summary>
+    /// <param name="type">The type to take qualified name from</param>
+    /// <exception cref="System.ArgumentNullException">type</exception>
+    public QualifiedName(Type type)
+      : this()
+    {
+      if (type == null)
+        throw new ArgumentNullException("type");
+
+      this.TypeFullName = type.FullName;
+      this.AssemblyFullName = type.Assembly.FullName;
     }
 
     /// <summary>
@@ -72,27 +98,6 @@ namespace PluginFramework
     }
 
     /// <summary>
-    /// Splits the specified qualified name to typename and assembly name.
-    /// </summary>
-    /// <param name="qualifiedName">The assembly qualified tyoename</param>
-    /// <returns></returns>
-    /// <exception cref="System.ArgumentNullException">qualifiedName</exception>
-    /// <exception cref="System.ArgumentException">qualifiedName must be a fully assembly qualified typename</exception>
-    private static string[] Split(string qualifiedName)
-    {
-      if (qualifiedName == null)
-        throw new ArgumentNullException("qualifiedName");
-
-      string[] delimiters = new string[] { ", " };
-      string[] nameParts = qualifiedName.Split(delimiters, 2, StringSplitOptions.None);
-
-      if (nameParts.Length != 2)
-        throw new ArgumentException("qualifiedName must be a fully assembly qualified typename");
-
-      return nameParts;
-    }
-
-    /// <summary>
     /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
     /// </summary>
     /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
@@ -126,11 +131,11 @@ namespace PluginFramework
     /// <summary>
     /// Casts a string to QualifiedName
     /// </summary>
-    /// <param name="name">The name.</param>
+    /// <param name="type">The type to take qualified name from</param>
     /// <returns>QualifiedName</returns>
-    public static implicit operator QualifiedName(string name)
+    public static implicit operator QualifiedName(Type type)
     {
-      return new QualifiedName(name);
+      return new QualifiedName(type);
     }
 
     /// <summary>

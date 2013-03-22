@@ -24,17 +24,17 @@ namespace PluginFramework.Tests
     {
       PluginDescriptor tested = new PluginDescriptor()
       {
-        QualifiedName = typeof(string).AssemblyQualifiedName
+        QualifiedName = typeof(string)
       };
 
       PluginDescriptor sameName = new PluginDescriptor()
       {
-        QualifiedName = typeof(string).AssemblyQualifiedName
+        QualifiedName = typeof(string)
       };
 
       PluginDescriptor otherName = new PluginDescriptor()
       {
-        QualifiedName = typeof(int).AssemblyQualifiedName
+        QualifiedName = typeof(int)
       };
 
       Assert.IsTrue(tested.Equals(sameName));
@@ -46,7 +46,7 @@ namespace PluginFramework.Tests
     {
       PluginDescriptor tested = new PluginDescriptor()
       {
-        QualifiedName = typeof(string).AssemblyQualifiedName
+        QualifiedName = typeof(string)
       };
 
       Assert.IsFalse(tested.Equals(null));
@@ -57,7 +57,7 @@ namespace PluginFramework.Tests
     {
       PluginDescriptor tested = new PluginDescriptor()
       {
-        QualifiedName = typeof(string).AssemblyQualifiedName
+        QualifiedName = typeof(string)
       };
 
       object other = "object";

@@ -1,4 +1,4 @@
-﻿// 
+// 
 // Copyright (c) 2013, Erik Rydgren, et al. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -20,23 +20,47 @@ namespace PluginFramework
 {
   using System;
   using System.Collections.Generic;
+  using System.Linq;
+  using System.Text;
+  using System.IO;
   using System.Security.Permissions;
 
   /// <summary>
-  /// Interface for creating instances of plugins described by <see cref="PluginDescriptor"/> inside a target <see cref="AppDomain"/>.
+  /// <see cref="IPluginDirectory"/> event argument
   /// </summary>
-  public interface IPluginCreator
+  public class PluginDirectoryEventArgs : EventArgs
   {
     /// <summary>
-    /// Creates an instance of the plugin described by the provided descriptor.
+    /// Initializes a new instance of the <see cref="PluginDirectoryEventArgs"/> class.
     /// </summary>
-    /// <param name="descriptor">The plugin descriptor. Required.</param>
-    /// <param name="assemblies">The assembly repository used for resolving missing assemblies. Required.</param>
-    /// <param name="settings">The settings used to initialize the plugin. Not required.</param>
-    /// <returns>The created plugin instance</returns>
-    /// <exception cref="System.InvalidCastException"/>
-    /// <exception cref="PluginFramework.PluginException"/>
-    [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.ControlAppDomain)]
-    object Create(PluginDescriptor descriptor, IAssemblyRepository assemblies, IDictionary<string, object> settings);
+    /// <param name="filePath">The file path.</param>
+    public PluginDirectoryEventArgs(string filePath)
+    {
+      this.FullName = filePath;
+    }
+
+    /// <summary>
+    /// Gets the full name of the event file.
+    /// </summary>
+    /// <value>
+    /// The full name of the event file
+    /// </value>
+    public string FullName { get; private set; }
+  }
+
+  /// <summary>
+  /// Events for found and lost assembly files
+  /// </summary>
+  public interface IPluginDirectory : IDisposable
+  {
+    /// <summary>
+    /// Occurs when a assembly file is found.
+    /// </summary>
+    event EventHandler<PluginDirectoryEventArgs> FileFound;
+
+    /// <summary>
+    /// Occurs when a assembly file is lost.
+    /// </summary>
+    event EventHandler<PluginDirectoryEventArgs> FileLost;
   }
 }

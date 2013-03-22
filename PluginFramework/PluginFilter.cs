@@ -22,6 +22,8 @@ namespace PluginFramework
   using System.Collections.Generic;
   using System.Globalization;
   using System.Linq;
+  using System.Runtime.Serialization;
+  using System.Security.Permissions;
 
   /// <summary>
   /// Static utility class for creating <see cref="PluginFilter"/>s.
@@ -240,7 +242,7 @@ namespace PluginFramework
   /// Describes the conditions a plugin needs to satisfy to be returned from a <see cref="IPluginRepository" /> search.
   /// </summary>
   [Serializable]
-  public class PluginFilter
+  public sealed class PluginFilter : ISerializable, IEquatable<PluginFilter>
   {
     /// <summary>
     /// The possible filter operations
@@ -264,7 +266,7 @@ namespace PluginFramework
     /// <value>
     /// The operation.
     /// </value>
-    internal FilterOperation operation { get; private set; }
+    internal FilterOperation Operation { get; private set; }
 
     /// <summary>
     /// Gets the data needed to perform operation.
@@ -272,7 +274,7 @@ namespace PluginFramework
     /// <value>
     /// The operation data.
     /// </value>
-    internal string operationData { get; private set; }
+    internal string OperationData { get; private set; }
 
     /// <summary>
     /// Gets the sub filters for boolean operations.
@@ -280,7 +282,14 @@ namespace PluginFramework
     /// <value>
     /// The sub filters.
     /// </value>
-    internal PluginFilter[] subFilters { get; private set; }
+    internal PluginFilter[] SubFilters { get; private set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginFilter"/> class.
+    /// </summary>
+    internal PluginFilter()
+    {
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PluginFilter"/> class.
@@ -290,9 +299,9 @@ namespace PluginFramework
     /// <param name="subFilters">The sub filters.</param>
     internal PluginFilter(FilterOperation filterOp, string operationData = null, PluginFilter[] subFilters = null)
     {
-      this.operation = filterOp;
-      this.operationData = operationData;
-      this.subFilters = subFilters;
+      this.Operation = filterOp;
+      this.OperationData = operationData;
+      this.SubFilters = subFilters;
     }
 
     /// <summary>
@@ -315,23 +324,23 @@ namespace PluginFramework
         throw new ArgumentNullException("right");
 
       PluginFilter[] filters;
-      if (left.operation == op && right.operation == op)
+      if (left.Operation == op && right.Operation == op)
       {
-        filters = new PluginFilter[left.subFilters.Length + right.subFilters.Length];
-        left.subFilters.CopyTo(filters, 0);
-        right.subFilters.CopyTo(filters, left.subFilters.Length);
+        filters = new PluginFilter[left.SubFilters.Length + right.SubFilters.Length];
+        left.SubFilters.CopyTo(filters, 0);
+        right.SubFilters.CopyTo(filters, left.SubFilters.Length);
       }
-      else if (left.operation == op)
+      else if (left.Operation == op)
       {
-        filters = new PluginFilter[left.subFilters.Length + 1];
-        left.subFilters.CopyTo(filters, 0);
-        filters[left.subFilters.Length] = right;
+        filters = new PluginFilter[left.SubFilters.Length + 1];
+        left.SubFilters.CopyTo(filters, 0);
+        filters[left.SubFilters.Length] = right;
       }
-      else if (right.operation == op)
+      else if (right.Operation == op)
       {
-        filters = new PluginFilter[right.subFilters.Length + 1];
+        filters = new PluginFilter[right.SubFilters.Length + 1];
         filters[0] = left;
-        right.subFilters.CopyTo(filters, 1);
+        right.SubFilters.CopyTo(filters, 1);
       }
       else
       {
@@ -605,7 +614,7 @@ namespace PluginFramework
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
-      switch (this.operation)
+      switch (this.Operation)
       {
         case FilterOperation.Implements:
           return ApplyImplementsFilter(plugins);
@@ -635,7 +644,7 @@ namespace PluginFramework
           return ApplyOrFilter(plugins);
 
         default:
-          throw new NotImplementedException(string.Format(CultureInfo.InvariantCulture, "Operator {0} not implemented yet", this.operation.ToString()));
+          throw new NotImplementedException(string.Format(CultureInfo.InvariantCulture, "Operator {0} not implemented yet", this.Operation.ToString()));
       }
     }
 
@@ -647,12 +656,12 @@ namespace PluginFramework
     /// Enumeration of plugins that passes the filter
     /// </returns>
     /// <exception cref="System.ArgumentNullException">plugins</exception>
-    protected internal IEnumerable<PluginDescriptor> ApplyMaxVersionFilter(IEnumerable<PluginDescriptor> plugins)
+    internal IEnumerable<PluginDescriptor> ApplyMaxVersionFilter(IEnumerable<PluginDescriptor> plugins)
     {
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
-      return plugins.Where(plugin => plugin.Version <= new PluginVersion(operationData));
+      return plugins.Where(plugin => plugin.Version <= new PluginVersion(OperationData));
     }
 
     /// <summary>
@@ -663,12 +672,12 @@ namespace PluginFramework
     /// Enumeration of plugins that passes the filter
     /// </returns>
     /// <exception cref="System.ArgumentNullException">plugins</exception>
-    protected internal IEnumerable<PluginDescriptor> ApplyMinVersionFilter(IEnumerable<PluginDescriptor> plugins)
+    internal IEnumerable<PluginDescriptor> ApplyMinVersionFilter(IEnumerable<PluginDescriptor> plugins)
     {
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
-      return plugins.Where(plugin => plugin.Version >= new PluginVersion(operationData));
+      return plugins.Where(plugin => plugin.Version >= new PluginVersion(OperationData));
     }
 
     /// <summary>
@@ -679,12 +688,12 @@ namespace PluginFramework
     /// Enumeration of plugins that passes the filter
     /// </returns>
     /// <exception cref="System.ArgumentNullException">plugins</exception>
-    protected internal IEnumerable<PluginDescriptor> ApplyHasInfoFilter(IEnumerable<PluginDescriptor> plugins)
+    internal IEnumerable<PluginDescriptor> ApplyHasInfoFilter(IEnumerable<PluginDescriptor> plugins)
     {
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
-      return plugins.Where(plugin => plugin.InfoValues.Keys.Contains(this.operationData));
+      return plugins.Where(plugin => plugin.InfoValues.Keys.Contains(this.OperationData));
     }
 
     /// <summary>
@@ -695,12 +704,12 @@ namespace PluginFramework
     /// Enumeration of plugins that passes the filter
     /// </returns>
     /// <exception cref="System.ArgumentNullException">plugins</exception>
-    protected internal IEnumerable<PluginDescriptor> ApplyIsNamedFilter(IEnumerable<PluginDescriptor> plugins)
+    internal IEnumerable<PluginDescriptor> ApplyIsNamedFilter(IEnumerable<PluginDescriptor> plugins)
     {
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
-      return plugins.Where(plugin => plugin.Name == this.operationData);
+      return plugins.Where(plugin => plugin.Name == this.OperationData);
     }
 
     /// <summary>
@@ -711,12 +720,12 @@ namespace PluginFramework
     /// Enumeration of plugins that passes the filter
     /// </returns>
     /// <exception cref="System.ArgumentNullException">plugins</exception>
-    protected internal IEnumerable<PluginDescriptor> ApplyDerivesFromFilter(IEnumerable<PluginDescriptor> plugins)
+    internal IEnumerable<PluginDescriptor> ApplyDerivesFromFilter(IEnumerable<PluginDescriptor> plugins)
     {
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
-      return plugins.Where(plugin => plugin.Derives.Contains(this.operationData));
+      return plugins.Where(plugin => plugin.Derives.Any(x => x.ToString() == this.OperationData));
     }
 
     /// <summary>
@@ -727,12 +736,12 @@ namespace PluginFramework
     /// Enumeration of plugins that passes the filter
     /// </returns>
     /// <exception cref="System.ArgumentNullException">plugins</exception>
-    protected internal IEnumerable<PluginDescriptor> ApplyImplementsFilter(IEnumerable<PluginDescriptor> plugins)
+    internal IEnumerable<PluginDescriptor> ApplyImplementsFilter(IEnumerable<PluginDescriptor> plugins)
     {
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
-      return plugins.Where(plugin => plugin.Interfaces.Contains(this.operationData));
+      return plugins.Where(plugin => plugin.Interfaces.Any(x => x.ToString() == this.OperationData));
     }
 
     /// <summary>
@@ -743,14 +752,14 @@ namespace PluginFramework
     /// Enumeration of plugins that passes the filter
     /// </returns>
     /// <exception cref="System.ArgumentNullException">plugins</exception>
-    protected internal IEnumerable<PluginDescriptor> ApplyOrFilter(IEnumerable<PluginDescriptor> plugins)
+    internal IEnumerable<PluginDescriptor> ApplyOrFilter(IEnumerable<PluginDescriptor> plugins)
     {
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
       HashSet<PluginDescriptor> result = new HashSet<PluginDescriptor>();
 
-      foreach (var filter in this.subFilters)
+      foreach (var filter in this.SubFilters)
         foreach (var plugin in filter.Filter(plugins))
           result.Add(plugin);
 
@@ -765,12 +774,12 @@ namespace PluginFramework
     /// Enumeration of plugins that passes the filter
     /// </returns>
     /// <exception cref="System.ArgumentNullException">plugins</exception>
-    protected internal IEnumerable<PluginDescriptor> ApplyAndFilter(IEnumerable<PluginDescriptor> plugins)
+    internal IEnumerable<PluginDescriptor> ApplyAndFilter(IEnumerable<PluginDescriptor> plugins)
     {
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
-      foreach (var filter in this.subFilters)
+      foreach (var filter in this.SubFilters)
         plugins = filter.Filter(plugins);
 
       return plugins;
@@ -783,13 +792,13 @@ namespace PluginFramework
     /// <returns>
     /// Enumeration of plugins that passes the filter
     /// </returns>
-    /// <exception cref="System.ArgumentNullException">plugins</exception>
-    protected internal IEnumerable<PluginDescriptor> ApplyInfoValueFilter(IEnumerable<PluginDescriptor> plugins)
+    /// <exception cref="System.ArgumentNullException">plugins</exception>    
+    internal IEnumerable<PluginDescriptor> ApplyInfoValueFilter(IEnumerable<PluginDescriptor> plugins)
     {
       if (plugins == null)
         throw new ArgumentNullException("plugins");
 
-      string[] keyValue = this.operationData.Split("=".ToCharArray(), 2);
+      string[] keyValue = this.OperationData.Split("=".ToCharArray(), 2);
       return plugins.Where(plugin =>
       {
         string value;
@@ -805,17 +814,79 @@ namespace PluginFramework
     /// </returns>
     public override string ToString()
     {
-      switch (this.operation)
+      switch (this.Operation)
       {
         case FilterOperation.And:
-          return "(" + string.Join(" & ", this.subFilters.Select(x => x.ToString()).ToArray()) + ")";
+          return "(" + string.Join(" & ", this.SubFilters.Select(x => x.ToString()).ToArray()) + ")";
 
         case FilterOperation.Or:
-          return "(" + string.Join(" | ", this.subFilters.Select(x => x.ToString()).ToArray()) + ")";
+          return "(" + string.Join(" | ", this.SubFilters.Select(x => x.ToString()).ToArray()) + ")";
 
         default:
-          return this.operation.ToString() + "(" + operationData + ")";
+          return this.Operation.ToString() + "(" + OperationData + ")";
       }
     }
+
+    /// <summary>
+    /// Indicates whether the current object is equal to another object of the same type.
+    /// </summary>
+    /// <param name="other">An object to compare with this object.</param>
+    /// <returns>
+    /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+    /// </returns>
+    public bool Equals(PluginFilter other)
+    {
+      if (other == null)
+        return false;
+
+      if (other.Operation != this.Operation)
+        return false;
+
+      if (other.OperationData != this.OperationData)
+        return false;
+
+      if (other.SubFilters != null)
+      {
+        return Enumerable.SequenceEqual(other.SubFilters, this.SubFilters);
+      }
+      
+      return true;
+    }
+
+    #region Serialization
+    [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+    void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+      if (info == null)
+        throw new ArgumentNullException("info");
+
+      info.AddValue("Operation", this.Operation.ToString());
+      info.AddValue("OperationData", this.OperationData);
+      
+      if (this.SubFilters != null)
+      {
+        info.AddValue("SubFilters", this.SubFilters.Length);
+        for (int i = 0; i < this.SubFilters.Length; i++)
+          info.AddValue("SubFilter_" + i.ToString(CultureInfo.InvariantCulture), this.SubFilters[i]);
+      }
+      else
+        info.AddValue("SubFilters", 0);
+    }
+
+    internal PluginFilter(SerializationInfo info, StreamingContext context)
+    {
+      if (info == null)
+        throw new ArgumentNullException("info");
+
+      this.Operation = (FilterOperation)Enum.Parse(typeof(FilterOperation), (string)info.GetValue("Operation", typeof(string)));
+      this.OperationData = info.GetString("OperationData");
+
+      int subFilters = (int)info.GetValue("SubFilters", typeof(int));
+      this.SubFilters = 
+        Enumerable.Range(0, subFilters)
+                  .Select(i => (PluginFilter)info.GetValue("SubFilter_" + i.ToString(CultureInfo.InvariantCulture), typeof(PluginFilter)))
+                  .ToArray();
+    }
+    #endregion
   }
 }

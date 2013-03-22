@@ -14,21 +14,29 @@ namespace PluginFramework.Tests
     public void ConstructionWithValidAssemblyQualifiedName()
     {
       var type = typeof(UnitTest_QualifiedName);
-      QualifiedName tested = new QualifiedName(type.AssemblyQualifiedName);
+      QualifiedName tested = type;
       Assert.AreEqual(type.FullName, tested.TypeFullName);
       Assert.AreEqual(type.Assembly.FullName, tested.AssemblyFullName);
     }
 
     [TestMethod]
-    public void ConstructionWithNullString()
+    public void ConstructionRequiresTypeFullName()
     {
-      DoAssert.Throws<ArgumentNullException>(() => new QualifiedName(null) );
+      var type = typeof(UnitTest_QualifiedName);
+      DoAssert.Throws<ArgumentNullException>(() => new QualifiedName(null, type.Assembly.FullName));
     }
 
     [TestMethod]
-    public void ConstructionWithInvalidString()
+    public void ConstructionRequiresAssemblyFullName()
     {
-      DoAssert.Throws<ArgumentException>(() => new QualifiedName("some invalid string") );
+      var type = typeof(UnitTest_QualifiedName);
+      DoAssert.Throws<ArgumentNullException>(() => new QualifiedName(type.FullName, null));
+    }
+
+    [TestMethod]
+    public void ConstructionRequiresType()
+    {
+      DoAssert.Throws<ArgumentNullException>(() => new QualifiedName(null) );
     }
     #endregion
 
@@ -37,7 +45,7 @@ namespace PluginFramework.Tests
     public void ToStringCheckExpected()
     {
       Type type = this.GetType();
-      QualifiedName qn = new QualifiedName(type.AssemblyQualifiedName);
+      QualifiedName qn = type;
       Assert.AreEqual(type.AssemblyQualifiedName, qn.ToString());
     }
     #endregion
@@ -47,37 +55,37 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void EqualsEqualToSelf()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
+      QualifiedName tested = typeof(UnitTest_QualifiedName);
       Assert.IsTrue(tested.Equals(tested));
     }
 
     [TestMethod]
     public void EqualsNotEqualToNull()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
+      QualifiedName tested = typeof(UnitTest_QualifiedName);
       Assert.IsFalse(tested.Equals(null));
     }
 
     [TestMethod]
     public void EqualsNotEqualToOtherType()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
+      QualifiedName tested = typeof(UnitTest_QualifiedName);
       Assert.IsFalse(tested.Equals("string"));
     }
 
     [TestMethod]
     public void EqualsEqualToSameName()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
-      QualifiedName sameName = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
+      QualifiedName tested = typeof(UnitTest_QualifiedName);
+      QualifiedName sameName = typeof(UnitTest_QualifiedName);
       Assert.IsTrue(tested.Equals(sameName));
     }
 
     [TestMethod]
     public void EqualsNotEqualToOtherName()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
-      QualifiedName otherName = new QualifiedName(typeof(string).AssemblyQualifiedName);
+      QualifiedName tested = typeof(UnitTest_QualifiedName);
+      QualifiedName otherName = typeof(string);
       Assert.IsFalse(tested.Equals(otherName));
     }
     #endregion
@@ -86,23 +94,23 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void GetHashCodeSameObjectSameHash()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
+      QualifiedName tested = typeof(UnitTest_QualifiedName);
       Assert.AreEqual(tested.GetHashCode(), tested.GetHashCode());
     }
 
     [TestMethod]
     public void GetHashCodeSameNameSameHash()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
-      QualifiedName sameName = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
+      QualifiedName tested = typeof(UnitTest_QualifiedName);
+      QualifiedName sameName = typeof(UnitTest_QualifiedName);
       Assert.AreEqual(sameName.GetHashCode(), tested.GetHashCode());
     }
 
     [TestMethod]
     public void GetHashCodeDifferentNameDifferentHash()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
-      QualifiedName otherName = new QualifiedName(typeof(string).AssemblyQualifiedName);
+      QualifiedName tested = typeof(UnitTest_QualifiedName);
+      QualifiedName otherName = typeof(string);
       Assert.AreNotEqual(otherName.GetHashCode(), tested.GetHashCode());
     }
 
@@ -110,26 +118,12 @@ namespace PluginFramework.Tests
 
     #region Operators
 
-    #region CastFromString
-    [TestMethod]
-    public void CastFromValidString()
-    {
-      QualifiedName tested = typeof(UnitTest_QualifiedName).AssemblyQualifiedName;
-    }
-
-    [TestMethod]
-    public void CastFromInvalidString()
-    {
-      DoAssert.Throws<ArgumentException>(() => { QualifiedName tested = "invalid string"; });
-    }
-    #endregion
-
     #region CastToString
     [TestMethod]
     public void CastToStringValidateResult()
     {
       var type = typeof(UnitTest_QualifiedName);
-      string tested = new QualifiedName(type.AssemblyQualifiedName);
+      string tested = new QualifiedName(type);
       StringAssert.Equals(type.AssemblyQualifiedName, tested);
     }
     #endregion
@@ -138,16 +132,16 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void EqualTrueIfSameName()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
-      QualifiedName sameName = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
+      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName));
+      QualifiedName sameName = new QualifiedName(typeof(UnitTest_QualifiedName));
       Assert.IsTrue(tested == sameName);
     }
 
     [TestMethod]
     public void EqualFalseIfDifferentName()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
-      QualifiedName sameName = new QualifiedName(typeof(string).AssemblyQualifiedName);
+      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName));
+      QualifiedName sameName = new QualifiedName(typeof(string));
       Assert.IsFalse(tested == sameName);
     }
     #endregion
@@ -156,16 +150,16 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void NotEqualFalseIfSameName()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
-      QualifiedName sameName = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
+      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName));
+      QualifiedName sameName = new QualifiedName(typeof(UnitTest_QualifiedName));
       Assert.IsFalse(tested != sameName);
     }
 
     [TestMethod]
     public void NotEqualTrueIfDifferentName()
     {
-      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName).AssemblyQualifiedName);
-      QualifiedName sameName = new QualifiedName(typeof(string).AssemblyQualifiedName);
+      QualifiedName tested = new QualifiedName(typeof(UnitTest_QualifiedName));
+      QualifiedName sameName = new QualifiedName(typeof(string));
       Assert.IsTrue(tested != sameName);
     }
     #endregion

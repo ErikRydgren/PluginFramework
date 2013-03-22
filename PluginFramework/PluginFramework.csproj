@@ -54,26 +54,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyContainer.cs" />
+    <Compile Include="FileSystemWatcher.cs" />
     <Compile Include="IAssemblySource.cs" />
+    <Compile Include="IFileSystemWatcher.cs" />
     <Compile Include="IPluginCreator.cs" />
+    <Compile Include="IPluginDirectory.cs" />
     <Compile Include="IPluginSource.cs" />
     <Compile Include="PluginCreator.cs" />
     <Compile Include="AssemblySourceToPluginSource.cs" />
-    <Compile Include="AssemblyReflectionProxy.cs" />
+    <Compile Include="AssemblyReflectionManager.cs" />
     <Compile Include="IAssemblyRepository.cs" />
     <Compile Include="IPluginRepository.cs" />
     <Compile Include="PluginAttribute.cs" />
     <Compile Include="PluginDescriptor.cs" />
+    <Compile Include="PluginDirectory.cs" />
     <Compile Include="PluginException.cs" />
     <Compile Include="PluginFilter.cs" />
     <Compile Include="PluginInfoAttribute.cs" />
     <Compile Include="PluginRepository.cs" />
     <Compile Include="PluginSettingAttribute.cs" />
     <Compile Include="PluginSettingDescriptor.cs" />
+    <Compile Include="PluginSettingException.cs" />
     <Compile Include="PluginVersion.cs" />
     <Compile Include="PluginVersionAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QualifiedName.cs" />
+    <Compile Include="SafeFileSystemWatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />

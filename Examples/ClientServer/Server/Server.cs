@@ -27,28 +27,59 @@ namespace PluginFramework.Examples.ClientServer
   using MassTransit;
   using MassTransit.NLogIntegration.Logging;
   using Topshelf;
+  using System;
+  using Castle.MicroKernel;
 
   class Server
   {
+    IKernel kernel;
     ILogger log;
     ServiceHost host;
 
-    public Server(ILogger log, IServiceBus bus, IWcfService wcfService)
+    public Server(IKernel kernel, ILogger log, IWcfService wcfService)
     {
+      this.kernel = kernel;
       this.log = log;
       this.host = new ServiceHost(wcfService);
     }
 
     public void Start()
     {
-      host.Open();
+      bool wcf = false;
+      bool masstransit = false;
 
-      this.log.Info("PluginServer started");
+      this.log.Debug("Creating Masstransit ServiceBus...");
+      try
+      {
+        kernel.Resolve<IServiceBus>();
+        this.log.Debug("Masstransit ServiceBus created");
+        masstransit = true;
+      }
+      catch (MassTransit.Exceptions.MassTransitException)
+      {
+        this.log.Debug("Error creating Masstransit ServiceBus. Make sure RabbitMQ is installed and running.");
+      }
+
+      try
+      {
+        this.log.Debug("Wcf host opening...");
+        host.Open();
+        this.log.Debug("Wcf host open.");
+        wcf = true;
+      }
+      catch (Exception ex)
+      {
+        log.Error("Problem creating service host.", ex);
+      }
+
+      this.log.InfoFormat("PluginServer started for{0}{1}", wcf ? " -WCF-" : string.Empty, masstransit ? " -Masstransit-" : string.Empty);
     }
 
     public void Stop()
     {
+      this.log.Debug("Wcf host closing...");
       host.Close();
+      this.log.Debug("Wcf host closed");
 
       this.log.Info("PluginServer stopped");
     }
@@ -66,7 +97,9 @@ namespace PluginFramework.Examples.ClientServer
       {
         conf.Service<Server>(s =>
         {
-          s.ConstructUsing(name => container.Resolve<Server>());
+          s.ConstructUsing(name => {
+            return container.Resolve<Server>();
+          });
           s.WhenStarted(program => program.Start());
           s.WhenStopped(program => program.Stop());
         });

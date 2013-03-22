@@ -29,6 +29,7 @@ namespace PluginFramework.Examples.SingleApplication
   {
     PluginRepository pluginRepository;
     AssemblyContainer assemblyContainer;
+    PluginDirectory directoryWatcher;
 
     private void Init()
     {
@@ -38,10 +39,12 @@ namespace PluginFramework.Examples.SingleApplication
       this.pluginRepository = new PluginRepository();
       this.assemblyContainer = new AssemblyContainer();
       this.pluginRepository.AddPluginSource(new AssemblySourceToPluginSource(this.assemblyContainer));
-
+      
       DirectoryInfo pluginDir = new DirectoryInfo(@"..\..\..\Plugin\Bin");
       Console.WriteLine(@"Adding plugins from {0}", pluginDir.FullName);
-      this.assemblyContainer.SyncWithDirectory(pluginDir, true);
+
+      directoryWatcher = new PluginDirectory(pluginDir.FullName, true);
+      this.assemblyContainer.AddDir(directoryWatcher);
     }
 
     private void QueryAndRunPlugins()
@@ -69,7 +72,7 @@ namespace PluginFramework.Examples.SingleApplication
         foreach (var pluginDescriptor in foundPlugins)
         {
           Console.WriteLine(string.Format("Creating plugin {0} inside {1}", pluginDescriptor.QualifiedName.TypeFullName, pluginDomain.FriendlyName));
-          plugin = pluginCreator.Create<ITestPlugin>(pluginDescriptor, this.assemblyContainer, settings);
+          plugin = pluginCreator.Create(pluginDescriptor, this.assemblyContainer, settings) as ITestPlugin;
           Console.WriteLine("Say hello plugin...");
           plugin.SayHello();
         }
@@ -109,12 +112,21 @@ namespace PluginFramework.Examples.SingleApplication
 
     public void Dispose()
     {
-      if (this.assemblyContainer != null)
-        this.assemblyContainer.Dispose();
+      if (this.directoryWatcher != null)
+        this.directoryWatcher.Dispose();
     }
 
     static void Main(string[] args)
     {
+      System.Reflection.AssemblyName myAssemblyName = new System.Reflection.AssemblyName("Fubar, Version=100.0.0.2001, Culture=sv-FI, PublicKeyToken=null");
+      Console.WriteLine("Name: {0}", myAssemblyName.Name);
+      Console.WriteLine("Version: {0}", myAssemblyName.Version);
+      Console.WriteLine("CultureInfo: {0}", myAssemblyName.CultureInfo);
+      Console.WriteLine("FullName: {0}", myAssemblyName.FullName);
+
+      Console.WriteLine("Assembly: {0}", typeof(Tuple<string, int>).Assembly.FullName);
+      Console.WriteLine("Type: {0}", typeof(Tuple<string, int>).FullName);
+
       using (var program = new Program())
         program.Run();
     }

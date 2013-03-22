@@ -12,7 +12,7 @@ namespace PluginFramework.Tests
     [TestMethod]
     public void ToStringExpectedResult()
     {
-      PluginSettingDescriptor tested = new PluginSettingDescriptor() { Name = "testName", Required = true, SettingType = typeof(string).AssemblyQualifiedName };
+      PluginSettingDescriptor tested = new PluginSettingDescriptor() { Name = "testName", Required = true, SettingType = typeof(string) };
       string expected = "testName [required] " + typeof(string).AssemblyQualifiedName;
       StringAssert.Equals(expected, tested.ToString());
 

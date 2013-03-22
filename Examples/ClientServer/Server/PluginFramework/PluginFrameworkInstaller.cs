@@ -32,11 +32,16 @@ namespace PluginFramework.Examples.ClientServer
       pluginRepository.AddPluginSource(new AssemblySourceToPluginSource(assemblyContainer));
 
       System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
-      DirectoryInfo pluginDir = new DirectoryInfo(settingsReader.GetValue("PluginPath", typeof(string)) as string);
-      assemblyContainer.SyncWithDirectory(pluginDir, true);
+      string pluginDir = settingsReader.GetValue("PluginPath", typeof(string)) as string;
+      PluginDirectory pluginDirectory = new PluginDirectory(pluginDir, true);
+      assemblyContainer.AddDir(pluginDirectory);
 
-      container.Register(Component.For<IPluginRepository>().LifestyleSingleton().Instance(pluginRepository));
-      container.Register(Component.For<IAssemblyRepository>().LifestyleSingleton().Instance(assemblyContainer));      
+      container.Register(
+        Component.For<IPluginRepository>().LifestyleSingleton().Instance(pluginRepository),
+
+        Component.For<IAssemblyRepository>().LifestyleSingleton().Instance(assemblyContainer)
+        .OnDestroy(kernel => { assemblyContainer.RemoveDir(pluginDirectory); pluginDirectory.Dispose(); })
+      );
     }
   }
 }

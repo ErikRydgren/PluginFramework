@@ -85,7 +85,7 @@ namespace PluginFramework.Examples.ClientServer
         foreach (var pluginDescriptor in foundPlugins)
         {
           Console.WriteLine(string.Format("Creating plugin {0} inside {1}", pluginDescriptor.QualifiedName.TypeFullName, pluginDomain.FriendlyName));
-          plugin = pluginCreator.Create<ITestPlugin>(pluginDescriptor, this.assemblyRepository, settings);
+          plugin = pluginCreator.Create(pluginDescriptor, this.assemblyRepository, settings) as ITestPlugin;
           Console.WriteLine("Say hello plugin...");
           plugin.SayHello();
         }

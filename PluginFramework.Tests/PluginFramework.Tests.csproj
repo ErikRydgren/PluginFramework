@@ -47,10 +47,24 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MockAssemblySource.cs" />
+    <Compile Include="UnitTest_AssemblyReflectionManager.cs" />
+    <Compile Include="UnitTest_AssemblySourceToPluginSource.cs" />
+    <Compile Include="UnitTest_FileSystemWatcher.cs" />
+    <Compile Include="UnitTest_PluginSettingException.cs" />
     <Compile Include="DoAssert.cs" />
+    <Compile Include="FileExtension.cs" />
+    <Compile Include="MockAssemblyRepository.cs" />
+    <Compile Include="MockDomain.cs" />
+    <Compile Include="MockFileSystemWatcher.cs" />
+    <Compile Include="MockPluginDescriptor.cs" />
+    <Compile Include="MockPluginDirectory.cs" />
     <Compile Include="MockPlugins.cs" />
     <Compile Include="MockPluginSource.cs" />
+    <Compile Include="UnitTest_AssemblyContainer.cs" />
+    <Compile Include="UnitTest_PluginCreator.cs" />
     <Compile Include="UnitTest_PluginDescriptor.cs" />
+    <Compile Include="UnitTest_PluginDirectory.cs" />
     <Compile Include="UnitTest_PluginException.cs" />
     <Compile Include="UnitTest_PluginFilter.cs" />
     <Compile Include="UnitTest_PluginInfoAttribute.cs" />
@@ -61,6 +75,7 @@
     <Compile Include="UnitTest_PluginVersion.cs" />
     <Compile Include="UnitTest_QualifiedName.cs" />
     <Compile Include="UnitTest_PluginSettingAttribute.cs" />
+    <Compile Include="UnitTest_SafeEventFileSystemWatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj">

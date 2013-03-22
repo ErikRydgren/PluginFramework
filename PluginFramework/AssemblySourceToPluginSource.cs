@@ -53,47 +53,9 @@ namespace PluginFramework
     /// <param name="e">The <see cref="AssemblyAddedEventArgs"/> instance containing the event data.</param>
     private void OnAssemblyAdded(object sender, AssemblyAddedEventArgs e)
     {
-      var plugins = e.Reflect(assembly =>
-        {
-          var pluginTypes =
-            (from type in assembly.GetExportedTypes()
-             where type.IsClass && !type.IsGenericType && type.IsPublic && type.IsVisible && !type.IsAbstract
-             where CustomAttributeData.GetCustomAttributes(type).Any(x => x.Constructor.DeclaringType.FullName == typeof(PluginAttribute).FullName)
-             select type).ToArray();
-
-          PluginDescriptor[] pluginDescriptions = new PluginDescriptor[pluginTypes.Length];
-
-          for (int i = 0; i < pluginTypes.Length; i++)
-          {
-            Type type = pluginTypes[i];
-            IList<CustomAttributeData> attributes = CustomAttributeData.GetCustomAttributes(type);
-
-            PluginDescriptor plugin = pluginDescriptions[i] = new PluginDescriptor();
-            plugin.QualifiedName = type.AssemblyQualifiedName;
-            plugin.Version = GetPluginVersion(attributes);
-
-            SetPluginInfoValuesFromAttributes(plugin, attributes);
-            SetPluginAncestors(plugin, type);
-            SetPluginInterfaces(plugin, type);
-            SetPluginSettings(plugin, type);
-
-            var keyValues = GetPluginAttributeNamedValues(attributes);
-            object value;
-            if (keyValues.TryGetValue("Name", out value))
-              plugin.Name = value as string;
-          }
-          return pluginDescriptions;
-        });
-
-      this.OnAssemblyRemoved(sender, new AssemblyRemovedEventArgs(e.AssemblyId));
-
-      if (plugins.Length > 0)
-      {
-        this.assemblyPlugins.Add(e.AssemblyId, plugins);
-        if (this.PluginAdded != null)
-          foreach (var plugin in plugins)
-            this.PluginAdded(this, new PluginEventArgs(plugin));
-      }
+      var plugins = e.Reflect(assembly => ExtractPlugins(assembly));
+      RemovePlugins(e.AssemblyId);
+      AddPlugins(e.AssemblyId, plugins);
     }
 
     /// <summary>
@@ -104,15 +66,64 @@ namespace PluginFramework
     /// <param name="e">The <see cref="AssemblyRemovedEventArgs"/> instance containing the event data.</param>
     private void OnAssemblyRemoved(object sender, AssemblyRemovedEventArgs e)
     {
+      this.RemovePlugins(e.AssemblyId);
+    }
+
+    private void AddPlugins(string assemblyId, PluginDescriptor[] plugins)
+    {
+      if (plugins.Length > 0)
+      {
+        this.assemblyPlugins.Add(assemblyId, plugins);
+        if (this.PluginAdded != null)
+          foreach (var plugin in plugins)
+            this.PluginAdded(this, new PluginEventArgs(plugin));
+      }
+    }
+
+    private void RemovePlugins(string assemblyId)
+    {
       PluginDescriptor[] lostPlugins;
-      if (this.assemblyPlugins.TryGetValue(e.AssemblyId, out lostPlugins))
+      if (this.assemblyPlugins.TryGetValue(assemblyId, out lostPlugins))
       {
         if (this.PluginRemoved != null)
           foreach (var plugin in lostPlugins)
             this.PluginRemoved(this, new PluginEventArgs(plugin));
 
-        this.assemblyPlugins.Remove(e.AssemblyId);
+        this.assemblyPlugins.Remove(assemblyId);
       }
+    }
+
+    private static PluginDescriptor[] ExtractPlugins(Assembly assembly)
+    {
+      var pluginTypes =
+        (from type in assembly.GetExportedTypes()
+         where type.IsClass && !type.IsGenericType && type.IsPublic && type.IsVisible && !type.IsAbstract
+         where CustomAttributeData.GetCustomAttributes(type).Any(x => x.Constructor.DeclaringType.FullName == typeof(PluginAttribute).FullName)
+         select type).ToArray();
+
+      PluginDescriptor[] pluginDescriptions = new PluginDescriptor[pluginTypes.Length];
+
+      for (int i = 0; i < pluginTypes.Length; i++)
+      {
+        Type type = pluginTypes[i];
+        IList<CustomAttributeData> attributes = CustomAttributeData.GetCustomAttributes(type);
+
+        PluginDescriptor plugin = pluginDescriptions[i] = new PluginDescriptor();
+        plugin.QualifiedName = type;
+        plugin.Name = type.Namespace + "." + type.Name;
+        plugin.Version = GetPluginVersion(attributes);
+
+        SetPluginAncestors(plugin, type);
+        SetPluginInterfaces(plugin, type);
+        SetPluginInfoValuesFromAttributes(plugin, attributes);
+        SetPluginSettings(plugin, type);
+
+        var keyValues = GetPluginAttributeNamedValues(attributes);
+        object value;
+        if (keyValues.TryGetValue("Name", out value))
+          plugin.Name = value as string;
+      }
+      return pluginDescriptions;
     }
 
     /// <summary>
@@ -160,7 +171,7 @@ namespace PluginFramework
       Type loop = type;
       while (loop.BaseType != null)
       {
-        plugin.Derives.Add(new QualifiedName(loop.BaseType.AssemblyQualifiedName));
+        plugin.Derives.Add(loop.BaseType);
         loop = loop.BaseType;
       }
     }
@@ -173,7 +184,7 @@ namespace PluginFramework
     private static void SetPluginInterfaces(PluginDescriptor plugin, Type type)
     {
       foreach (var interfaceType in type.GetInterfaces())
-        plugin.Interfaces.Add(new QualifiedName(interfaceType.AssemblyQualifiedName));
+        plugin.Interfaces.Add(interfaceType);
     }
 
     /// <summary>
@@ -192,7 +203,7 @@ namespace PluginFramework
 
         PluginSettingDescriptor setting = new PluginSettingDescriptor();
         setting.Name = property.Name;
-        setting.SettingType = property.PropertyType.AssemblyQualifiedName;
+        setting.SettingType = property.PropertyType;
 
         foreach (var namedArg in attribute.NamedArguments)
         {
