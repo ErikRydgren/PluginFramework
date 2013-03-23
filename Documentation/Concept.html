@@ -5,7 +5,21 @@
 </head>
 <body>
   <h1>PluginFramework Concept</h1>
-  <img alt="Conceptual image" src="Images/PluginFramework.png" />
+  <img id="ConceptImage" alt="Conceptual image" src="Images/PluginFramework.png" usemap="#ConceptImageMap" />
+  <map id="ConceptImageMap" name="ConceptImageMap">
+    <area shape="rect" coords="42,9,206,58" href="Reference/Index.html?topic=html/T_PluginFramework_PluginDirectory.htm" alt="Go to PluginDirectory reference" title="Go to PluginDirectory reference"    />
+    <area shape="rect" coords="42,834,206,883" href="Reference/Index.html?topic=html/T_PluginFramework_PluginDirectory.htm" alt="Go to PluginDirectory reference" title="Go to PluginDirectory reference"    />
+    <area shape="rect" coords="207,8,398,57" href="Reference/Index.html?topic=html/T_PluginFramework_AssemblyContainer.htm" alt="Go to AssemblyContainer reference" title="Go to AssemblyContainer reference"    />
+    <area shape="rect" coords="208,835,399,884" href="Reference/Index.html?topic=html/T_PluginFramework_AssemblyContainer.htm" alt="Go to AssemblyContainer reference" title="Go to AssemblyContainer reference"    />
+    <area shape="rect" coords="399,8,561,57" href="Reference/Index.html?topic=html/T_PluginFramework_PluginExtractor.htm" alt="Go to PluginExtractor reference" title="Go to PluginExtractor reference"    />
+    <area shape="rect" coords="400,835,562,884" href="Reference/Index.html?topic=html/T_PluginFramework_PluginExtractor.htm" alt="Go to PluginExtractor reference" title="Go to PluginExtractor reference"    />
+    <area shape="rect" coords="564,8,738,57" href="Reference/Index.html?topic=html/T_PluginFramework_PluginRepository.htm" alt="Go to PluginRepository reference" title="Go to PluginRepository reference"    />
+    <area shape="rect" coords="564,834,738,883" href="Reference/Index.html?topic=html/T_PluginFramework_PluginRepository.htm" alt="Go to PluginRepository reference" title="Go to PluginRepository reference"    />
+    <area shape="rect" coords="834,7,982,56" href="Reference/Index.html?topic=html/T_PluginFramework_PluginCreator.htm" alt="Go to PluginCreator reference" title="Go to PluginCreator reference"    />
+    <area shape="rect" coords="835,835,983,884" href="Reference/Index.html?topic=html/T_PluginFramework_PluginCreator.htm" alt="Go to PluginCreator reference" title="Go to PluginCreator reference"    />
+    <area shape="rect" coords="1116,8,1270,57" href="Reference/Index.html?topic=html/T_PluginFramework_IPluginCreator.htm" alt="Go to IPLuginCreator reference" title="Go to IPLuginCreator reference"    />
+    <area shape="rect" coords="1116,834,1270,883" href="Reference/Index.html?topic=html/T_PluginFramework_IPluginCreator.htm" alt="Go to IPluginCreator reference" title="Go to IPluginCreator reference"    />
+  </map>
 
 <p>The key players inside the PluginFramework is the <a href="Reference/Index.html?topic=html/T_PluginFramework_AssemblyContainer.htm">AssemblyContainer</a>, 
 the <a href="Reference/Index.html?topic=html\T_PluginFramework_PluginRepository.htm">PluginRepository</a> and the <a href="Reference/Index.html?topic=html\T_PluginFramework_PluginCreator.htm">PluginCreator</a>.</p>
@@ -15,10 +29,10 @@ the <a href="Reference/Index.html?topic=html\T_PluginFramework_PluginRepository.
 It then exploses those assemblies through two interfaces, <a href="Reference/Index.html?topic=html\T_PluginFramework_IAssemblySource.htm">IAssemblySource</a> and <a href="Reference/Index.html?topic=html\T_PluginFramework_IAssemblyRepository.htm">IAssemblyRepository</a>.</p>
 
 <h3 id="PluginRepository">PluginRepository</h3>
-<p>The PluginRepository reads and remembers plugins exposed through registered <a href="Reference/Index.html?topic=html\T_PluginFramework_IPluginSource.htm">IPluginSources</a> and allows users to query for plugins that matches a specified <a href="Reference/Index.html?topic=html\T_PluginFramework_PluginFilter.htm">filter</a></p>
+<p>The PluginRepository reads and remembers plugins exposed through registered <a href="Reference/Index.html?topic=html\T_PluginFramework_IPluginSource.htm">IPluginSources</a> and allows users to query for plugins that matches a specified <a href="Reference/Index.html?topic=html\T_PluginFramework_PluginFilter.htm">PluginFilter</a></p>
 
 <h3 id="PluginCreator">PluginCreator</h3>
-<p>The PluginCreator is an untility class that exposes static functions for finding and creating instances of <a href="Reference/Index.html?topic=html\T_PluginFramework_IPluginCreator.htm">IPluginCreator</a> inside AppDomains.</p>
+<p>The PluginCreator class exposes static functions for creating and finding instances of <a href="Reference/Index.html?topic=html\T_PluginFramework_IPluginCreator.htm">IPluginCreator</a> inside AppDomains.</p>
 
 <h3 id="PluginDirectory">PluginDirectory</h3>
 <p>The PluginDirectory monitors changes to assemblies in a directory on disk. It then raises the events FileFound and FileLost on it's <a href="Reference/Index.html?topic=html\T_PluginFramework_IPluginDirectory.htm">IPluginDirectory</a> interface accordingly.</p>
@@ -39,10 +53,10 @@ It then exploses those assemblies through two interfaces, <a href="Reference/Ind
  reflection. Found plugins is exposed through the <a href="Reference/Index.html?topic=html\T_PluginFramework_IPluginSource.htm">IPluginSource</a> interface.</p>
 
 <h3 id="PluginFilter">PluginFilter</h3>
-<p>A plugin filter describes what qualities a plugin must fulfil to be returned from a query to an <a href="Reference/Index.html?topic=html\T_PluginFramework_IPluginRepository.htm">IPluginRepository</a>. Plugin filters is created using static methods on the Plugin class. Plugin filters can then be combined into complex filters using the & and | operators</p>
+<p>A plugin filter describes what qualities a plugin must fulfil to be returned from a query to a <a href="Reference/Index.html?topic=html\T_PluginFramework_IPluginRepository.htm">IPluginRepository</a>. Plugin filters can be combined into complex filters using boolean operations.</p>
 
 <h3 id="IPluginCreator">IPluginCreator</h3>
-<p>The IPluginCreator interface is used to create plugins inside an AppDomain. The IPluginCreator uses an <a href="Reference/Index.html?topic=html\T_PluginFramework_IAssemblyRepository.htm">IAssemblyRepository</a> to fetch and load missing assemblies inside the AppDomain.</p>
+<p>The IPluginCreator interface is used to create plugins inside an AppDomain. The IPluginCreator uses a <a href="Reference/Index.html?topic=html\T_PluginFramework_IAssemblyRepository.htm">IAssemblyRepository</a> to fetch and load missing assemblies inside the AppDomain.</p>
 
 </body>
 </html>

@@ -3,19 +3,19 @@
 alt Added assembly file
 
 PluginDirectory -> AssemblyContainer : FileFound
-AssemblyContainer -> AssemblySourceToPluginSource : AssemblyAdded
+AssemblyContainer -> PluginExtractor : AssemblyAdded
 
 loop For each plugin in assembly
-AssemblySourceToPluginSource -> PluginRepository : PluginFound
+PluginExtractor -> PluginRepository : PluginFound
 end
 
 else Removed assembly file
 
 PluginDirectory -> AssemblyContainer : FileLost 
-AssemblyContainer -> AssemblySourceToPluginSource : AssemblyRemoved
+AssemblyContainer -> PluginExtractor : AssemblyRemoved
 
 loop For each plugin in assembly
-AssemblySourceToPluginSource -> PluginRepository : LostPlugin
+PluginExtractor -> PluginRepository : LostPlugin
 end
 
 end
