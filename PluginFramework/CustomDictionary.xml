@@ -4,6 +4,8 @@
     <Recognized>
       <Word>Plugin</Word>
       <Word>plugins</Word>
+      <Word>Configurator</Word>
+      <Word>Queueing</Word>
     </Recognized>
   </Words>
 </Dictionary>

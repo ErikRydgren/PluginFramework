@@ -26,22 +26,31 @@ namespace PluginFramework
   using System.Security.Permissions;
   using System.Security;
   using System.Threading;
+  using PluginFramework.Logging;
 
   /// <summary>
   /// Holds and publishes registered assemblies. Also provides functionality for loading from directorytree and react to changes in the tree.
   /// Implements and exposes <see cref="IAssemblySource" /> and <see cref="IAssemblyRepository" />.
   /// </summary>
-  public sealed class AssemblyContainer : MarshalByRefObject, IAssemblySource, IAssemblyRepository
+  public sealed class AssemblyContainer : MarshalByRefObject, IAssemblySource, IAssemblyRepository, ILogWriter
   {
     Dictionary<string, List<string>> assemblyPaths;
     Dictionary<string, string> pathAssembly;
     HashSet<IPluginDirectory> directories;
+    ILog log;
+
+    ILog ILogWriter.Log
+    {
+      get { return this.log; }
+      set { this.log = value; }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AssemblyContainer"/> class.
     /// </summary>
     public AssemblyContainer()
     {
+      this.InitLog();
       this.assemblyPaths = new Dictionary<string, List<string>>();
       this.pathAssembly = new Dictionary<string, string>();
       this.directories = new HashSet<IPluginDirectory>();
@@ -83,12 +92,14 @@ namespace PluginFramework
           lock (this.assemblyPaths)
           {
             if (this.pathAssembly.ContainsKey(assemblyPath))
-              throw new ArgumentException("Assembly already added");
+              throw new ArgumentException(Resources.AssemblyAlreadyAdded);
 
             if (reflectionManager.LoadAssembly(assemblyFile.FullName))
             {
               var assemblyName = reflectionManager.Reflect(assemblyFile.FullName, assembly => assembly.FullName);
               AddPathToName(assemblyName, assemblyFile.FullName);
+
+              this.log.Info(Resources.AssemblyAdded, assemblyFile.FullName);
 
               if (this.AssemblyAdded != null)
                 this.AssemblyAdded(this, new AssemblyAddedEventArgs(assemblyFile.FullName, reflectionManager));
@@ -104,18 +115,6 @@ namespace PluginFramework
       return false;
     }
 
-    private void AddPathToName(string assemblyName, string path)
-    {
-      List<string> paths;
-      if (this.assemblyPaths.TryGetValue(assemblyName, out paths) == false)
-      {
-        paths = new List<string>();
-        this.assemblyPaths.Add(assemblyName, paths);
-      }
-      paths.Add(path);
-      pathAssembly.Add(path, assemblyName);
-    }
-
     /// <summary>
     /// Removes the specified assembly file.
     /// </summary>
@@ -126,23 +125,27 @@ namespace PluginFramework
       if (assemblyPath == null)
         throw new ArgumentNullException("assemblyPath");
 
+      FileInfo assemblyFile = new FileInfo(assemblyPath);
+
       lock (this.assemblyPaths)
       {
         string assemblyName;
-        if (this.pathAssembly.TryGetValue(assemblyPath, out assemblyName) == false)
+        if (this.pathAssembly.TryGetValue(assemblyFile.FullName, out assemblyName) == false)
           return;
 
-        this.pathAssembly.Remove(assemblyPath);
+        this.pathAssembly.Remove(assemblyFile.FullName);
 
         List<string> paths;
         if (this.assemblyPaths.TryGetValue(assemblyName, out paths))
         {
-          paths.Remove(assemblyPath);
+          paths.Remove(assemblyFile.FullName);
           if (paths.Count == 0)
             this.assemblyPaths.Remove(assemblyName);
 
+          this.log.Info(Resources.AssemblyRemoved, assemblyFile.FullName);
+
           if (this.AssemblyRemoved != null)
-            this.AssemblyRemoved(this, new AssemblyRemovedEventArgs(assemblyPath));
+            this.AssemblyRemoved(this, new AssemblyRemovedEventArgs(assemblyFile.FullName));
         }
       }
     }
@@ -159,11 +162,13 @@ namespace PluginFramework
         throw new ArgumentNullException("dir");
 
       if (this.directories.Contains(dir))
-        throw new ArgumentException("Directory already added");
+        throw new ArgumentException(Resources.DirectoryAlreadyAdded);
+
+      this.directories.Add(dir);
+      this.log.Info(Resources.AddedPluginDirectory, dir.Path);
 
       dir.FileFound += this.PluginDirectoryFileFound;
       dir.FileLost += this.PluginDirFileLost;
-      this.directories.Add(dir);
     }
 
     /// <summary>
@@ -178,21 +183,12 @@ namespace PluginFramework
         throw new ArgumentNullException("dir");
 
       if (!this.directories.Contains(dir))
-        throw new ArgumentException("Unknown directory");
+        throw new ArgumentException(Resources.UnknownDirectory);
 
       this.directories.Remove(dir);
       dir.FileFound -= this.PluginDirectoryFileFound;
       dir.FileLost -= this.PluginDirFileLost;
-    }
-
-    private void PluginDirectoryFileFound(object sender, PluginDirectoryEventArgs e)
-    {
-      this.Add(e.FullName);
-    }
-
-    private void PluginDirFileLost(object sender, PluginDirectoryEventArgs e)
-    {
-      this.Remove(e.FullName);
+      this.log.Info(Resources.RemovedPluginDirectory, dir.Path);
     }
 
     /// <summary>
@@ -211,9 +207,18 @@ namespace PluginFramework
       {
         List<string> paths;
         if (!this.assemblyPaths.TryGetValue(assemblyFullName, out paths))
+        {
+          this.log.Warn(Resources.FetchErrorAssemblyNotKnown, assemblyFullName);
           return null;
+        }
 
         assemblyFile = paths.Select(path => new FileInfo(path)).FirstOrDefault(file => file.Exists);
+        if (assemblyFile == null)
+        {
+          this.log.Error(Resources.FetchErrorFileNotFoundIn, assemblyFullName);
+          foreach (var path in paths)
+            this.log.Error("  --> {0}", path);
+        }
       }
 
       if (assemblyFile != null)
@@ -221,14 +226,38 @@ namespace PluginFramework
         try
         {
           buffer = File.ReadAllBytes(assemblyFile.FullName);
+          this.log.Debug(Resources.AssemblyFetchedBytesRead, assemblyFullName, buffer.Length, assemblyFile.FullName);
         }
-        catch (IOException)
+        catch (IOException ex)
         {
+          this.log.Error(Resources.ExceptionWhileFetching, assemblyFullName, assemblyFile, ex.Message);
           buffer = null;
         }
       }
 
       return buffer;
+    }
+
+    private void AddPathToName(string assemblyName, string path)
+    {
+      List<string> paths;
+      if (this.assemblyPaths.TryGetValue(assemblyName, out paths) == false)
+      {
+        paths = new List<string>();
+        this.assemblyPaths.Add(assemblyName, paths);
+      }
+      paths.Add(path);
+      pathAssembly.Add(path, assemblyName);
+    }
+
+    private void PluginDirectoryFileFound(object sender, PluginDirectoryEventArgs e)
+    {
+      this.Add(e.FullName);
+    }
+
+    private void PluginDirFileLost(object sender, PluginDirectoryEventArgs e)
+    {
+      this.Remove(e.FullName);
     }
   }
 }

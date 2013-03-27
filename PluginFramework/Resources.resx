@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddedPlugin" xml:space="preserve">
+    <value>Added {0}</value>
+  </data>
+  <data name="AddedPluginDirectory" xml:space="preserve">
+    <value>Added plugin directory {0}</value>
+  </data>
+  <data name="AssemblyAdded" xml:space="preserve">
+    <value>Assembly added {0}</value>
+  </data>
+  <data name="AssemblyAlreadyAdded" xml:space="preserve">
+    <value>Assembly already added</value>
+  </data>
+  <data name="AssemblyFetchedBytesRead" xml:space="preserve">
+    <value>Assembly fetched {0} ({1} bytes read from {2})</value>
+  </data>
+  <data name="AssemblyRemoved" xml:space="preserve">
+    <value>Assembly removed {0}</value>
+  </data>
+  <data name="CreatedInsideAppDomain" xml:space="preserve">
+    <value>Created inside AppDomain: {0}</value>
+  </data>
+  <data name="CreatedPlugin" xml:space="preserve">
+    <value>Created plugin {0}</value>
+  </data>
+  <data name="DirectoryAlreadyAdded" xml:space="preserve">
+    <value>Directory already added</value>
+  </data>
+  <data name="DirectoryDoesNotExist" xml:space="preserve">
+    <value>Directory does not exist</value>
+  </data>
+  <data name="ExceptionWhileFetching" xml:space="preserve">
+    <value>Exception while fetching {0} ({1}) {2})</value>
+  </data>
+  <data name="FetchErrorAssemblyNotKnown" xml:space="preserve">
+    <value>Unable to fetch {0}, assembly not known.</value>
+  </data>
+  <data name="FetchErrorFileNotFoundIn" xml:space="preserve">
+    <value>Unable to fetch {0}, file not found in these locations:</value>
+  </data>
+  <data name="FileFound" xml:space="preserve">
+    <value>FileFound {0}</value>
+  </data>
+  <data name="FileLocked" xml:space="preserve">
+    <value>{0} locked</value>
+  </data>
+  <data name="FileLost" xml:space="preserve">
+    <value>FileLost {0}</value>
+  </data>
+  <data name="FileNotExistAwaitingDeleteEvent" xml:space="preserve">
+    <value>{0} does not exists, awaiting Deleted event</value>
+  </data>
+  <data name="FoundCountPluginsIn" xml:space="preserve">
+    <value>Found {0} plugins in {1}</value>
+  </data>
+  <data name="GotDeleteBeforeEmitCreatedIgnoringFile" xml:space="preserve">
+    <value>Got Deleted before Created was Raised. Ignoring file {0}</value>
+  </data>
+  <data name="LostCountPluginsWhenAssemblyRemoved" xml:space="preserve">
+    <value>Lost {0} plugins when {1} was removed</value>
+  </data>
+  <data name="OnChanged" xml:space="preserve">
+    <value>OnChanged {0}</value>
+  </data>
+  <data name="OnCreated" xml:space="preserve">
+    <value>OnCreated {0}</value>
+  </data>
+  <data name="OnDeleted" xml:space="preserve">
+    <value>OnDeleted {0}</value>
+  </data>
+  <data name="OnRenamed" xml:space="preserve">
+    <value>OnRenamed {0} -&gt; {1}</value>
+  </data>
+  <data name="OpMustBeAndOrOr" xml:space="preserve">
+    <value>op must be And or Or</value>
+  </data>
+  <data name="QueueingEventForFile" xml:space="preserve">
+    <value>Queueing {0} for {1}</value>
+  </data>
+  <data name="RaisingEventFor" xml:space="preserve">
+    <value>Raising {0} for {1}</value>
+  </data>
+  <data name="RemovedPlugin" xml:space="preserve">
+    <value>Removed {0}</value>
+  </data>
+  <data name="RemovedPluginDirectory" xml:space="preserve">
+    <value>Removed plugin directory {0}</value>
+  </data>
+  <data name="RequiredSettingNotSuppliedOnCreate" xml:space="preserve">
+    <value>Required setting {0} not supplied while creating {1}</value>
+  </data>
+  <data name="ReturningPluginsFor" xml:space="preserve">
+    <value>Returning plugins for {0}</value>
+  </data>
+  <data name="SourceAdded" xml:space="preserve">
+    <value>Source added {0}</value>
+  </data>
+  <data name="SourceAlreadyAdded" xml:space="preserve">
+    <value>Source already added</value>
+  </data>
+  <data name="SourceRemoved" xml:space="preserve">
+    <value>Source removed {0}</value>
+  </data>
+  <data name="UnknownAssembly" xml:space="preserve">
+    <value>Unknown assembly</value>
+  </data>
+  <data name="UnknownDirectory" xml:space="preserve">
+    <value>Unknown directory</value>
+  </data>
+  <data name="UnknownEventType" xml:space="preserve">
+    <value>Unknown EventType {0}</value>
+  </data>
+  <data name="UnknownSource" xml:space="preserve">
+    <value>Unknown source</value>
+  </data>
+  <data name="VersionStringFormatError" xml:space="preserve">
+    <value>The version string must be on format intMajor.intMinor</value>
+  </data>
+</root>

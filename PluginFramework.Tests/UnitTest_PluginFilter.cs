@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Xml;
 using System.Runtime.Serialization;
+using PluginFramework.Tests.Mocks;
 
 namespace PluginFramework.Tests
 {
@@ -185,6 +186,24 @@ namespace PluginFramework.Tests
       Assert.IsTrue(tested.SubFilters.Contains(left1));
       Assert.IsTrue(tested.SubFilters.Contains(left2));
       Assert.IsTrue(tested.SubFilters.Contains(right2));
+    }
+
+    [TestMethod]
+    public void CombineShouldReturnRightIfLeftIsPassthrough()
+    {
+      var passthrough = PluginFilter.Create;
+      var expected = PluginFilter.Create.IsNamed("something");
+      var actual = PluginFilter.Combine(PluginFilter.FilterOperation.And, passthrough, expected);
+      Assert.AreSame(expected, actual);
+    }
+
+    [TestMethod]
+    public void CombineShouldReturnLeftIfRightIsPassthrough()
+    {
+      var passthrough = PluginFilter.Create;
+      var expected = PluginFilter.Create.IsNamed("something");
+      var actual = PluginFilter.Combine(PluginFilter.FilterOperation.And, expected, passthrough);
+      Assert.AreSame(expected, actual);
     }
     #endregion
 
@@ -574,8 +593,16 @@ namespace PluginFramework.Tests
     {
       DoAssert.Throws<NotImplementedException>(() =>
         new PluginFilter((PluginFilter.FilterOperation)9999, "kalle").Filter(this.descriptors));
-    }
+    } 
 
+    [TestMethod]
+    public void FilterShouldReturnEverythingIfArgumentIsPassthrough()
+    {
+      var passthrough = PluginFilter.Create;
+      var expected = this.descriptors;
+      var actual = passthrough.Filter(expected);
+      Assert.IsTrue(expected.SequenceEqual(actual));
+    }
     #endregion
 
     #region ApplyMaxVersionFilter

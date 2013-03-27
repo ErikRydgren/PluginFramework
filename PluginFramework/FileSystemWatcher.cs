@@ -27,13 +27,21 @@ namespace PluginFramework
   using System.Xml;
   using System.Xml.Linq;
   using System.ComponentModel;
+  using PluginFramework.Logging;
 
   /// <summary>
   /// Thin wrapper to expose an <see cref="System.IO.FileSystemWatcher"/> as <see cref="IFileSystemWatcher"/>. Enabling mocking during unit testing.
   /// </summary>
-  public sealed class FileSystemWatcher : IFileSystemWatcher
+  public sealed class FileSystemWatcher : IFileSystemWatcher, ILogWriter
   {
     internal System.IO.FileSystemWatcher watcher;
+
+    private ILog log;
+    ILog ILogWriter.Log
+    {
+      get { return this.log; }
+      set { this.log = value; }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FileSystemWatcher"/> class.
@@ -41,6 +49,7 @@ namespace PluginFramework
     [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
     public FileSystemWatcher()
     {
+      this.InitLog();
       watcher = new System.IO.FileSystemWatcher();
       Connect();
     }
@@ -51,9 +60,9 @@ namespace PluginFramework
     /// <param name="path">The path to monitor</param>
     [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
     public FileSystemWatcher(string path)
+      : this()
     {
-      watcher = new System.IO.FileSystemWatcher(path);
-      Connect();
+      this.watcher.Path = path;
     }
 
     /// <summary>
@@ -63,9 +72,9 @@ namespace PluginFramework
     /// <param name="filter">The filter to apply</param>
     [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
     public FileSystemWatcher(string path, string filter)
+      : this(path)
     {
-      watcher = new System.IO.FileSystemWatcher(path, filter);
-      Connect();
+      this.watcher.Filter = filter;
     }
 
     /// <summary>
@@ -82,24 +91,28 @@ namespace PluginFramework
 
     internal void OnCreated(object sender, System.IO.FileSystemEventArgs args)
     {
+      this.log.Debug(Resources.OnCreated, args.FullPath);
       if (this.Created != null)
         this.Created(sender, new FileSystemEventArgs(args));
     }
 
     internal void OnChanged(object sender, System.IO.FileSystemEventArgs args)
     {
+      this.log.Debug(Resources.OnChanged, args.FullPath);
       if (this.Changed != null)
         this.Changed(sender, new FileSystemEventArgs(args));
     }
 
     internal void OnDeleted(object s, System.IO.FileSystemEventArgs args)
     {
+      this.log.Debug(Resources.OnDeleted, args.FullPath);
       if (this.Deleted != null)
         this.Deleted(s, new FileSystemEventArgs(args));
     }
 
     internal void OnRenamed(object sender, System.IO.RenamedEventArgs args)
     {
+      this.log.Debug(Resources.OnRenamed, args.OldFullPath, args.Name);
       if (this.Renamed != null)
         this.Renamed(sender, new RenamedEventArgs(args));
     }

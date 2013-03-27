@@ -74,6 +74,17 @@
   <HelpKINode Title="Changed event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Changed.htm" />
   <HelpKINode Title="ChangeType property" Url="html/P_PluginFramework_FileSystemEventArgs_ChangeType.htm" />
   <HelpKINode Title="CompareTo method" Url="html/M_PluginFramework_PluginVersion_CompareTo.htm" />
+  <HelpKINode Title="Configurator class" Url="html/AllMembers_T_PluginFramework_Logging_Configurator.htm" />
+  <HelpKINode Title="Configurator class" Url="html/T_PluginFramework_Logging_Configurator.htm" />
+  <HelpKINode Title="Configurator class">
+    <HelpKINode Title="about Configurator class" Url="html/T_PluginFramework_Logging_Configurator.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_Logging_Configurator.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PluginFramework_Logging_Configurator__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_Logging_Configurator.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Configurator.Configurator constructor" Url="html/M_PluginFramework_Logging_Configurator__ctor.htm" />
+  <HelpKINode Title="Configurator.UseTraceLogger method" Url="html/M_PluginFramework_Logging_Configurator_UseTraceLogger.htm" />
+  <HelpKINode Title="Configure method" Url="html/M_PluginFramework_Logging_Logger_Configure.htm" />
   <HelpKINode Title="Create method" Url="html/M_PluginFramework_IPluginCreator_Create.htm" />
   <HelpKINode Title="Create method" Url="html/M_PluginFramework_PluginCreator_Create.htm" />
   <HelpKINode Title="Create property" Url="html/P_PluginFramework_PluginFilter_Create.htm" />
@@ -82,6 +93,8 @@
   <HelpKINode Title="Created event" Url="html/E_PluginFramework_IFileSystemWatcher_Created.htm" />
   <HelpKINode Title="Created event" Url="html/E_PluginFramework_SafeEventFileSystemWatcher_Created.htm" />
   <HelpKINode Title="CreationTime enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
+  <HelpKINode Title="Debug method" Url="html/M_PluginFramework_Logging_ILogExtensions_Debug.htm" />
+  <HelpKINode Title="Debug method" Url="html/Overload_PluginFramework_Logging_ILog_Debug.htm" />
   <HelpKINode Title="Deleted enumeration member" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
   <HelpKINode Title="Deleted event" Url="html/E_PluginFramework_FileSystemWatcher_Deleted.htm" />
   <HelpKINode Title="Deleted event" Url="html/E_PluginFramework_IFileSystemWatcher_Deleted.htm" />
@@ -105,6 +118,10 @@
   <HelpKINode Title="Equals method" Url="html/Overload_PluginFramework_PluginDescriptor_Equals.htm" />
   <HelpKINode Title="Equals method" Url="html/Overload_PluginFramework_PluginFilter_Equals.htm" />
   <HelpKINode Title="Equals method" Url="html/Overload_PluginFramework_PluginVersion_Equals.htm" />
+  <HelpKINode Title="Error method" Url="html/M_PluginFramework_Logging_ILogExtensions_Error.htm" />
+  <HelpKINode Title="Error method" Url="html/Overload_PluginFramework_Logging_ILog_Error.htm" />
+  <HelpKINode Title="Fatal method" Url="html/M_PluginFramework_Logging_ILogExtensions_Fatal.htm" />
+  <HelpKINode Title="Fatal method" Url="html/Overload_PluginFramework_Logging_ILog_Fatal.htm" />
   <HelpKINode Title="Fetch method" Url="html/M_PluginFramework_AssemblyContainer_Fetch.htm" />
   <HelpKINode Title="Fetch method" Url="html/M_PluginFramework_IAssemblyRepository_Fetch.htm" />
   <HelpKINode Title="FileFound event" Url="html/E_PluginFramework_IPluginDirectory_FileFound.htm" />
@@ -156,6 +173,8 @@
   <HelpKINode Title="GetHashCode method" Url="html/M_PluginFramework_PluginDescriptor_GetHashCode.htm" />
   <HelpKINode Title="GetHashCode method" Url="html/M_PluginFramework_PluginVersion_GetHashCode.htm" />
   <HelpKINode Title="GetHashCode method" Url="html/M_PluginFramework_QualifiedName_GetHashCode.htm" />
+  <HelpKINode Title="GetLog method" Url="html/M_PluginFramework_Logging_ILoggerFactory_GetLog.htm" />
+  <HelpKINode Title="GetLog method" Url="html/M_PluginFramework_Logging_Logger_GetLog.htm" />
   <HelpKINode Title="GreaterThan operator" Url="html/M_PluginFramework_PluginVersion_op_GreaterThan.htm" />
   <HelpKINode Title="GreaterThanOrEqual operator" Url="html/M_PluginFramework_PluginVersion_op_GreaterThanOrEqual.htm" />
   <HelpKINode Title="HasInfo method" Url="html/M_PluginFramework_PluginFilter_HasInfo.htm" />
@@ -199,12 +218,52 @@
   <HelpKINode Title="IFileSystemWatcher.NotifyFilter property" Url="html/P_PluginFramework_IFileSystemWatcher_NotifyFilter.htm" />
   <HelpKINode Title="IFileSystemWatcher.Path property" Url="html/P_PluginFramework_IFileSystemWatcher_Path.htm" />
   <HelpKINode Title="IFileSystemWatcher.Renamed event" Url="html/E_PluginFramework_IFileSystemWatcher_Renamed.htm" />
+  <HelpKINode Title="ILog interface" Url="html/AllMembers_T_PluginFramework_Logging_ILog.htm" />
+  <HelpKINode Title="ILog interface" Url="html/T_PluginFramework_Logging_ILog.htm" />
+  <HelpKINode Title="ILog interface">
+    <HelpKINode Title="about ILog interface" Url="html/T_PluginFramework_Logging_ILog.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_Logging_ILog.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_Logging_ILog.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_Logging_ILog.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILog.Debug method" Url="html/Overload_PluginFramework_Logging_ILog_Debug.htm" />
+  <HelpKINode Title="ILog.Error method" Url="html/Overload_PluginFramework_Logging_ILog_Error.htm" />
+  <HelpKINode Title="ILog.Fatal method" Url="html/Overload_PluginFramework_Logging_ILog_Fatal.htm" />
+  <HelpKINode Title="ILog.Info method" Url="html/Overload_PluginFramework_Logging_ILog_Info.htm" />
+  <HelpKINode Title="ILog.Name property" Url="html/P_PluginFramework_Logging_ILog_Name.htm" />
+  <HelpKINode Title="ILog.Warn method" Url="html/Overload_PluginFramework_Logging_ILog_Warn.htm" />
+  <HelpKINode Title="ILogExtensions class" Url="html/AllMembers_T_PluginFramework_Logging_ILogExtensions.htm" />
+  <HelpKINode Title="ILogExtensions class" Url="html/T_PluginFramework_Logging_ILogExtensions.htm" />
+  <HelpKINode Title="ILogExtensions class">
+    <HelpKINode Title="about ILogExtensions class" Url="html/T_PluginFramework_Logging_ILogExtensions.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_Logging_ILogExtensions.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_Logging_ILogExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILogExtensions.Debug method" Url="html/M_PluginFramework_Logging_ILogExtensions_Debug.htm" />
+  <HelpKINode Title="ILogExtensions.Error method" Url="html/M_PluginFramework_Logging_ILogExtensions_Error.htm" />
+  <HelpKINode Title="ILogExtensions.Fatal method" Url="html/M_PluginFramework_Logging_ILogExtensions_Fatal.htm" />
+  <HelpKINode Title="ILogExtensions.Info method" Url="html/M_PluginFramework_Logging_ILogExtensions_Info.htm" />
+  <HelpKINode Title="ILogExtensions.Warn method" Url="html/M_PluginFramework_Logging_ILogExtensions_Warn.htm" />
+  <HelpKINode Title="ILoggerExtensions class" Url="html/T_PluginFramework_Logging_ILoggerExtensions.htm" />
+  <HelpKINode Title="ILoggerExtensions class">
+    <HelpKINode Title="about ILoggerExtensions class" Url="html/T_PluginFramework_Logging_ILoggerExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILoggerFactory interface" Url="html/AllMembers_T_PluginFramework_Logging_ILoggerFactory.htm" />
+  <HelpKINode Title="ILoggerFactory interface" Url="html/T_PluginFramework_Logging_ILoggerFactory.htm" />
+  <HelpKINode Title="ILoggerFactory interface">
+    <HelpKINode Title="about ILoggerFactory interface" Url="html/T_PluginFramework_Logging_ILoggerFactory.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_Logging_ILoggerFactory.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_Logging_ILoggerFactory.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILoggerFactory.GetLog method" Url="html/M_PluginFramework_Logging_ILoggerFactory_GetLog.htm" />
   <HelpKINode Title="Implements method" Url="html/Overload_PluginFramework_PluginFilter_Implements.htm" />
   <HelpKINode Title="IncludeSubdirectories property" Url="html/P_PluginFramework_FileSystemWatcher_IncludeSubdirectories.htm" />
   <HelpKINode Title="IncludeSubdirectories property" Url="html/P_PluginFramework_IFileSystemWatcher_IncludeSubdirectories.htm" />
   <HelpKINode Title="IncludeSubdirectories property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_IncludeSubdirectories.htm" />
   <HelpKINode Title="Inequality operator" Url="html/M_PluginFramework_PluginVersion_op_Inequality.htm" />
   <HelpKINode Title="Inequality operator" Url="html/M_PluginFramework_QualifiedName_op_Inequality.htm" />
+  <HelpKINode Title="Info method" Url="html/M_PluginFramework_Logging_ILogExtensions_Info.htm" />
+  <HelpKINode Title="Info method" Url="html/Overload_PluginFramework_Logging_ILog_Info.htm" />
   <HelpKINode Title="InfoValues property" Url="html/P_PluginFramework_PluginDescriptor_InfoValues.htm" />
   <HelpKINode Title="Interfaces property" Url="html/P_PluginFramework_PluginDescriptor_Interfaces.htm" />
   <HelpKINode Title="IPluginCreator interface" Url="html/AllMembers_T_PluginFramework_IPluginCreator.htm" />
@@ -222,9 +281,11 @@
     <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_IPluginDirectory.htm" />
     <HelpKINode Title="events" Url="html/Events_T_PluginFramework_IPluginDirectory.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_IPluginDirectory.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_IPluginDirectory.htm" />
   </HelpKINode>
   <HelpKINode Title="IPluginDirectory.FileFound event" Url="html/E_PluginFramework_IPluginDirectory_FileFound.htm" />
   <HelpKINode Title="IPluginDirectory.FileLost event" Url="html/E_PluginFramework_IPluginDirectory_FileLost.htm" />
+  <HelpKINode Title="IPluginDirectory.Path property" Url="html/P_PluginFramework_IPluginDirectory_Path.htm" />
   <HelpKINode Title="IPluginRepository interface" Url="html/AllMembers_T_PluginFramework_IPluginRepository.htm" />
   <HelpKINode Title="IPluginRepository interface" Url="html/T_PluginFramework_IPluginRepository.htm" />
   <HelpKINode Title="IPluginRepository interface">
@@ -244,17 +305,41 @@
   <HelpKINode Title="IPluginSource.PluginRemoved event" Url="html/E_PluginFramework_IPluginSource_PluginRemoved.htm" />
   <HelpKINode Title="IsNamed method" Url="html/M_PluginFramework_PluginFilter_IsNamed.htm" />
   <HelpKINode Title="IsTypeOf method" Url="html/Overload_PluginFramework_PluginFilter_IsTypeOf.htm" />
+  <HelpKINode Title="ITrace interface" Url="html/AllMembers_T_PluginFramework_Logging_ITrace.htm" />
+  <HelpKINode Title="ITrace interface" Url="html/T_PluginFramework_Logging_ITrace.htm" />
+  <HelpKINode Title="ITrace interface">
+    <HelpKINode Title="about ITrace interface" Url="html/T_PluginFramework_Logging_ITrace.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_Logging_ITrace.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_Logging_ITrace.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ITrace.TraceError method" Url="html/M_PluginFramework_Logging_ITrace_TraceError.htm" />
+  <HelpKINode Title="ITrace.TraceInformation method" Url="html/M_PluginFramework_Logging_ITrace_TraceInformation.htm" />
+  <HelpKINode Title="ITrace.TraceWarning method" Url="html/M_PluginFramework_Logging_ITrace_TraceWarning.htm" />
   <HelpKINode Title="Key property" Url="html/P_PluginFramework_PluginInfoAttribute_Key.htm" />
   <HelpKINode Title="LastAccess enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
   <HelpKINode Title="LastWrite enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
   <HelpKINode Title="LessThan operator" Url="html/M_PluginFramework_PluginVersion_op_LessThan.htm" />
   <HelpKINode Title="LessThanOrEqual operator" Url="html/M_PluginFramework_PluginVersion_op_LessThanOrEqual.htm" />
   <HelpKINode Title="LoadAssembly method" Url="html/M_PluginFramework_AssemblyReflectionManager_LoadAssembly.htm" />
+  <HelpKINode Title="Logger class" Url="html/AllMembers_T_PluginFramework_Logging_Logger.htm" />
+  <HelpKINode Title="Logger class" Url="html/T_PluginFramework_Logging_Logger.htm" />
+  <HelpKINode Title="Logger class">
+    <HelpKINode Title="about Logger class" Url="html/T_PluginFramework_Logging_Logger.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PluginFramework_Logging_Logger.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_Logging_Logger.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_Logging_Logger.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Logger.Configure method" Url="html/M_PluginFramework_Logging_Logger_Configure.htm" />
+  <HelpKINode Title="Logger.GetLog method" Url="html/M_PluginFramework_Logging_Logger_GetLog.htm" />
+  <HelpKINode Title="Logger.LoggerFactory property" Url="html/P_PluginFramework_Logging_Logger_LoggerFactory.htm" />
+  <HelpKINode Title="Logger.Singleton property" Url="html/P_PluginFramework_Logging_Logger_Singleton.htm" />
+  <HelpKINode Title="LoggerFactory property" Url="html/P_PluginFramework_Logging_Logger_LoggerFactory.htm" />
   <HelpKINode Title="Major property" Url="html/P_PluginFramework_PluginVersionAttribute_Major.htm" />
   <HelpKINode Title="Major property" Url="html/P_PluginFramework_PluginVersion_Major.htm" />
   <HelpKINode Title="Minor property" Url="html/P_PluginFramework_PluginVersionAttribute_Minor.htm" />
   <HelpKINode Title="Minor property" Url="html/P_PluginFramework_PluginVersion_Minor.htm" />
   <HelpKINode Title="Name property" Url="html/P_PluginFramework_FileSystemEventArgs_Name.htm" />
+  <HelpKINode Title="Name property" Url="html/P_PluginFramework_Logging_ILog_Name.htm" />
   <HelpKINode Title="Name property" Url="html/P_PluginFramework_PluginAttribute_Name.htm" />
   <HelpKINode Title="Name property" Url="html/P_PluginFramework_PluginDescriptor_Name.htm" />
   <HelpKINode Title="Name property" Url="html/P_PluginFramework_PluginSettingAttribute_Name.htm" />
@@ -268,6 +353,8 @@
   <HelpKINode Title="Or method" Url="html/M_PluginFramework_PluginFilter_Or.htm" />
   <HelpKINode Title="Path property" Url="html/P_PluginFramework_FileSystemWatcher_Path.htm" />
   <HelpKINode Title="Path property" Url="html/P_PluginFramework_IFileSystemWatcher_Path.htm" />
+  <HelpKINode Title="Path property" Url="html/P_PluginFramework_IPluginDirectory_Path.htm" />
+  <HelpKINode Title="Path property" Url="html/P_PluginFramework_PluginDirectory_Path.htm" />
   <HelpKINode Title="Path property" Url="html/P_PluginFramework_SafeEventFileSystemWatcher_Path.htm" />
   <HelpKINode Title="Plugin property" Url="html/P_PluginFramework_PluginEventArgs_Plugin.htm" />
   <HelpKINode Title="PluginAdded event" Url="html/E_PluginFramework_IPluginSource_PluginAdded.htm" />
@@ -319,10 +406,12 @@
     <HelpKINode Title="constructor" Url="html/Overload_PluginFramework_PluginDirectory__ctor.htm" />
     <HelpKINode Title="events" Url="html/Events_T_PluginFramework_PluginDirectory.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_PluginFramework_PluginDirectory.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PluginFramework_PluginDirectory.htm" />
   </HelpKINode>
   <HelpKINode Title="PluginDirectory.Dispose method" Url="html/M_PluginFramework_PluginDirectory_Dispose.htm" />
   <HelpKINode Title="PluginDirectory.FileFound event" Url="html/E_PluginFramework_PluginDirectory_FileFound.htm" />
   <HelpKINode Title="PluginDirectory.FileLost event" Url="html/E_PluginFramework_PluginDirectory_FileLost.htm" />
+  <HelpKINode Title="PluginDirectory.Path property" Url="html/P_PluginFramework_PluginDirectory_Path.htm" />
   <HelpKINode Title="PluginDirectory.PluginDirectory constructor" Url="html/Overload_PluginFramework_PluginDirectory__ctor.htm" />
   <HelpKINode Title="PluginDirectoryEventArgs class" Url="html/AllMembers_T_PluginFramework_PluginDirectoryEventArgs.htm" />
   <HelpKINode Title="PluginDirectoryEventArgs class" Url="html/T_PluginFramework_PluginDirectoryEventArgs.htm" />
@@ -417,6 +506,20 @@
   <HelpKINode Title="PluginFramework.IPluginRepository interface" Url="html/T_PluginFramework_IPluginRepository.htm" />
   <HelpKINode Title="PluginFramework.IPluginSource interface" Url="html/AllMembers_T_PluginFramework_IPluginSource.htm" />
   <HelpKINode Title="PluginFramework.IPluginSource interface" Url="html/T_PluginFramework_IPluginSource.htm" />
+  <HelpKINode Title="PluginFramework.Logging namespace" Url="html/N_PluginFramework_Logging.htm" />
+  <HelpKINode Title="PluginFramework.Logging.Configurator class" Url="html/AllMembers_T_PluginFramework_Logging_Configurator.htm" />
+  <HelpKINode Title="PluginFramework.Logging.Configurator class" Url="html/T_PluginFramework_Logging_Configurator.htm" />
+  <HelpKINode Title="PluginFramework.Logging.ILog interface" Url="html/AllMembers_T_PluginFramework_Logging_ILog.htm" />
+  <HelpKINode Title="PluginFramework.Logging.ILog interface" Url="html/T_PluginFramework_Logging_ILog.htm" />
+  <HelpKINode Title="PluginFramework.Logging.ILogExtensions class" Url="html/AllMembers_T_PluginFramework_Logging_ILogExtensions.htm" />
+  <HelpKINode Title="PluginFramework.Logging.ILogExtensions class" Url="html/T_PluginFramework_Logging_ILogExtensions.htm" />
+  <HelpKINode Title="PluginFramework.Logging.ILoggerExtensions class" Url="html/T_PluginFramework_Logging_ILoggerExtensions.htm" />
+  <HelpKINode Title="PluginFramework.Logging.ILoggerFactory interface" Url="html/AllMembers_T_PluginFramework_Logging_ILoggerFactory.htm" />
+  <HelpKINode Title="PluginFramework.Logging.ILoggerFactory interface" Url="html/T_PluginFramework_Logging_ILoggerFactory.htm" />
+  <HelpKINode Title="PluginFramework.Logging.ITrace interface" Url="html/AllMembers_T_PluginFramework_Logging_ITrace.htm" />
+  <HelpKINode Title="PluginFramework.Logging.ITrace interface" Url="html/T_PluginFramework_Logging_ITrace.htm" />
+  <HelpKINode Title="PluginFramework.Logging.Logger class" Url="html/AllMembers_T_PluginFramework_Logging_Logger.htm" />
+  <HelpKINode Title="PluginFramework.Logging.Logger class" Url="html/T_PluginFramework_Logging_Logger.htm" />
   <HelpKINode Title="PluginFramework.NotifyFilters enumeration" Url="html/T_PluginFramework_NotifyFilters.htm" />
   <HelpKINode Title="PluginFramework.PluginAttribute class" Url="html/AllMembers_T_PluginFramework_PluginAttribute.htm" />
   <HelpKINode Title="PluginFramework.PluginAttribute class" Url="html/T_PluginFramework_PluginAttribute.htm" />
@@ -626,14 +729,21 @@
   <HelpKINode Title="Security enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
   <HelpKINode Title="Settings property" Url="html/P_PluginFramework_PluginDescriptor_Settings.htm" />
   <HelpKINode Title="SettingType property" Url="html/P_PluginFramework_PluginSettingDescriptor_SettingType.htm" />
+  <HelpKINode Title="Singleton property" Url="html/P_PluginFramework_Logging_Logger_Singleton.htm" />
   <HelpKINode Title="Size enumeration member" Url="html/T_PluginFramework_NotifyFilters.htm" />
   <HelpKINode Title="ToString method" Url="html/M_PluginFramework_PluginFilter_ToString.htm" />
   <HelpKINode Title="ToString method" Url="html/M_PluginFramework_PluginSettingDescriptor_ToString.htm" />
   <HelpKINode Title="ToString method" Url="html/M_PluginFramework_PluginVersion_ToString.htm" />
   <HelpKINode Title="ToString method" Url="html/M_PluginFramework_QualifiedName_ToString.htm" />
+  <HelpKINode Title="TraceError method" Url="html/M_PluginFramework_Logging_ITrace_TraceError.htm" />
+  <HelpKINode Title="TraceInformation method" Url="html/M_PluginFramework_Logging_ITrace_TraceInformation.htm" />
+  <HelpKINode Title="TraceWarning method" Url="html/M_PluginFramework_Logging_ITrace_TraceWarning.htm" />
   <HelpKINode Title="Type to QualifiedName conversion" Url="html/M_PluginFramework_QualifiedName_op_Implicit_1.htm" />
   <HelpKINode Title="TypeFullName property" Url="html/P_PluginFramework_QualifiedName_TypeFullName.htm" />
+  <HelpKINode Title="UseTraceLogger method" Url="html/M_PluginFramework_Logging_Configurator_UseTraceLogger.htm" />
   <HelpKINode Title="Value property" Url="html/P_PluginFramework_PluginInfoAttribute_Value.htm" />
   <HelpKINode Title="Version property" Url="html/P_PluginFramework_PluginDescriptor_Version.htm" />
+  <HelpKINode Title="Warn method" Url="html/M_PluginFramework_Logging_ILogExtensions_Warn.htm" />
+  <HelpKINode Title="Warn method" Url="html/Overload_PluginFramework_Logging_ILog_Warn.htm" />
   <HelpKINode Title="WatcherChangeTypes enumeration" Url="html/T_PluginFramework_WatcherChangeTypes.htm" />
 </HelpKI>

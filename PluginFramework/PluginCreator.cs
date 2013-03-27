@@ -1,4 +1,5 @@
-﻿// 
+﻿using PluginFramework.Logging;
+// 
 // Copyright (c) 2013, Erik Rydgren, et al. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -24,26 +25,39 @@ namespace PluginFramework
   using System.Linq;
   using System.Reflection;
   using System.Security.Permissions;
+  using PluginFramework.Logging;
+  using System.Security;
 
   /// <summary>
   /// Implementation of <see cref="IPluginCreator"/>.
   /// </summary>
-  public class PluginCreator : MarshalByRefObject, IPluginCreator
+  public class PluginCreator : MarshalByRefObject, IPluginCreator, ILogWriter
   {
-    const string IDKEY = "PluginFramework.PluginCreator";
+    const string PLUGINCREATORKEY = "PluginFramework.PluginCreator";
+    const string LOGGERFACTORYKEY = "PluginFramework.ILoggerFactory";
+
+    ILog log;
+    ILog ILogWriter.Log
+    {
+      get { return log; }
+      set { log = value; }
+    }
 
     /// <summary>
     /// External creation of instances not allowed. Use GetCreator to fetch a creator instance
     /// </summary>
     private PluginCreator()
     {
+      this.InitLog();
+      this.log.Info(Resources.CreatedInsideAppDomain, AppDomain.CurrentDomain.FriendlyName);
     }
 
     /// <summary>
     /// Fetches or Creates a IPluginCreator located inside the current <see cref="AppDomain"/>.
     /// </summary>
     /// <returns>A IPluginCreator instance running inside target <see cref="AppDomain"/></returns>
-    /// <exception cref="PluginException"/>
+    /// <exception cref="PluginException"/>    
+    [SecurityPermissionAttribute(SecurityAction.LinkDemand, ControlAppDomain = true)]
     public static IPluginCreator GetCreator()
     {
       return GetCreator(AppDomain.CurrentDomain);
@@ -56,16 +70,32 @@ namespace PluginFramework
     /// <returns>A IPluginCreator instance running inside target <see cref="AppDomain"/></returns>
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="PluginException"/>
+    [SecurityPermissionAttribute(SecurityAction.LinkDemand, ControlAppDomain = true)]
     public static IPluginCreator GetCreator(AppDomain domain)
+    {
+      return GetCreator(domain, Logger.Singleton.LoggerFactory);
+    }
+
+    [SecurityPermissionAttribute(SecurityAction.LinkDemand, ControlAppDomain = true)]
+    internal static IPluginCreator GetCreator(AppDomain domain, ILoggerFactory logfactory)
     {
       if (domain == null)
         throw new ArgumentNullException("domain");
 
-      IPluginCreator creator = domain.GetData(IDKEY) as IPluginCreator;
+      if (logfactory == null)
+        throw new ArgumentNullException("logfactory");
+
+      IPluginCreator creator = domain.GetData(PLUGINCREATORKEY) as IPluginCreator;
       if (creator == null)
       {
-        domain.DoCallBack(() => AppDomain.CurrentDomain.SetData(IDKEY, new PluginCreator()));
-        creator = domain.GetData(IDKEY) as IPluginCreator;
+        domain.SetData(LOGGERFACTORYKEY, new ProxyLoggerFactory(logfactory));
+        domain.DoCallBack(() =>
+        {
+          Logger.Singleton.LoggerFactory = AppDomain.CurrentDomain.GetData(LOGGERFACTORYKEY) as ILoggerFactory;
+          AppDomain.CurrentDomain.SetData(PLUGINCREATORKEY, new PluginCreator());
+        });
+        domain.SetData(LOGGERFACTORYKEY, null);
+        creator = domain.GetData(PLUGINCREATORKEY) as IPluginCreator;
       }
       return creator;
     }
@@ -108,14 +138,18 @@ namespace PluginFramework
 
         ApplySettings(plugin, settings);
 
+        this.log.Info(Resources.CreatedPlugin, plugin.GetType().FullName);
+
         return plugin;
       }
-      catch (PluginException)
+      catch (PluginException ex)
       {
+        this.log.Error(ex.Message);
         throw;
       }
       catch (Exception ex)
       {
+        this.log.Error(ex.Message);
         throw new PluginException(ex.Message, ex);
       }
     }
@@ -147,7 +181,7 @@ namespace PluginFramework
           settings.TryGetValue(name, out setting);
 
         if (setting == null && pluginSetting.Required)
-          throw new PluginSettingException("Required setting {0} not supplied while creating {1}", name, instance.GetType().AssemblyQualifiedName);
+          throw new PluginSettingException(Resources.RequiredSettingNotSuppliedOnCreate, name, instance.GetType().AssemblyQualifiedName);
 
         if (setting != null)
         {

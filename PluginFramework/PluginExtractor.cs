@@ -22,13 +22,21 @@ namespace PluginFramework
   using System.Collections.Generic;
   using System.Linq;
   using System.Reflection;
+  using PluginFramework.Logging;
 
   /// <summary>
   /// Utility class for extracting plugins from assemblies provided from an IAssemblySource and exposing them through IPluginSource events
   /// </summary>
-  public class PluginExtractor : IPluginSource
+  public class PluginExtractor : IPluginSource, ILogWriter
   {
     Dictionary<string, PluginDescriptor[]> assemblyPlugins;
+
+    ILog log;
+    ILog ILogWriter.Log
+    {
+      get { return this.log; }
+      set { this.log = value; }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PluginExtractor"/> class.
@@ -40,6 +48,7 @@ namespace PluginFramework
       if (assemblySource == null)
         throw new ArgumentNullException("assemblySource");
 
+      this.InitLog();
       this.assemblyPlugins = new Dictionary<string, PluginDescriptor[]>();
       assemblySource.AssemblyAdded += new EventHandler<AssemblyAddedEventArgs>(OnAssemblyAdded);
       assemblySource.AssemblyRemoved += new EventHandler<AssemblyRemovedEventArgs>(OnAssemblyRemoved);
@@ -71,13 +80,11 @@ namespace PluginFramework
 
     private void AddPlugins(string assemblyId, PluginDescriptor[] plugins)
     {
-      if (plugins.Length > 0)
-      {
-        this.assemblyPlugins.Add(assemblyId, plugins);
-        if (this.PluginAdded != null)
-          foreach (var plugin in plugins)
-            this.PluginAdded(this, new PluginEventArgs(plugin));
-      }
+      this.log.Info(Resources.FoundCountPluginsIn, plugins.Length, assemblyId);
+      this.assemblyPlugins.Add(assemblyId, plugins);
+      if (this.PluginAdded != null)
+        foreach (var plugin in plugins)
+          this.PluginAdded(this, new PluginEventArgs(plugin));
     }
 
     private void RemovePlugins(string assemblyId)
@@ -85,6 +92,7 @@ namespace PluginFramework
       PluginDescriptor[] lostPlugins;
       if (this.assemblyPlugins.TryGetValue(assemblyId, out lostPlugins))
       {
+        this.log.Info(Resources.LostCountPluginsWhenAssemblyRemoved, lostPlugins.Length, assemblyId);
         if (this.PluginRemoved != null)
           foreach (var plugin in lostPlugins)
             this.PluginRemoved(this, new PluginEventArgs(plugin));

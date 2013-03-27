@@ -3,6 +3,10 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PluginFramework.Tests.Mocks;
+using PluginFramework.Logging;
+using Moq;
+using System.Text.RegularExpressions;
 
 namespace PluginFramework.Tests
 {
@@ -93,9 +97,10 @@ namespace PluginFramework.Tests
         mockSource.RaiseAssemblyAdded(new AssemblyAddedEventArgs(assemblyPath, manager));
       }
 
+      var expected = typeof(MockPlugin1).FullName;
       PluginDescriptor plugin = plugins.First(x => x.QualifiedName == typeof(MockPlugin1));
-      
-      Assert.AreEqual("PluginFramework.Tests.MockPlugin1", plugin.Name);
+
+      Assert.AreEqual(expected, plugin.Name);
     }
 
     [TestMethod]
@@ -214,6 +219,56 @@ namespace PluginFramework.Tests
       Assert.IsTrue(plugin.Settings.Any(x => x.Name == "Setting" && x.SettingType == typeof(int)));
       Assert.IsTrue(plugin.Settings.Any(x => x.Name == "AnotherSetting" && x.SettingType == typeof(string)));
     }
+    #endregion
+
+    #region Logging
+    [TestMethod]
+    public void ShouldImplementILogWriter()
+    {
+      PluginExtractor tested = new PluginExtractor(new Mock<IAssemblySource>().Object);
+      Assert.IsInstanceOfType(tested, typeof(ILogWriter));
+    }
+
+    [TestMethod]
+    public void ConstructorShouldInitLog()
+    {
+      ILogWriter tested = new PluginExtractor(new Mock<IAssemblySource>().Object);
+      Assert.IsNotNull(tested.Log);
+    }
+
+    [TestMethod]
+    public void ShouldLogToInfoNumberOfAddedPluginsForAssembly()
+    {
+      var path = GetType().Assembly.Location;
+      var pattern = new Regex(@"^Found \d+ plugins in .+$");
+      var mockAssemblySource = new Mock<IAssemblySource>();
+      PluginExtractor tested = new PluginExtractor(mockAssemblySource.Object);
+      MockLog log = new MockLog(tested);
+      using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
+      {
+        manager.LoadAssembly(path);
+        mockAssemblySource.Raise(x => x.AssemblyAdded += null, new AssemblyAddedEventArgs(path, manager));
+      }
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Info && pattern.IsMatch(x.Message) && x.Message.Contains(path)));
+    }
+
+    [TestMethod]
+    public void ShouldLogToInfoNumberOfLostPluginsForAssembly()
+    {
+      var path = GetType().Assembly.Location;
+      var pattern = new Regex(@"^Lost \d+ plugins when .+ was removed$");
+      var mockAssemblySource = new Mock<IAssemblySource>();
+      PluginExtractor tested = new PluginExtractor(mockAssemblySource.Object);
+      MockLog log = new MockLog(tested);
+      using (AssemblyReflectionManager manager = new AssemblyReflectionManager())
+      {
+        manager.LoadAssembly(path);
+        mockAssemblySource.Raise(x => x.AssemblyAdded += null, new AssemblyAddedEventArgs(path, manager));
+        mockAssemblySource.Raise(x => x.AssemblyRemoved += null, new AssemblyRemovedEventArgs(path));
+      }
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Info && pattern.IsMatch(x.Message) && x.Message.Contains(path)));
+    }
+
     #endregion
   }
 }

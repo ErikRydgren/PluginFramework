@@ -127,6 +127,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\PluginFramework.Logging.NLogIntegration\PluginFramework.Logging.NLogIntegration.csproj">
+      <Project>{E1B1EA17-F623-456F-9137-C98432AE24AA}</Project>
+      <Name>PluginFramework.Logging.NLogIntegration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{57E8F3CE-A82F-4C91-B24D-8066A4FFBBD0}</Project>
       <Name>Common</Name>

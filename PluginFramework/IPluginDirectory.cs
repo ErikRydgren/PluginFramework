@@ -54,6 +54,14 @@ namespace PluginFramework
   public interface IPluginDirectory : IDisposable
   {
     /// <summary>
+    /// Gets the path to the watched directory.
+    /// </summary>
+    /// <value>
+    /// The path.
+    /// </value>
+    string Path { get; }
+
+    /// <summary>
     /// Occurs when a assembly file is found.
     /// </summary>
     event EventHandler<PluginDirectoryEventArgs> FileFound;

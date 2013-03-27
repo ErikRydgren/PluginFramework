@@ -14,6 +14,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -47,20 +52,33 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MockAssemblySource.cs" />
+    <Compile Include="Logging\UnitTest_Configurator.cs" />
+    <Compile Include="Logging\UnitTest_ILog.cs" />
+    <Compile Include="Logging\UnitTest_ILogger.cs" />
+    <Compile Include="Logging\UnitTest_IWriteToLog.cs" />
+    <Compile Include="Logging\UnitTest_ProxyLog.cs" />
+    <Compile Include="Logging\UnitTest_ProxyLoggerFactory.cs" />
+    <Compile Include="Logging\UnitTest_TraceWrapper.cs" />
+    <Compile Include="Mocks\MockAssemblySource.cs" />
+    <Compile Include="Mocks\MockILogger.cs" />
+    <Compile Include="Mocks\MockILogWriter.cs" />
+    <Compile Include="Mocks\MockLog.cs" />
     <Compile Include="UnitTest_AssemblyReflectionManager.cs" />
+    <Compile Include="Logging\UnitTest_TraceLogger.cs" />
+    <Compile Include="Logging\UnitTest_TraceLoggerFactory.cs" />
+    <Compile Include="Logging\UnitTest_Logger.cs" />
     <Compile Include="UnitTest_PluginExtractor.cs" />
     <Compile Include="UnitTest_FileSystemWatcher.cs" />
     <Compile Include="UnitTest_PluginSettingException.cs" />
     <Compile Include="DoAssert.cs" />
     <Compile Include="FileExtension.cs" />
-    <Compile Include="MockAssemblyRepository.cs" />
-    <Compile Include="MockDomain.cs" />
-    <Compile Include="MockFileSystemWatcher.cs" />
-    <Compile Include="MockPluginDescriptor.cs" />
-    <Compile Include="MockPluginDirectory.cs" />
-    <Compile Include="MockPlugins.cs" />
-    <Compile Include="MockPluginSource.cs" />
+    <Compile Include="Mocks\MockAssemblyRepository.cs" />
+    <Compile Include="Mocks\MockDomain.cs" />
+    <Compile Include="Mocks\MockFileSystemWatcher.cs" />
+    <Compile Include="Mocks\MockPluginDescriptor.cs" />
+    <Compile Include="Mocks\MockPluginDirectory.cs" />
+    <Compile Include="Mocks\MockPlugins.cs" />
+    <Compile Include="Mocks\MockPluginSource.cs" />
     <Compile Include="UnitTest_AssemblyContainer.cs" />
     <Compile Include="UnitTest_PluginCreator.cs" />
     <Compile Include="UnitTest_PluginDescriptor.cs" />
@@ -83,7 +101,11 @@
       <Name>PluginFramework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

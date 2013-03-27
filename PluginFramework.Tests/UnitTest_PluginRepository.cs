@@ -3,6 +3,9 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PluginFramework.Tests.Mocks;
+using PluginFramework.Logging;
+using Moq;
 
 namespace PluginFramework.Tests
 {
@@ -150,6 +153,84 @@ namespace PluginFramework.Tests
       Assert.AreEqual(1, foundPlugins.Count());
       Assert.AreSame(plugin1, foundPlugins.First());
     }
+    #endregion
+
+    #region Logging
+    [TestMethod]
+    public void ImplementsILogWriter()
+    {
+      PluginRepository tested = new PluginRepository();
+      Assert.IsInstanceOfType(tested, typeof(ILogWriter));
+    }
+
+    [TestMethod]
+    public void ConstructorShouldInitLog()
+    {
+      ILogWriter tested = new PluginRepository();
+      Assert.IsNotNull(tested.Log);
+    }
+
+    [TestMethod]
+    public void ShouldLogAsInfoOnPluginAdded()
+    {
+      var mockPluginSource = new Mock<IPluginSource>();
+      PluginRepository tested = new PluginRepository();
+      tested.AddPluginSource(mockPluginSource.Object);
+      MockLog log = new MockLog(tested);
+      mockPluginSource.Raise(x => x.PluginAdded += null, new PluginEventArgs(MockPluginDescriptor.For<MockPlugin1>()));
+      Assert.IsTrue(
+        log.Any(
+          x => x.Level == MockLog.Level.Info && 
+          x.Message.Contains("Added") && 
+          x.Message.Contains(typeof(MockPlugin1).FullName)));
+    }
+
+    [TestMethod]
+    public void ShouldLogAsInfoOnPluginRemoved()
+    {
+      var mockPluginSource = new Mock<IPluginSource>();
+      PluginRepository tested = new PluginRepository();
+      tested.AddPluginSource(mockPluginSource.Object);
+      MockLog log = new MockLog(tested);
+      mockPluginSource.Raise(x => x.PluginRemoved += null, new PluginEventArgs(MockPluginDescriptor.For<MockPlugin1>()));
+      Assert.IsTrue(
+        log.Any(
+          x => x.Level == MockLog.Level.Info &&
+          x.Message.Contains("Removed") &&
+          x.Message.Contains(typeof(MockPlugin1).FullName)));
+    }
+
+    [TestMethod]
+    public void ShouldLogAsDebugWhenPluginSourceIsAdded()
+    {
+      PluginRepository tested = new PluginRepository();
+      MockLog log = new MockLog(tested);
+      var pluginSource = new Mock<IPluginSource>().Object;
+      tested.AddPluginSource(pluginSource);
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Debug && x.Message.Contains("added") && x.Message.Contains(pluginSource.GetType().FullName)));
+    }
+
+    [TestMethod]
+    public void ShouldLogAsDebugWhenPluginSourceIsRemoved()
+    {
+      PluginRepository tested = new PluginRepository();
+      MockLog log = new MockLog(tested);
+      var pluginSource = new Mock<IPluginSource>().Object;
+      tested.AddPluginSource(pluginSource);
+      tested.RemovePluginSource(pluginSource);
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Debug && x.Message.Contains("removed") && x.Message.Contains(pluginSource.GetType().FullName)));
+    }
+
+    [TestMethod]
+    public void ShouldLogToDebugOnPluginQuery()
+    {
+      PluginRepository tested = new PluginRepository();
+      MockLog log = new MockLog(tested);
+      PluginFilter filter = PluginFilter.Create.IsNamed("plugin name").Implements(typeof(IMockPluginInterface1));
+      tested.Plugins(filter);
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Debug && x.Message.Contains("Returning plugins for") && x.Message.Contains(filter.ToString())));
+    }
+
     #endregion
   }
 }

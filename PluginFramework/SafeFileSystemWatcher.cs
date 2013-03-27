@@ -27,37 +27,26 @@ namespace PluginFramework
   using System.Xml;
   using System.Xml.Linq;
   using System.Security.Permissions;
+  using PluginFramework.Logging;
+  using System.Globalization;
 
   /// <summary>
   /// A <see cref="IFileSystemWatcher"/> that delays events until the event file is readable.
   /// It also aggregates events so only relevant events get raised.
   /// </summary>
-  public sealed class SafeEventFileSystemWatcher : IFileSystemWatcher
+  public sealed class SafeEventFileSystemWatcher : IFileSystemWatcher, ILogWriter
   {
-    internal enum WatcherEventType
-    {
-      Created,
-      Changed,
-      Deleted,
-      Renamed,
-    };
-
-    internal class WatcherEvent
-    {
-      public WatcherEvent(WatcherEventType eventType, FileSystemEventArgs args)
-      {
-        this.Event = eventType;
-        this.Args = args;
-      }
-
-      public WatcherEventType Event { get; internal set; }
-      public FileSystemEventArgs Args { get; internal set; }
-    }
-
     IFileSystemWatcher watcher = null;
-    Dictionary<string, List<WatcherEvent>> fileEvents = new Dictionary<string, List<WatcherEvent>>();
+    Dictionary<string, List<FileSystemEventArgs>> fileEvents = new Dictionary<string, List<FileSystemEventArgs>>();
     AutoResetEvent gotEvent = new AutoResetEvent(false);
     Thread eventProcessor = null;
+    ILog log;
+
+    ILog ILogWriter.Log
+    {
+      get { return this.log; }
+      set { this.log = value; }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SafeEventFileSystemWatcher"/> class.
@@ -68,6 +57,7 @@ namespace PluginFramework
       if (watcher == null)
         throw new ArgumentNullException("watcher");
 
+      this.InitLog();
       this.watcher = watcher;
       this.Initialize();
     }
@@ -150,10 +140,10 @@ namespace PluginFramework
       this.eventProcessor = new Thread(ProcessEvents);
       this.eventProcessor.Start();
 
-      watcher.Created += watcher_Created;
-      watcher.Changed += watcher_Changed;
-      watcher.Deleted += watcher_Deleted;
-      watcher.Renamed += watcher_Renamed;
+      watcher.Created += QueueEvent;
+      watcher.Changed += QueueEvent;
+      watcher.Deleted += QueueEvent;
+      watcher.Renamed += QueueEvent;
     }
 
     /// <summary>
@@ -185,9 +175,9 @@ namespace PluginFramework
       {
         gotEvent.WaitOne(250, false);
 
-        List<WatcherEvent>[] eventsToProcess = GetEventsToProcess();
+        List<FileSystemEventArgs>[] eventsToProcess = GetEventsToProcess();
 
-        foreach (List<WatcherEvent> events in eventsToProcess)
+        foreach (List<FileSystemEventArgs> events in eventsToProcess)
         {
           Compact(events);
           foreach (var evt in events)
@@ -196,59 +186,71 @@ namespace PluginFramework
       }
     }
 
-    internal void RaiseEvent(WatcherEvent fileEvent)
+    internal void RaiseEvent(FileSystemEventArgs fileEvent)
     {
       if (fileEvent == null)
         throw new ArgumentNullException("fileEvent");
 
-      switch (fileEvent.Event)
+      this.log.Debug(Resources.RaisingEventFor, fileEvent.ChangeType, fileEvent.FullPath);
+
+      switch (fileEvent.ChangeType)
       {
-        case WatcherEventType.Created:
+        case WatcherChangeTypes.Created:
           {
             if (this.Created != null)
-              this.Created(this, fileEvent.Args);
+              this.Created(this, fileEvent);
           }
           break;
 
-        case WatcherEventType.Changed:
+        case WatcherChangeTypes.Changed:
           {
             if (this.Changed != null)
-              this.Changed(this, fileEvent.Args);
+              this.Changed(this, fileEvent);
           }
           break;
 
-        case WatcherEventType.Deleted:
+        case WatcherChangeTypes.Deleted:
           {
             if (this.Deleted != null)
-              this.Deleted(this, fileEvent.Args);
+              this.Deleted(this, fileEvent);
           }
           break;
 
-        case WatcherEventType.Renamed:
+        case WatcherChangeTypes.Renamed:
           {
             if (this.Renamed != null)
-              this.Renamed(this, fileEvent.Args as RenamedEventArgs);
+              this.Renamed(this, fileEvent as RenamedEventArgs);
           }
           break;
 
         default:
-          throw new ArgumentException("Unknown WatcherEventType " + fileEvent.Event.ToString());
+          {
+            throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.UnknownEventType, fileEvent.ChangeType));
+          }          
       }
     }
 
-    private List<WatcherEvent>[] GetEventsToProcess()
+    private List<FileSystemEventArgs>[] GetEventsToProcess()
     {
       lock (fileEvents)
       {
         var filesToProcess = fileEvents.Where(x =>
         {
           if (!File.Exists(x.Key))
-            if (x.Value.Any(e => e.Event == WatcherEventType.Deleted))
+            if (x.Value.Any(e => e.ChangeType == WatcherChangeTypes.Deleted))
               return true;
             else
+            {
+              this.log.Debug(Resources.FileNotExistAwaitingDeleteEvent, x.Key);
               return false;
+            }
 
-          return IsReadable(x.Key);
+          bool readable = IsReadable(x.Key);
+
+          if (!readable)
+            this.log.Debug(Resources.FileLocked, x.Key);
+
+          return readable;
         }).ToArray();
 
         foreach (var item in filesToProcess)
@@ -258,96 +260,44 @@ namespace PluginFramework
       }
     }
 
-    private static void Compact(List<WatcherEvent> events)
+    internal void Compact(List<FileSystemEventArgs> events)
     {
-      bool gotCreated = events.Any(x => x.Event == WatcherEventType.Created);
-      bool gotDeleted = events.Any(x => x.Event == WatcherEventType.Deleted);
+      bool gotCreated = events.Any(x => x.ChangeType == WatcherChangeTypes.Created);
+      bool gotDeleted = events.Any(x => x.ChangeType == WatcherChangeTypes.Deleted);
 
       if (gotCreated && gotDeleted)
       {
+        this.log.Debug(Resources.GotDeleteBeforeEmitCreatedIgnoringFile, events.First().FullPath);
         events.Clear();
         return;
       }
 
       if (gotCreated)
       {
-        events.RemoveAll(x => x.Event == WatcherEventType.Changed);
+        events.RemoveAll(x => x.ChangeType == WatcherChangeTypes.Changed);
         return;
       }
 
-      var redundantChanged = events.Where(x => x.Event == WatcherEventType.Changed).Where((x, i) => i > 0).ToArray();
+      var redundantChanged = events.Where(x => x.ChangeType == WatcherChangeTypes.Changed).Where((x, i) => i > 0).ToArray();
       foreach (var evt in redundantChanged)
         events.Remove(evt);
     }
 
     /// <summary>
-    /// Handles the Created event of the watcher control.
+    /// Queues an event for a file.
     /// </summary>
-    /// <param name="sender">The source of the event.</param>
+    /// <param name="sender">The sender.</param>
     /// <param name="e">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
-    private void watcher_Created(object sender, FileSystemEventArgs e)
+    internal void QueueEvent(object sender, FileSystemEventArgs e)
     {
+      this.log.Debug(Resources.QueueingEventForFile, e.ChangeType, e.FullPath);
       lock (this.fileEvents)
       {
-        List<WatcherEvent> events;
+        List<FileSystemEventArgs> events;
         if (!fileEvents.TryGetValue(e.FullPath, out events))
-          fileEvents.Add(e.FullPath, events = new List<WatcherEvent>());
+          fileEvents.Add(e.FullPath, events = new List<FileSystemEventArgs>());
 
-        events.Add(new WatcherEvent(WatcherEventType.Created, e));
-        this.gotEvent.Set();
-      }
-    }
-
-    /// <summary>
-    /// Handles the Changed event of the watcher control.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
-    private void watcher_Changed(object sender, FileSystemEventArgs e)
-    {
-      lock (this.fileEvents)
-      {
-        List<WatcherEvent> events;
-        if (!fileEvents.TryGetValue(e.FullPath, out events))
-          fileEvents.Add(e.FullPath, events = new List<WatcherEvent>());
-
-        events.Add(new WatcherEvent(WatcherEventType.Changed, e));
-        this.gotEvent.Set();
-      }
-    }
-
-    /// <summary>
-    /// Handles the Deleted event of the watcher control.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
-    private void watcher_Deleted(object sender, FileSystemEventArgs e)
-    {
-      lock (this.fileEvents)
-      {
-        List<WatcherEvent> events;
-        if (!fileEvents.TryGetValue(e.FullPath, out events))
-          fileEvents.Add(e.FullPath, events = new List<WatcherEvent>());
-
-        events.Add(new WatcherEvent(WatcherEventType.Deleted, e));
-        this.gotEvent.Set();
-      }
-    }
-
-    /// <summary>
-    /// Handles the Renamed event of the watcher control.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="RenamedEventArgs"/> instance containing the event data.</param>
-    private void watcher_Renamed(object sender, RenamedEventArgs e)
-    {
-      lock (this.fileEvents)
-      {
-        List<WatcherEvent> events;
-        if (!fileEvents.TryGetValue(e.FullPath, out events))
-          fileEvents.Add(e.FullPath, events = new List<WatcherEvent>());
-
-        events.Add(new WatcherEvent(WatcherEventType.Renamed, e));
+        events.Add(e);
         this.gotEvent.Set();
       }
     }

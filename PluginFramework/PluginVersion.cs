@@ -76,7 +76,7 @@ namespace PluginFramework
       }
       catch (FormatException)
       {
-        throw new ArgumentException("The version string must be on format intMajor.intMinor");
+        throw new ArgumentException(Resources.VersionStringFormatError);
       }
     }
 

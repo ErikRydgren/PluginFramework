@@ -117,7 +117,7 @@ namespace PluginFramework
     internal static PluginFilter Combine(FilterOperation op, PluginFilter left, PluginFilter right)
     {
       if (op != FilterOperation.And && op != FilterOperation.Or)
-        throw new ArgumentException("op must be And or Or");
+        throw new ArgumentException(Resources.OpMustBeAndOrOr);
 
       if (left == null)
         throw new ArgumentNullException("left");

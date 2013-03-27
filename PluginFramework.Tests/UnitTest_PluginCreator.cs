@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using Moq;
+using PluginFramework.Logging;
+using PluginFramework.Tests.Mocks;
 
 namespace PluginFramework.Tests
 {
@@ -118,7 +121,7 @@ namespace PluginFramework.Tests
         Assert.IsNotNull(ex.InnerException);
         Assert.IsInstanceOfType(ex.InnerException, typeof(FileNotFoundException));
       }
-    }
+    } 
 
     [TestMethod]
     public void CreateShouldThrowIfMissingRequiredSettings()
@@ -160,6 +163,86 @@ namespace PluginFramework.Tests
 
       DoAssert.Throws<PluginSettingException>(() => tested.Create(descriptor, repository, settings));
     }
+    #endregion
+
+    #region Logging
+    [TestMethod]
+    public void ShouldSetALogger()
+    {
+      IPluginCreator tested = PluginCreator.GetCreator();
+      ILogWriter logwriter = tested as ILogWriter;
+      Assert.IsNotNull(logwriter.Log);
+    }
+
+    [TestMethod]
+    public void InternalGetCreatorRequiresDomain()
+    {
+      DoAssert.Throws<ArgumentNullException>(() => PluginCreator.GetCreator(null, Logger.Singleton.LoggerFactory));
+    }
+
+    [TestMethod]
+    public void InternalGetCreatorRequiresILoggerFactory()
+    {
+      DoAssert.Throws<ArgumentNullException>(() => PluginCreator.GetCreator(AppDomain.CurrentDomain, null));
+    }
+
+    [TestMethod]
+    public void CreateShouldLogCatchedExceptionAsError()
+    {
+      using (MockDomain domain = new MockDomain())
+      {
+        MockAssemblyRepository repository = new MockAssemblyRepository();
+        QualifiedName fakeName = new QualifiedName(
+          typeof(string).FullName.Replace("mscorlib", "NonExistingAssemblyName"),
+          typeof(string).Assembly.FullName.Replace("mscorlib", "NonExistingAssemblyName"));
+
+        IPluginCreator tested = PluginCreator.GetCreator(domain);
+        MockLog mocklog = new MockLog((ILogWriter)tested);
+        PluginDescriptor descriptor = MockPluginDescriptor.For(fakeName);
+        Exception ex = DoAssert.Throws<PluginException>(() => tested.Create(descriptor, repository, null));
+        Assert.IsTrue(mocklog.Any(x => x.Level == MockLog.Level.Error && x.Message.Contains(ex.Message)));
+      }
+    }
+
+    [TestMethod]
+    public void CreateShouldLogCatchedPluginExceptionAsError()
+    {
+      MockAssemblyRepository repository = new MockAssemblyRepository();
+      IPluginCreator tested = PluginCreator.GetCreator();
+      MockLog mocklog = new MockLog((ILogWriter)tested);
+      PluginDescriptor descriptor = MockPluginDescriptor.For<MockPlugin2>();
+      Exception ex = DoAssert.Throws<PluginSettingException>(() => tested.Create(descriptor, repository, null));
+      Assert.IsTrue(mocklog.Any(x => x.Level == MockLog.Level.Error && x.Message.Contains(ex.Message)));
+    }
+
+    [TestMethod]
+    public void ShouldLogInfoEventWithDomainNameOnNewPluginCreator()
+    {
+      using (MockDomain domain = new MockDomain())
+      {
+        MockAssemblyRepository repository = new MockAssemblyRepository();
+        MockLog mocklog = new MockLog(typeof(PluginCreator));
+        var mockLogFactory = new Mock<ILoggerFactory>();
+        mockLogFactory.Setup(x => x.GetLog(typeof(PluginCreator).FullName)).Returns(mocklog);
+        PluginCreator.GetCreator(domain, mockLogFactory.Object);
+        Assert.IsTrue(mocklog.Any(x => x.Level == MockLog.Level.Info && x.Message.Contains(domain.Domain.FriendlyName)));        
+      }      
+    }
+
+    [TestMethod]
+    public void ShouldLogInfoMessageWhenPluginIsCreated()
+    {
+      using (MockDomain domain = new MockDomain())
+      {
+        MockAssemblyRepository repository = new MockAssemblyRepository();
+        var creator = PluginCreator.GetCreator(domain);
+        MockLog mocklog = new MockLog(creator as ILogWriter);
+        var descriptor = MockPluginDescriptor.For<MockPlugin1>();
+        creator.Create(descriptor, repository, null);
+        Assert.IsTrue(mocklog.Any(x => x.Level == MockLog.Level.Info && x.Message.Contains(typeof(MockPlugin1).FullName)));
+      }      
+    }
+
     #endregion
   }
 }

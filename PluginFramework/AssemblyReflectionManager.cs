@@ -82,7 +82,7 @@ namespace PluginFramework
 
       AssemblyReflectionProxy proxy;
       if (!this.proxies.TryGetValue(assemblyPath, out proxy))
-        throw new ArgumentException("Unknown assembly");
+        throw new ArgumentException(Resources.UnknownAssembly);
     
       return proxy.Reflect(func);
     }

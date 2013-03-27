@@ -26,6 +26,7 @@ namespace PluginFramework.Examples.ClientServer
   using Castle.MicroKernel.Registration;
   using Castle.Windsor;
   using PluginFramework.Examples.TestPlugin;
+  using PluginFramework.Logging;
 
   class Client
   {
@@ -124,6 +125,7 @@ namespace PluginFramework.Examples.ClientServer
       // Setup and run client
       using (WindsorContainer container = new WindsorContainer())
       {
+        Logger.Configure(x => x.UseNLogLogger());
         container.AddFacility<LoggingFacility>(f => f.LogUsing(LoggerImplementation.NLog));
 
         switch (args.Transport.ToLowerInvariant())

@@ -38,7 +38,7 @@ namespace PluginFramework.Tests
     public void ShouldThrowFileNotFoundOnLoadOfNonExistingAssembly()
     {
       AssemblyReflectionManager tested = new AssemblyReflectionManager();
-      DoAssert.Throws<FileNotFoundException>(() => tested.LoadAssembly(Guid.NewGuid().ToString() + ".dll"));
+      DoAssert.Throws<FileNotFoundException>(() => tested.LoadAssembly("ShouldThrowFileNotFoundOnLoadOfNonExistingAssembly.dll"));
     }
 
     [TestMethod]

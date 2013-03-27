@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
+using PluginFramework.Logging;
+using PluginFramework.Tests.Mocks;
 
 namespace PluginFramework.Tests
 {
@@ -317,7 +319,7 @@ namespace PluginFramework.Tests
           file.Flush();
           file.Close();
         };
-        Thread.Sleep(100);
+        Thread.Sleep(200);
         using (System.IO.FileStream file = System.IO.File.OpenWrite(fileName))
         {
           byte[] data = Encoding.UTF8.GetBytes("somedata");
@@ -325,11 +327,11 @@ namespace PluginFramework.Tests
           file.Flush();
           file.Close();
         };
-        Thread.Sleep(100);
+        Thread.Sleep(200);
         System.IO.File.Move(fileName, newFileName);
-        Thread.Sleep(100);
+        Thread.Sleep(200);
         System.IO.File.Delete(newFileName);
-        Thread.Sleep(100);
+        Thread.Sleep(200);
 
         Assert.AreEqual(1, CreateRaised);
         Assert.IsTrue(ChangedRaised > 0);
@@ -609,6 +611,74 @@ namespace PluginFramework.Tests
       tested.watcher.Disposed += (s,e) => wasDisposed = true;
       tested.Dispose();
       Assert.IsTrue(wasDisposed);
+    }
+    #endregion
+
+    #region Logging
+    [TestMethod]
+    public void DefaultConstructorShouldInitLog()
+    {
+      FileSystemWatcher tested = new FileSystemWatcher();
+      ILogWriter logWriter = tested as ILogWriter;
+      Assert.IsNotNull(logWriter.Log);
+    }
+
+    [TestMethod]
+    public void ConstructingWithPathShouldInitLog()
+    {
+      System.IO.FileInfo thisAssemblyPath = new System.IO.FileInfo(GetType().Assembly.Location);
+      FileSystemWatcher tested = new FileSystemWatcher(thisAssemblyPath.Directory.FullName);
+      ILogWriter logWriter = tested as ILogWriter;
+      Assert.IsNotNull(logWriter.Log);
+    }
+
+    [TestMethod]
+    public void ConstructingWithPathAndFilterShouldInitLog()
+    {
+      System.IO.FileInfo thisAssemblyPath = new System.IO.FileInfo(GetType().Assembly.Location);
+      FileSystemWatcher tested = new FileSystemWatcher(thisAssemblyPath.Directory.FullName, "filter");
+      ILogWriter logWriter = tested as ILogWriter;
+      Assert.IsNotNull(logWriter.Log);
+    }
+
+    [TestMethod]
+    public void ShouldLogCreatedEventToDebug()
+    {
+      System.IO.FileInfo fileInfo = new System.IO.FileInfo(GetType().Assembly.Location);
+      FileSystemWatcher tested = new FileSystemWatcher();
+      MockLog log = new MockLog(tested);
+      tested.OnCreated(tested, new System.IO.FileSystemEventArgs(System.IO.WatcherChangeTypes.Created, fileInfo.Directory.FullName, fileInfo.Name));
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Debug && x.Message.Contains(fileInfo.FullName)));
+    }
+
+    [TestMethod]
+    public void ShouldLogChangedEventToDebug()
+    {
+      System.IO.FileInfo fileInfo = new System.IO.FileInfo(GetType().Assembly.Location);
+      FileSystemWatcher tested = new FileSystemWatcher();
+      MockLog log = new MockLog(tested);
+      tested.OnChanged(tested, new System.IO.FileSystemEventArgs(System.IO.WatcherChangeTypes.Created, fileInfo.Directory.FullName, fileInfo.Name));
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Debug && x.Message.Contains(fileInfo.FullName)));
+    }
+
+    [TestMethod]
+    public void ShouldLogDeletedEventToDebug()
+    {
+      System.IO.FileInfo fileInfo = new System.IO.FileInfo(GetType().Assembly.Location);
+      FileSystemWatcher tested = new FileSystemWatcher();
+      MockLog log = new MockLog(tested);
+      tested.OnDeleted(tested, new System.IO.FileSystemEventArgs(System.IO.WatcherChangeTypes.Created, fileInfo.Directory.FullName, fileInfo.Name));
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Debug && x.Message.Contains(fileInfo.FullName)));
+    }
+
+    [TestMethod]
+    public void ShouldLogRenamedEventToDebug()
+    {
+      System.IO.FileInfo fileInfo = new System.IO.FileInfo(GetType().Assembly.Location);
+      FileSystemWatcher tested = new FileSystemWatcher();
+      MockLog log = new MockLog(tested);
+      tested.OnRenamed(tested, new System.IO.RenamedEventArgs(System.IO.WatcherChangeTypes.Created, fileInfo.Directory.FullName, "newname.dll", fileInfo.Name));
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Debug && x.Message.Contains(fileInfo.FullName)));
     }
     #endregion
   } 

@@ -20,20 +20,29 @@ namespace PluginFramework
 {
   using System;
   using System.Collections.Generic;
+  using PluginFramework.Logging;
 
   /// <summary>
   /// Implementation of <see cref="IPluginRepository"/>.
   /// </summary>
-  public class PluginRepository : IPluginRepository
+  public class PluginRepository : IPluginRepository, ILogWriter
   {
     HashSet<IPluginSource> sources;
     HashSet<PluginDescriptor> plugins;
+    
+    ILog log;
+    ILog ILogWriter.Log
+    {
+      get { return this.log; }
+      set { this.log = value; }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PluginRepository"/> class.
     /// </summary>
     public PluginRepository()
     {
+      this.InitLog();
       this.sources = new HashSet<IPluginSource>();
       this.plugins = new HashSet<PluginDescriptor>();      
     }
@@ -50,12 +59,14 @@ namespace PluginFramework
         throw new ArgumentNullException("source");
 
       if (this.sources.Contains(source))
-        throw new ArgumentException("Source already added");
+        throw new ArgumentException(Resources.SourceAlreadyAdded);
 
-      source.PluginAdded += this.OnPluginFound;
-      source.PluginRemoved += this.OnPluginLost;
+      source.PluginAdded += this.OnPluginAdded;
+      source.PluginRemoved += this.OnPluginRemoved;
 
       this.sources.Add(source);
+
+      this.log.Debug(Resources.SourceAdded, source.GetType().FullName);
     }
 
     /// <summary>
@@ -68,11 +79,13 @@ namespace PluginFramework
         throw new ArgumentNullException("source");
 
       if (!this.sources.Contains(source))
-        throw new ArgumentException("Unknown source");
+        throw new ArgumentException(Resources.UnknownSource);
 
       this.sources.Remove(source);
-      source.PluginAdded -= this.OnPluginFound;
-      source.PluginRemoved -= this.OnPluginLost;
+      source.PluginAdded -= this.OnPluginAdded;
+      source.PluginRemoved -= this.OnPluginRemoved;
+
+      this.log.Debug(Resources.SourceRemoved, source.GetType().FullName);
     }
 
     /// <summary>
@@ -80,8 +93,9 @@ namespace PluginFramework
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The <see cref="PluginEventArgs"/> instance containing the event data.</param>
-    private void OnPluginFound(object sender, PluginEventArgs e)
+    private void OnPluginAdded(object sender, PluginEventArgs e)
     {
+      this.log.Info(Resources.AddedPlugin, e.Plugin.QualifiedName.TypeFullName);
       this.plugins.Add(e.Plugin);
     }
 
@@ -90,8 +104,9 @@ namespace PluginFramework
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The <see cref="PluginEventArgs"/> instance containing the event data.</param>
-    private void OnPluginLost(object sender, PluginEventArgs e)
+    private void OnPluginRemoved(object sender, PluginEventArgs e)
     {
+      this.log.Info(Resources.RemovedPlugin, e.Plugin.QualifiedName.TypeFullName);
       this.plugins.Remove(e.Plugin);
     }
 
@@ -104,6 +119,7 @@ namespace PluginFramework
     /// </returns>
     public IEnumerable<PluginDescriptor> Plugins(PluginFilter filter)
     {
+      this.log.Debug(Resources.ReturningPluginsFor, filter);
       return filter != null ? filter.Filter(this.plugins) : this.plugins;
     }
   }

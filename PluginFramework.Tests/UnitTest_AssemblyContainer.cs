@@ -6,6 +6,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using System.IO;
 using System.Threading;
+using PluginFramework.Tests.Mocks;
+using PluginFramework.Logging;
+using Moq;
+using System.Text.RegularExpressions;
 
 namespace PluginFramework.Tests
 {
@@ -303,6 +307,148 @@ namespace PluginFramework.Tests
         File.Delete(location);
       }
     }
+    #endregion
+
+    #region Logging
+    [TestMethod]
+    public void ShouldImplementILogWriter()
+    {
+      AssemblyContainer tested = new AssemblyContainer();
+      Assert.IsInstanceOfType(tested, typeof(ILogWriter));
+    }
+
+    [TestMethod]
+    public void ConstructorShouldInitLog()
+    {
+      ILogWriter tested = new AssemblyContainer();
+      Assert.IsNotNull(tested.Log);
+    }
+
+    [TestMethod]
+    public void ShouldLogToInfoWhenAddingDirectory()
+    {
+      var path = "mockDir";
+      var mockPluginDir = new Mock<IPluginDirectory>();
+      mockPluginDir.Setup(x => x.Path).Returns(path);
+
+      AssemblyContainer tested = new AssemblyContainer();
+      MockLog log = new MockLog(tested);
+      tested.AddDir(mockPluginDir.Object);
+
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Info && x.Message.Contains("Added plugin directory ") && x.Message.Contains(path)));
+    }
+
+    [TestMethod]
+    public void ShouldLogToInfoWhenRemovingDirectory()
+    {
+      var path = "mockDir";
+      var mockPluginDir = new Mock<IPluginDirectory>();
+      mockPluginDir.Setup(x => x.Path).Returns(path);
+
+      AssemblyContainer tested = new AssemblyContainer();
+      MockLog log = new MockLog(tested);
+      tested.AddDir(mockPluginDir.Object);
+      tested.RemoveDir(mockPluginDir.Object);
+
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Info && x.Message.Contains("Removed plugin directory ") && x.Message.Contains(path)));
+    }
+
+    [TestMethod]
+    public void ShouldLogToInfoWhenAddingAssembly()
+    {
+      var path = GetType().Assembly.Location;
+
+      AssemblyContainer tested = new AssemblyContainer();
+      MockLog log = new MockLog(tested);
+      tested.Add(path);
+
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Info && x.Message.Contains("Assembly added ") && x.Message.Contains(path)));
+    }
+
+    [TestMethod]
+    public void ShouldLogToInfoWhenRemovingAssembly()
+    {
+      var path = GetType().Assembly.Location;
+
+      AssemblyContainer tested = new AssemblyContainer();
+      MockLog log = new MockLog(tested);
+      tested.Add(path);
+      tested.Remove(path);
+
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Info && x.Message.Contains("Assembly removed ") && x.Message.Contains(path)));
+    }
+
+    [TestMethod]
+    public void ShouldLogToDebugWhenAssemblyIsFetched()
+    {
+      var assemblyname = GetType().Assembly.FullName;
+      var path = GetType().Assembly.Location;
+      var pattern = new Regex(@"^Assembly fetched .+ \(\d+ bytes read from .*\)$");
+      AssemblyContainer tested = new AssemblyContainer();
+      MockLog log = new MockLog(tested);
+      tested.Add(path);
+      tested.Fetch(assemblyname);
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Debug && pattern.IsMatch(x.Message) && x.Message.Contains(path) && x.Message.Contains(assemblyname)));
+    }
+
+    [TestMethod]
+    public void ShouldLogToWarnWhenTryingToFetchUnknownAssembly()
+    {
+      var assemblyname = GetType().Assembly.FullName;
+      var pattern = new Regex(@"^Unable to fetch .+, assembly not known.$");
+      AssemblyContainer tested = new AssemblyContainer();
+      MockLog log = new MockLog(tested);
+      tested.Fetch(GetType().Assembly.FullName);
+      Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Warn && pattern.IsMatch(x.Message) && x.Message.Contains(assemblyname)));
+    }
+
+    [TestMethod]
+    public void ShouldLogToErrorWhenAllKnownPathsToAssemblyDoesNotExist()
+    {      
+      var assemblyname = GetType().Assembly.FullName;
+      var path = Guid.NewGuid().ToString() + ".dll";
+      var pattern = new Regex(@"^Unable to fetch .+, file not found in these locations:$");
+      try
+      {
+        File.Copy(GetType().Assembly.Location, path);
+        AssemblyContainer tested = new AssemblyContainer();
+        MockLog log = new MockLog(tested);
+        tested.Add(path);
+        File.Delete(path);
+        tested.Fetch(assemblyname);
+        Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Error && pattern.IsMatch(x.Message) && x.Message.Contains(assemblyname)));
+        Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Error && x.Message.StartsWith("  --> ") && x.Message.EndsWith(path)));        
+      }
+      finally
+      {
+        File.Delete(path);
+      }
+    }
+
+    [TestMethod]
+    public void FetchShouldLogExceptionsAsErrors()
+    {
+      var assemblyname = GetType().Assembly.FullName;
+      var path = Guid.NewGuid().ToString() + ".dll";
+      var pattern = new Regex(@"^Exception while fetching .+ (.+) .*$");
+      try
+      {
+        File.Copy(GetType().Assembly.Location, path);
+        AssemblyContainer tested = new AssemblyContainer();
+        MockLog log = new MockLog(tested);
+        tested.Add(path);
+        using (var file = File.Open(path, FileMode.Open, FileAccess.Write, FileShare.None))
+        {
+          tested.Fetch(assemblyname);
+          Assert.IsTrue(log.Any(x => x.Level == MockLog.Level.Error && pattern.IsMatch(x.Message) && x.Message.Contains(assemblyname) && x.Message.Contains(path)));
+        }
+      }
+      finally
+      {
+        File.Delete(path);
+      }
+    }
+
     #endregion
   }
 }

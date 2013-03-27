@@ -24,15 +24,23 @@ namespace PluginFramework
   using System.Linq;
   using System.Security.Permissions;
   using System.Text;
+  using PluginFramework.Logging;
 
   /// <summary>
   /// Monitors changes to a directory and reports modifications to dll's within the directory as <see cref="IPluginDirectory"/> events.
   /// </summary>
-  public sealed class PluginDirectory : IPluginDirectory
+  public sealed class PluginDirectory : IPluginDirectory, ILogWriter
   {
     IFileSystemWatcher watcher;
     bool ownsWatcher;
     private event EventHandler<PluginDirectoryEventArgs> fileFound;
+
+    private ILog log;
+    ILog ILogWriter.Log
+    {
+      get { return this.log; }
+      set { this.log = value; }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PluginDirectory"/> class.
@@ -48,9 +56,11 @@ namespace PluginFramework
       if (dir == null)
         throw new ArgumentNullException("dir");
 
+      this.InitLog(); 
+
       DirectoryInfo directory = new DirectoryInfo(dir);
       if (!directory.Exists)
-        throw new ArgumentException("Directory does not exist");
+        throw new ArgumentException(Resources.DirectoryDoesNotExist);
 
       IFileSystemWatcher fsw = new SafeEventFileSystemWatcher(new FileSystemWatcher(directory.FullName, "*.dll"));
       fsw.IncludeSubdirectories = includeSubdirectories;
@@ -67,6 +77,8 @@ namespace PluginFramework
     {
       if (watcher == null)
         throw new ArgumentNullException("watcher");
+
+      this.InitLog();
 
       WatcherConnect(watcher, false);
     }
@@ -107,11 +119,27 @@ namespace PluginFramework
     }
 
     /// <summary>
+    /// Gets the path to the watched directory.
+    /// </summary>
+    /// <value>
+    /// The path.
+    /// </value>
+    public string Path
+    {
+      [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+      get
+      {
+        return this.watcher.Path;
+      }
+    }
+
+    /// <summary>
     /// Raises the <see cref="E:FileFound" /> event.
     /// </summary>
     /// <param name="args">The <see cref="PluginDirectoryEventArgs"/> instance containing the event data.</param>
     private void OnFileFound(PluginDirectoryEventArgs args)
     {
+      this.log.Debug(Resources.FileFound, args.FullName);
       if (this.fileFound != null)
       {
         FileInfo file = new FileInfo(args.FullName);
@@ -126,6 +154,7 @@ namespace PluginFramework
     /// <param name="args">The <see cref="PluginDirectoryEventArgs"/> instance containing the event data.</param>
     private void OnFileLost(PluginDirectoryEventArgs args)
     {
+      this.log.Debug(Resources.FileLost, args.FullName);
       if (this.FileLost != null)
       {
         FileInfo file = new FileInfo(args.FullName);

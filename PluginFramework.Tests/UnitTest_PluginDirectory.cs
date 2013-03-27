@@ -5,6 +5,9 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Threading;
+using PluginFramework.Tests.Mocks;
+using Moq;
+using PluginFramework.Logging;
 
 namespace PluginFramework.Tests
 {
@@ -52,6 +55,15 @@ namespace PluginFramework.Tests
       IPluginDirectory tested = new PluginDirectory(mockwatcher);
     }
     #endregion
+
+    [TestMethod]
+    public void ShouldExposePathAsPathProperty()
+    {
+      var expected = new FileInfo(GetType().Assembly.Location).Directory.FullName;
+      PluginDirectory tested = new PluginDirectory(expected, false);
+      var actual = tested.Path;
+      Assert.AreEqual(expected, actual);
+    }
 
     #region FileFound
     [TestMethod]
@@ -234,5 +246,52 @@ namespace PluginFramework.Tests
       Assert.IsFalse(wasDisposed);
     }
     #endregion
+
+    #region Logging
+    [TestMethod]
+    public void ShouldImplementILogWriter()
+    {
+      PluginDirectory tested = new PluginDirectory(new Mock<IFileSystemWatcher>().Object);
+      Assert.IsInstanceOfType(tested, typeof(ILogWriter));
+    }
+
+    [TestMethod]
+    public void ShouldInitializeLogIfCreatedWithDirectory()
+    {
+      FileInfo thisAssemblyPath = new FileInfo(GetType().Assembly.Location);
+      ILogWriter tested = new PluginDirectory(thisAssemblyPath.Directory.FullName, false);
+      Assert.IsNotNull(tested.Log);
+    }
+
+    [TestMethod]
+    public void ShouldInitializeLogIfCreatedWithIFileSystemWatcher()
+    {
+      ILogWriter tested = new PluginDirectory(new Mock<IFileSystemWatcher>().Object);
+      Assert.IsNotNull(tested.Log);
+    }
+
+    [TestMethod]
+    public void ShouldLogToDebugWhenRaisingFileFound()
+    {
+      string expected = "SomePath";
+      MockFileSystemWatcher mockWatcher = new MockFileSystemWatcher();
+      PluginDirectory tested = new PluginDirectory(mockWatcher);
+      MockLog mockLog = new MockLog(tested);
+      mockWatcher.RaiseCreated(expected);
+      Assert.IsTrue(mockLog.Any(x => x.Level == MockLog.Level.Debug && x.Message.Contains(expected)));
+    }
+
+    [TestMethod]
+    public void ShouldLogToDebugWhenRaisingFileLost()
+    {
+      string expected = "SomePath";
+      MockFileSystemWatcher mockWatcher = new MockFileSystemWatcher();
+      PluginDirectory tested = new PluginDirectory(mockWatcher);
+      MockLog mockLog = new MockLog(tested);
+      mockWatcher.RaiseDeleted(expected);
+      Assert.IsTrue(mockLog.Any(x => x.Level == MockLog.Level.Debug && x.Message.Contains(expected)));
+    }
+    #endregion
+
   }
 }

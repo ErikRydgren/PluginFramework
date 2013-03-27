@@ -29,6 +29,7 @@ namespace PluginFramework.Examples.ClientServer
   using Topshelf;
   using System;
   using Castle.MicroKernel;
+  using PluginFramework.Logging;
 
   class Server
   {
@@ -87,6 +88,7 @@ namespace PluginFramework.Examples.ClientServer
     static void Main(string[] args)
     {
       NLogLogger.Use();
+      Logger.Configure(x => x.UseNLogLogger());
 
       WindsorContainer container = new WindsorContainer();
       container.AddFacility<LoggingFacility>(f => f.LogUsing(LoggerImplementation.NLog));
