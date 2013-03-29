@@ -458,9 +458,8 @@ namespace PluginFramework.Tests
             Thread.Sleep(500);
             Assert.AreEqual(0, CreatedRaised);
             Assert.AreEqual(0, ChangedRaised);
+            mockInternal.RaiseDeleted(fileName);
           }
-          System.IO.File.Delete(fileName);
-          mockInternal.RaiseDeleted(fileName);
           Thread.Sleep(500);
 
           Assert.AreEqual(0, CreatedRaised);
